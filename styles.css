@@ -1,5 +1,5 @@
 :root {
-  --bg: #f2ede1;
+  --bg: #f3eee2;
   --bg-accent: #dcc6a2;
   --panel: rgba(255, 250, 240, 0.82);
   --panel-strong: #fbf6eb;
@@ -1652,7 +1652,7 @@ textarea {
 }
 
 body:not([data-theme="dark"]) .score-cap-input {
-  background: rgba(123, 92, 52, 0.1);
+  background: #fbf5e9;
 }
 
 .score-cap-input {
@@ -1681,7 +1681,7 @@ body:not([data-theme="dark"]) .score-cap-input {
 }
 
 .score-cap-input:focus {
-  background: rgba(255, 252, 245, 0.98);
+  background: #f3eee2;
 }
 
 .score-name-button {
