@@ -1,0 +1,8 @@
+{
+  "appId": "com.dakota.adventurersheet",
+  "appName": "Adventurer Sheet",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  }
+}

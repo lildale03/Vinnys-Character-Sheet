@@ -1,0 +1,25 @@
+{
+  "name": "Adventurer Sheet",
+  "short_name": "Adventurer",
+  "description": "Tablet-friendly D&D character sheet with combat, tracking, and offline local storage.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#151313",
+  "theme_color": "#1b1816",
+  "icons": [
+    {
+      "src": "icons/adventurer-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/adventurer-icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

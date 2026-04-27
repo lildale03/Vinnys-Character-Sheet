@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adventurer Sheet</title>
+  <meta name="theme-color" content="#1b1816">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/adventurer-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/adventurer-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <main class="dashboard-shell">
+      <aside class="dashboard-left">
+        <section class="panel profile-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Character Identity</h2>
+            </div>
+            <div class="badge" id="saveStatus">Saved locally</div>
+          </div>
+
+          <div class="character-library-bar">
+            <label class="character-library-select">
+              <span>Character</span>
+              <select id="characterSelect"></select>
+            </label>
+            <div class="character-library-actions">
+              <button id="newCharacterButton" class="secondary-button compact-button" type="button">New</button>
+              <button id="deleteCharacterButton" class="ghost-button compact-button" type="button">Delete</button>
+            </div>
+          </div>
+
+          <div class="rules-cache-bar">
+            <span id="rulesSourceStatus">Rules: Local</span>
+            <div class="rules-cache-actions">
+              <button id="importRulesButton" class="secondary-button compact-button" type="button">Import 5etools</button>
+              <button id="clearRulesCacheButton" class="ghost-button compact-button" type="button">Use Local</button>
+            </div>
+          </div>
+
+          <div class="profile-grid">
+            <label>
+              <span>Name</span>
+              <input data-field="name" type="text" placeholder="Mira Thornvale">
+            </label>
+            <label>
+              <span>Background</span>
+              <input data-field="background" type="text" list="backgroundOptions" placeholder="Outlander">
+            </label>
+            <label>
+              <span>Race / Species</span>
+              <input data-field="species" type="text" list="speciesOptions" placeholder="Wood Elf">
+            </label>
+            <label>
+              <span>Subrace / Lineage</span>
+              <input data-field="subrace" type="text" list="subraceOptions" placeholder="High Elf">
+            </label>
+            <label>
+              <span>Alignment</span>
+              <input data-field="alignment" type="text" placeholder="Neutral Good">
+            </label>
+          </div>
+        </section>
+
+        <section class="panel skills-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Ability Scores</h2>
+            </div>
+            <button id="modifyAbilityButton" class="secondary-button compact-button icon-button" type="button" aria-label="Modify Ability Scores" title="Modify Ability Scores">⚙</button>
+          </div>
+
+          <div id="abilityGroupsList" class="ability-groups-list"></div>
+        </section>
+      </aside>
+
+      <section class="dashboard-center">
+        <div class="dashboard-overview">
+          <section class="panel progress-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Character Progress</h2>
+              </div>
+              <button id="levelUpButton" class="secondary-button compact-button" type="button">Level Up</button>
+            </div>
+
+            <div class="level-status-card" id="levelStatusCard">
+              <div>
+                <span>Level Progress</span>
+                <strong id="levelStatusTitle">Next Level</strong>
+                <p id="levelStatusText">Enter experience to track level milestones.</p>
+              </div>
+            </div>
+
+            <div class="progress-grid">
+              <div class="progress-card summary-card">
+                <span>Total Level</span>
+                <strong id="totalLevelDisplay">1</strong>
+                <p id="classSummaryDisplay">Single class</p>
+              </div>
+              <label class="progress-card">
+                <span>Experience</span>
+                <input data-field="experience" type="number" min="0" placeholder="6500">
+              </label>
+              <div class="progress-card xp-helper-card">
+                <label>
+                  <span>Add XP</span>
+                  <input id="xpGainInput" type="number" min="0" placeholder="250">
+                </label>
+                <button id="addXpButton" class="secondary-button compact-button" type="button">Add XP</button>
+              </div>
+              <div class="progress-card summary-card">
+                <span>Proficiency Bonus</span>
+                <strong id="proficiencyBonusDisplay">+2</strong>
+                <p>Based on total level</p>
+              </div>
+            </div>
+
+            <div id="classList" class="class-list"></div>
+            <div id="advancementChoicesList" class="advancement-choices-list"></div>
+          </section>
+
+          <section class="panel vitals-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Vitals</h2>
+              </div>
+            </div>
+
+            <div class="vitals-grid">
+              <label class="stat-card">
+                <span>Armor Class</span>
+                <input data-field="armorClass" type="number" min="0" placeholder="15">
+              </label>
+              <label class="stat-card">
+                <span>Initiative</span>
+                <input data-field="initiative" type="number" placeholder="2">
+              </label>
+              <label class="stat-card">
+                <span>Speed</span>
+                <input data-field="speed" type="number" min="0" placeholder="30">
+              </label>
+              <label class="stat-card">
+                <span>Passive Perception</span>
+                <input data-field="passivePerception" type="number" min="0" placeholder="14" readonly>
+              </label>
+              <div class="stat-card hp-widget-card">
+                <span>Hit Points</span>
+                <div class="hp-widget">
+                  <div class="hp-values">
+                    <label class="hp-value-cell">
+                      <input data-field="currentHp" type="number" min="0" placeholder="38">
+                      <small>Current</small>
+                    </label>
+                    <label class="hp-value-cell">
+                      <input data-field="maxHp" type="number" min="0" placeholder="38">
+                      <small>Max</small>
+                    </label>
+                    <label class="hp-value-cell">
+                      <input data-field="tempHp" type="number" min="0" placeholder="0">
+                      <small>Temp</small>
+                    </label>
+                  </div>
+                  <div class="hp-controls">
+                    <button id="healHpButton" class="hp-icon-button heal-button" type="button" aria-label="Heal">+</button>
+                    <button class="hp-icon-button shield-button" type="button" aria-hidden="true" tabindex="-1">🛡</button>
+                    <input id="hpAdjustInput" class="hp-adjust-amount" type="number" min="0" placeholder="0">
+                    <button id="damageHpButton" class="hp-icon-button damage-button" type="button" aria-label="Damage">−</button>
+                  </div>
+                </div>
+              </div>
+              <label class="stat-card">
+                <span>Hit Dice</span>
+                <input data-field="hitDice" type="text" placeholder="5d10 + 1d8">
+              </label>
+              <label class="stat-card">
+                <span>Inspiration</span>
+                <button id="inspirationToggle" class="inspiration-toggle" type="button" aria-pressed="false">No</button>
+              </label>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel center-tabs-panel">
+          <div class="dashboard-tabs" role="tablist" aria-label="Character sections">
+            <button class="dashboard-tab is-active" type="button" role="tab" aria-selected="true" data-center-tab="actions">Actions</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="spells">Spells</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="inventory">Inventory</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="features">Features</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="notes">Notes</button>
+          </div>
+        </section>
+
+        <section class="panel attacks-panel">
+          <div class="panel-heading">
+            <div>
+              <h2 id="attacksPanelTitle">Actions</h2>
+            </div>
+            <div class="combat-actions">
+              <button id="importSpellButton" class="secondary-button compact-button" type="button">Import Spell</button>
+              <button id="addSpellButton" class="secondary-button compact-button" type="button">Add Spell</button>
+              <button id="addAttackButton" class="secondary-button compact-button" type="button">Add Attack</button>
+            </div>
+          </div>
+
+          <div class="attack-section">
+            <div id="attacksList" class="attacks-list"></div>
+            <div id="spellsList" class="spells-list"></div>
+          </div>
+        </section>
+
+        <section class="panel features-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Features &amp; Traits</h2>
+            </div>
+            <button id="addFeatureButton" class="secondary-button compact-button" type="button">Add Feature</button>
+          </div>
+
+          <div class="feature-filter-tabs" role="tablist" aria-label="Feature filters">
+            <button class="feature-filter-button is-active" type="button" data-feature-filter="all">All</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Class Feature">Class Features</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Species Trait">Species Traits</button>
+          </div>
+
+          <div id="featuresList" class="features-list"></div>
+        </section>
+
+        <section class="panel equipment-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Inventory</h2>
+            </div>
+            <div class="combat-actions">
+              <button id="importItemButton" class="secondary-button compact-button" type="button">Import Item</button>
+              <button id="addItemButton" class="secondary-button compact-button" type="button">Add Item</button>
+            </div>
+          </div>
+
+          <div id="equipmentList" class="equipment-list"></div>
+
+          <label class="full-panel-field">
+            <span>Equipment Notes</span>
+            <textarea data-field="equipment" rows="6" placeholder="Pack contents, ammunition, valuables, consumables, and misc gear..."></textarea>
+          </label>
+        </section>
+
+        <section class="panel notes-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Notes</h2>
+            </div>
+          </div>
+
+          <label class="full-panel-field">
+            <textarea data-field="notes" rows="8" placeholder="Clues, NPC names, treasure, quests..."></textarea>
+          </label>
+        </section>
+      </section>
+
+      <aside class="dashboard-right">
+        <section class="panel proficiencies-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Proficiencies</h2>
+            </div>
+          </div>
+
+          <div class="proficiencies-grid">
+            <label class="proficiency-card">
+              <span>Weapons</span>
+              <textarea data-field="weaponProficiencies" rows="4" placeholder="Simple weapons, martial weapons, longbows..."></textarea>
+            </label>
+            <label class="proficiency-card">
+              <span>Armor</span>
+              <textarea data-field="armorProficiencies" rows="4" placeholder="Light armor, medium armor, shields..."></textarea>
+            </label>
+            <label class="proficiency-card">
+              <span>Tools</span>
+              <textarea data-field="toolProficiencies" rows="4" placeholder="Thieves' tools, herbalism kit, lute..."></textarea>
+            </label>
+            <label class="proficiency-card">
+              <span>Languages</span>
+              <textarea data-field="languageProficiencies" rows="4" placeholder="Common, Elvish, Sylvan..."></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel tracking-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Tracking</h2>
+            </div>
+            <button id="addTrackingButton" class="secondary-button compact-button" type="button">Add Resource</button>
+          </div>
+
+          <div id="trackingList" class="tracking-list"></div>
+        </section>
+
+        <section class="panel conditions-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Conditions &amp; Status</h2>
+            </div>
+            <button id="addStatusButton" class="secondary-button compact-button" type="button">Add Status</button>
+          </div>
+
+          <div class="concentration-toggle-row">
+            <button id="concentrationToggle" class="condition-chip concentration-toggle" type="button" aria-pressed="false">Concentration</button>
+          </div>
+
+          <div id="conditionsList" class="conditions-list"></div>
+          <div id="statusesList" class="statuses-list"></div>
+        </section>
+      </aside>
+    </main>
+
+      <div id="abilityModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-modal-close="true"></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="abilityModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="abilityModalTitle">Modify Ability Scores</h2>
+            </div>
+            <button id="closeAbilityModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div class="ability-modal-mode-bar">
+            <button id="abilityModeManualButton" class="ghost-button compact-button" type="button">Manual</button>
+            <button id="abilityModePointBuyButton" class="ghost-button compact-button" type="button">Point Buy</button>
+          </div>
+
+          <div id="pointBuySummary" class="point-buy-summary" hidden>
+            <strong id="pointBuySpent">0 / 27 points spent</strong>
+            <p id="pointBuyRemaining">27 points remaining</p>
+          </div>
+
+          <div id="abilityModalGrid" class="ability-modal-grid"></div>
+
+          <div class="modal-actions">
+            <button id="cancelAbilityModalButton" class="ghost-button compact-button" type="button">Cancel</button>
+            <button id="saveAbilityModalButton" class="secondary-button compact-button" type="button">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="rollModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-roll-modal-close="true"></div>
+        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="rollModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="rollModalTitle">Roll Result</h2>
+            </div>
+            <button id="closeRollModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div id="rollModalResult" class="roll-modal-result">
+            <strong id="rollModalTotal">0</strong>
+            <p id="rollModalSummary" class="roll-modal-summary">1d20 + 0</p>
+            <p id="rollModalDetail" class="roll-modal-detail">Rolled 10 on the die.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="diceModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-dice-modal-close="true"></div>
+        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="diceModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="diceModalTitle">Dice Roller</h2>
+            </div>
+            <button id="closeDiceModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div class="dice-roller-form">
+            <label class="full-panel-field">
+              <span>Roll Formula</span>
+              <input id="diceFormulaInput" type="text" placeholder="4d20 + [STR]">
+            </label>
+            <button id="rollDiceFormulaButton" class="secondary-button" type="button">Roll Dice</button>
+          </div>
+
+          <div id="diceModalResult" class="roll-modal-result">
+            <strong id="diceModalTotal">-</strong>
+            <p id="diceModalSummary" class="roll-modal-summary">Enter a formula to roll.</p>
+            <p id="diceModalDetail" class="roll-modal-detail">Supports tokens like [STR], [DEX], and [PROF].</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="shortRestModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-short-rest-modal-close="true"></div>
+        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="shortRestModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="shortRestModalTitle">Short Rest</h2>
+            </div>
+            <button id="closeShortRestModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div class="rest-status-grid">
+            <div class="rest-status-card">
+              <span>Remaining Hit Dice</span>
+              <strong id="shortRestHitDiceDisplay">0d0</strong>
+            </div>
+            <div class="rest-status-card">
+              <span>Con Modifier</span>
+              <strong id="shortRestConDisplay">+0</strong>
+            </div>
+          </div>
+
+          <div id="shortRestResult" class="roll-modal-result">
+            <strong id="shortRestHealTotal">-</strong>
+            <p id="shortRestHealSummary" class="roll-modal-summary">Spend hit dice to heal.</p>
+            <p id="shortRestHealDetail" class="roll-modal-detail">When you finish the rest, short-rest resources will restore automatically.</p>
+          </div>
+
+          <div class="modal-actions">
+            <button id="spendHitDieButton" class="secondary-button compact-button" type="button">Spend 1 Hit Die</button>
+            <button id="completeShortRestButton" class="ghost-button compact-button" type="button">Complete Short Rest</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="longRestModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-long-rest-modal-close="true"></div>
+        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="longRestModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="longRestModalTitle">Long Rest</h2>
+            </div>
+            <button id="closeLongRestModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div id="longRestResult" class="roll-modal-result">
+            <strong id="longRestSummaryTotal">Ready</strong>
+            <p id="longRestSummaryText" class="roll-modal-summary">Restore hit points, recover hit dice, and refresh matching resources.</p>
+            <p id="longRestDetail" class="roll-modal-detail">Long rest will also restore resources that recover on short or long rest.</p>
+          </div>
+
+          <div class="modal-actions">
+            <button id="confirmLongRestButton" class="secondary-button compact-button" type="button">Take Long Rest</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="levelUpModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-level-up-modal-close="true"></div>
+        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="levelUpModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="levelUpModalTitle">Level Up</h2>
+            </div>
+            <button id="closeLevelUpModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <p id="levelUpModalSummary" class="level-up-modal-summary">Choose an existing class to increase, or add a new class at level 1.</p>
+
+          <div class="level-up-modal-section">
+            <h3 class="level-up-section-title">Increase Existing Class</h3>
+            <div id="levelUpExistingList" class="level-up-existing-list"></div>
+          </div>
+
+          <div class="level-up-modal-section">
+            <h3 class="level-up-section-title">Add New Class</h3>
+            <div class="level-up-new-class-grid">
+              <label>
+                <span>Class</span>
+                <input id="levelUpNewClassName" type="text" list="classAutomationOptions" placeholder="Fighter">
+                <datalist id="classAutomationOptions"></datalist>
+              </label>
+              <label hidden>
+                <span>Subclass</span>
+                <input id="levelUpNewClassSubclass" type="text" placeholder="Champion">
+              </label>
+            </div>
+            <div id="levelUpNewClassPreview" class="level-up-class-preview"></div>
+            <div class="modal-actions">
+              <button id="confirmAddMulticlassButton" class="secondary-button compact-button" type="button">Add Multiclass Level</button>
+            </div>
+          </div>
+
+          <div id="levelUpChoiceSection" class="level-up-modal-section class-choice-section" hidden>
+            <h3 id="levelUpChoiceTitle" class="level-up-section-title">Selections</h3>
+            <div id="levelUpChoiceFields" class="class-choice-fields"></div>
+            <div class="modal-actions">
+              <button id="cancelLevelUpChoiceButton" class="ghost-button compact-button" type="button">Cancel Selection</button>
+              <button id="confirmLevelUpChoiceButton" class="secondary-button compact-button" type="button">Apply Level</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="createCharacterModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-create-character-modal-close="true"></div>
+        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="createCharacterModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="createCharacterModalTitle">New Character</h2>
+            </div>
+            <button id="closeCreateCharacterModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <div class="create-character-grid">
+            <label>
+              <span>Name</span>
+              <input id="createCharacterName" type="text" placeholder="Mira Thornvale">
+            </label>
+            <label>
+              <span>Class</span>
+              <select id="createCharacterClass"></select>
+            </label>
+            <label>
+              <span>Background</span>
+              <select id="createCharacterBackground"></select>
+            </label>
+              <label>
+                <span>Race / Species</span>
+                <select id="createCharacterSpecies"></select>
+              </label>
+              <label>
+                <span>Subrace / Lineage</span>
+                <select id="createCharacterSubrace"></select>
+              </label>
+              <label>
+                <span>Alignment</span>
+                <input id="createCharacterAlignment" type="text" placeholder="Neutral Good">
+            </label>
+          </div>
+
+          <div id="createCharacterClassPreview" class="level-up-class-preview"></div>
+          <div id="createCharacterChoiceFields" class="class-choice-fields" hidden></div>
+
+          <div class="modal-actions">
+            <button id="cancelCreateCharacterButton" class="ghost-button compact-button" type="button">Cancel</button>
+            <button id="confirmCreateCharacterButton" class="secondary-button compact-button" type="button">Create Character</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="spellImportModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-spell-import-modal-close="true"></div>
+        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="spellImportModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="spellImportModalTitle">Import Spell</h2>
+            </div>
+            <button id="closeSpellImportModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <label class="class-choice-field">
+            <span>Spell</span>
+            <select id="spellImportSelect"></select>
+            <p id="spellImportPreview">Import 5etools rules first to use cached spell data.</p>
+          </label>
+
+          <div class="modal-actions">
+            <button id="confirmSpellImportButton" class="secondary-button compact-button" type="button">Import Spell</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="itemImportModal" class="modal-shell" hidden>
+        <div class="modal-backdrop" data-item-import-modal-close="true"></div>
+        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="itemImportModalTitle">
+          <div class="modal-heading">
+            <div>
+              <h2 id="itemImportModalTitle">Import Item</h2>
+            </div>
+            <button id="closeItemImportModalButton" class="ghost-button compact-button" type="button">Close</button>
+          </div>
+
+          <label class="class-choice-field">
+            <span>Item</span>
+            <select id="itemImportSelect"></select>
+            <p id="itemImportPreview">Import 5etools rules first to use cached item data.</p>
+          </label>
+
+          <div class="modal-actions">
+            <button id="confirmItemImportButton" class="secondary-button compact-button" type="button">Import Item</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="floating-actions" data-open="false">
+    <div class="floating-actions-menu">
+      <button id="themeButton" class="theme-button floating-theme-button" type="button" aria-pressed="false">Dark Mode</button>
+      <button id="floatingShortRestButton" class="floating-rest-button" type="button" aria-label="Open short rest">Short Rest</button>
+      <button id="floatingLongRestButton" class="floating-rest-button long-rest-button" type="button" aria-label="Open long rest">Long Rest</button>
+      <button id="floatingDiceButton" class="floating-dice-button" type="button" aria-label="Open dice roller">Dice</button>
+    </div>
+    <button id="floatingActionsToggle" class="floating-actions-toggle" type="button" aria-expanded="false" aria-label="Open quick actions">Menu</button>
+  </div>
+
+  <datalist id="speciesOptions"></datalist>
+  <datalist id="subraceOptions"></datalist>
+  <datalist id="backgroundOptions"></datalist>
+
+  <template id="abilityGroupTemplate">
+    <article class="ability-group-card">
+      <div class="ability-group-score">
+        <label class="score-cap-label">
+          <span class="sr-only">Ability score</span>
+          <input class="score-cap-input" type="number" min="1" max="30">
+        </label>
+        <p class="score-modifier"></p>
+        <button class="score-name-button" type="button">
+          <span class="score-name"></span>
+        </button>
+      </div>
+      <div class="ability-group-details">
+        <div class="ability-group-items"></div>
+        <div class="ability-divider" aria-hidden="true"></div>
+      </div>
+    </article>
+  </template>
+
+  <template id="groupItemTemplate">
+    <div class="group-item">
+      <button class="group-item-prof-toggle" type="button">
+        <span class="group-item-dot" aria-hidden="true"></span>
+        <span class="group-item-value"></span>
+      </button>
+      <button class="group-item-roll" type="button">
+        <span class="group-item-name"></span>
+      </button>
+    </div>
+  </template>
+
+  <template id="abilityModalTemplate">
+    <label class="ability-modal-field">
+      <span class="ability-modal-label"></span>
+      <input class="ability-modal-input" type="number" min="1" max="30">
+    </label>
+  </template>
+
+  <template id="abilityPointBuyTemplate">
+    <div class="point-buy-field">
+      <span class="point-buy-label"></span>
+      <div class="point-buy-controls">
+        <button class="ghost-button compact-button point-buy-button" type="button" data-point-buy-action="decrease">-</button>
+        <strong class="point-buy-value"></strong>
+        <button class="ghost-button compact-button point-buy-button" type="button" data-point-buy-action="increase">+</button>
+      </div>
+      <small class="point-buy-cost"></small>
+    </div>
+  </template>
+
+  <template id="attackTemplate">
+    <article class="attack-card">
+      <div class="attack-card-top">
+        <button class="attack-toggle" type="button">
+          <p class="attack-title">New Attack</p>
+          <p class="attack-summary"></p>
+        </button>
+        <button class="ghost-button remove-attack-button" type="button">Remove</button>
+      </div>
+
+      <div class="attack-editor">
+        <div class="attack-grid">
+          <label>
+            <span>Attack Name</span>
+            <input data-attack-field="name" type="text" placeholder="Longbow">
+          </label>
+          <label>
+            <span>Range / Type</span>
+            <input data-attack-field="range" type="text" placeholder="Ranged Weapon Attack 150/600 ft.">
+          </label>
+          <label>
+            <span>Ability</span>
+            <select data-attack-field="ability"></select>
+          </label>
+          <label>
+            <span>Damage Type</span>
+            <select data-attack-field="damageType"></select>
+          </label>
+          <label>
+            <span>Damage Dice</span>
+            <input data-attack-field="damageDice" type="text" placeholder="1d8 + [STR]">
+          </label>
+          <label class="versatile-dice-field">
+            <span>Versatile Dice</span>
+            <input data-attack-field="versatileDice" type="text" placeholder="1d10">
+          </label>
+          <label>
+            <span>Bonus To Hit</span>
+            <input data-attack-field="attackBonus" type="text" placeholder="[PROF]">
+          </label>
+          <label>
+            <span>Bonus Damage</span>
+            <input data-attack-field="damageBonus" type="text" placeholder="[DEX]">
+          </label>
+        </div>
+
+        <div class="attack-options">
+          <label class="inline-check">
+            <input data-attack-field="proficient" type="checkbox">
+            <span>Add proficiency bonus</span>
+          </label>
+          <label class="inline-check">
+            <input data-attack-field="versatile" type="checkbox">
+            <span>Versatile weapon</span>
+          </label>
+        </div>
+
+        <label>
+          <span>Notes</span>
+          <textarea data-attack-field="notes" rows="3" placeholder="Use tokens like [STR], [DEX], [WIS], or [PROF] in formulas."></textarea>
+        </label>
+      </div>
+
+      <div class="attack-results">
+        <button class="result-pill rollable-pill" type="button" data-roll-type="toHit">
+          <span>To Hit</span>
+          <strong data-attack-output="toHit"></strong>
+          <small class="roll-result" data-attack-roll-result="toHit">Tap to roll</small>
+        </button>
+        <button class="result-pill rollable-pill" type="button" data-roll-type="damage">
+          <span>Damage</span>
+          <strong data-attack-output="damage"></strong>
+          <small class="roll-result" data-attack-roll-result="damage">Tap to roll</small>
+        </button>
+      </div>
+    </article>
+  </template>
+
+  <template id="classTemplate">
+    <article class="class-card">
+      <div class="class-card-top">
+        <p class="class-title">Class Entry</p>
+        <button class="ghost-button remove-class-button" type="button">Remove</button>
+      </div>
+
+      <div class="class-grid">
+        <label>
+          <span>Class</span>
+          <input data-class-field="name" type="text" placeholder="Ranger">
+        </label>
+        <label>
+          <span>Subclass</span>
+          <input data-class-field="subclass" type="text" placeholder="Gloom Stalker">
+        </label>
+        <label>
+          <span>Level</span>
+          <input data-class-field="level" type="number" min="1" placeholder="5">
+        </label>
+      </div>
+    </article>
+  </template>
+
+  <template id="trackingTemplate">
+    <article class="tracking-card">
+      <div class="tracking-card-top">
+        <button class="tracking-toggle" type="button">
+          <p class="tracking-title">Resource</p>
+          <p class="tracking-summary"></p>
+        </button>
+        <div class="tracking-controls">
+          <button class="ghost-button compact-button tracking-step-button" type="button" data-tracking-action="decrease">-</button>
+          <strong class="tracking-value-display">0 / 0</strong>
+          <button class="secondary-button compact-button tracking-step-button" type="button" data-tracking-action="increase">+</button>
+        </div>
+        <button class="ghost-button remove-tracking-button" type="button">Remove</button>
+      </div>
+
+      <div class="tracking-editor">
+        <div class="tracking-grid">
+          <label>
+            <span>Name</span>
+            <input data-tracking-field="name" type="text" placeholder="Channel Divinity">
+          </label>
+          <label>
+            <span>Total Uses</span>
+            <select data-tracking-field="totalSource"></select>
+          </label>
+          <label class="tracking-manual-total-field">
+            <span>Number</span>
+            <input data-tracking-field="totalValue" type="number" min="0" placeholder="2">
+          </label>
+          <label>
+            <span>Value</span>
+            <input data-tracking-field="value" type="number" min="0" placeholder="1">
+          </label>
+          <label>
+            <span>Restore On</span>
+            <select data-tracking-field="restoreOn"></select>
+          </label>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <template id="statusTemplate">
+    <article class="status-card">
+      <div class="status-card-top">
+        <p class="status-title">New Status</p>
+        <button class="ghost-button remove-status-button" type="button">Remove</button>
+      </div>
+
+      <div class="status-grid">
+        <label>
+          <span>Name</span>
+          <input data-status-field="name" type="text" placeholder="Bless">
+        </label>
+        <label>
+          <span>Duration</span>
+          <input data-status-field="duration" type="text" placeholder="1 minute">
+        </label>
+      </div>
+
+      <label>
+        <span>Notes</span>
+        <textarea data-status-field="notes" rows="3" placeholder="Targeted effect, save DC, expiration note..."></textarea>
+      </label>
+    </article>
+  </template>
+
+  <template id="advancementChoiceTemplate">
+    <article class="advancement-card">
+      <div class="advancement-card-top">
+        <div>
+          <p class="advancement-title">Advancement Choice</p>
+          <p class="advancement-summary"></p>
+        </div>
+        <div class="advancement-status" data-advancement-output="status">Pending</div>
+      </div>
+
+      <div class="advancement-choice-buttons">
+        <button class="secondary-button compact-button" type="button" data-advancement-action="asi">Ability Score Improvement</button>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="feat">Feat</button>
+      </div>
+
+      <div class="advancement-asi-form">
+        <div class="advancement-mode-buttons">
+          <button class="ghost-button compact-button" type="button" data-asi-mode="plus2">+2 to one ability</button>
+          <button class="ghost-button compact-button" type="button" data-asi-mode="split">+1 to two abilities</button>
+        </div>
+        <div class="advancement-asi-grid">
+          <label>
+            <span>Ability 1</span>
+            <select data-advancement-field="asiAbilityOne"></select>
+          </label>
+          <label class="asi-second-field">
+            <span>Ability 2</span>
+            <select data-advancement-field="asiAbilityTwo"></select>
+          </label>
+        </div>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmAsi">Apply ASI</button>
+      </div>
+
+      <div class="advancement-feat-form">
+        <div class="advancement-feat-grid">
+          <label>
+            <span>Feat Name</span>
+            <input data-advancement-field="featName" type="text" placeholder="Sharpshooter">
+          </label>
+          <label>
+            <span>Source</span>
+            <input data-advancement-field="featSource" type="text" placeholder="Player's Handbook">
+          </label>
+        </div>
+        <label>
+          <span>Notes</span>
+          <textarea data-advancement-field="featNotes" rows="3" placeholder="Key benefits, custom table ruling, or reminders..."></textarea>
+        </label>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmFeat">Save Feat</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="featureTemplate">
+    <article class="feature-card">
+      <div class="feature-card-top">
+        <button class="feature-toggle" type="button">
+          <p class="feature-title">New Feature</p>
+          <p class="feature-summary"></p>
+        </button>
+        <button class="ghost-button remove-feature-button" type="button">Remove</button>
+      </div>
+
+        <div class="feature-editor">
+          <div class="feature-grid">
+            <label>
+              <span>Feature Name</span>
+              <input data-feature-field="name" type="text" placeholder="Favored Enemy">
+            </label>
+            <label>
+              <span>Category</span>
+              <select data-feature-field="category"></select>
+            </label>
+            <label>
+              <span>Source</span>
+              <input data-feature-field="source" type="text" placeholder="Ranger 1">
+            </label>
+          </div>
+
+        <label>
+          <span>Notes</span>
+          <textarea data-feature-field="notes" rows="5" placeholder="Rules text, reminders, limitations, and custom notes..."></textarea>
+        </label>
+      </div>
+    </article>
+  </template>
+
+  <template id="equipmentTemplate">
+    <article class="equipment-card">
+      <div class="equipment-card-top">
+        <button class="equipment-toggle" type="button">
+          <p class="equipment-title">New Item</p>
+          <p class="equipment-summary"></p>
+        </button>
+        <button class="ghost-button remove-equipment-button" type="button">Remove</button>
+      </div>
+
+      <div class="equipment-editor">
+        <div class="equipment-grid">
+          <label>
+            <span>Item Name</span>
+            <input data-equipment-field="name" type="text" placeholder="Longbow">
+          </label>
+          <label>
+            <span>Type</span>
+            <select data-equipment-field="type"></select>
+          </label>
+          <label>
+            <span>Quantity</span>
+            <input data-equipment-field="quantity" type="number" min="1" placeholder="1">
+          </label>
+          <label class="inline-check equipment-inline-check">
+            <input data-equipment-field="equipped" type="checkbox">
+            <span>Equipped</span>
+          </label>
+        </div>
+
+        <div class="equipment-weapon-fields">
+          <div class="equipment-grid">
+            <label>
+              <span>Ability</span>
+              <select data-equipment-field="ability"></select>
+            </label>
+            <label>
+              <span>Damage Type</span>
+              <select data-equipment-field="damageType"></select>
+            </label>
+            <label>
+              <span>Damage Dice</span>
+              <input data-equipment-field="damageDice" type="text" placeholder="1d8">
+            </label>
+            <label>
+              <span>Range / Type</span>
+              <input data-equipment-field="range" type="text" placeholder="Ranged Weapon Attack 150/600 ft.">
+            </label>
+            <label class="inline-check equipment-inline-check">
+              <input data-equipment-field="proficient" type="checkbox">
+              <span>Uses proficiency</span>
+            </label>
+            <label class="inline-check equipment-inline-check">
+              <input data-equipment-field="versatile" type="checkbox">
+              <span>Versatile weapon</span>
+            </label>
+            <label class="equipment-versatile-field">
+              <span>Versatile Dice</span>
+              <input data-equipment-field="versatileDice" type="text" placeholder="1d10">
+            </label>
+          </div>
+          <button class="secondary-button compact-button create-attack-button" type="button">Add Attack Card</button>
+        </div>
+
+        <div class="equipment-armor-fields">
+          <div class="equipment-grid">
+            <label>
+              <span>Armor Category</span>
+              <select data-equipment-field="armorCategory"></select>
+            </label>
+            <label>
+              <span>Base AC</span>
+              <input data-equipment-field="armorBase" type="number" min="0" placeholder="12">
+            </label>
+          </div>
+        </div>
+
+        <div class="equipment-shield-fields">
+          <div class="equipment-grid">
+            <label>
+              <span>Shield Bonus</span>
+              <input data-equipment-field="shieldBonus" type="number" min="0" placeholder="2">
+            </label>
+          </div>
+        </div>
+
+        <label>
+          <span>Notes</span>
+          <textarea data-equipment-field="notes" rows="4" placeholder="Weight, magical bonus, attunement, rarity, charges..."></textarea>
+        </label>
+      </div>
+    </article>
+  </template>
+
+  <template id="spellTemplate">
+    <article class="spell-card">
+      <div class="spell-card-top">
+        <button class="spell-toggle" type="button">
+          <p class="spell-title">New Spell</p>
+          <p class="spell-summary"></p>
+        </button>
+        <button class="ghost-button remove-spell-button" type="button">Remove</button>
+      </div>
+
+      <div class="spell-editor">
+        <div class="spell-grid">
+          <label>
+            <span>Spell Name</span>
+            <input data-spell-field="name" type="text" placeholder="Guiding Bolt">
+          </label>
+          <label>
+            <span>Level</span>
+            <select data-spell-field="level"></select>
+          </label>
+          <label>
+            <span>School</span>
+            <select data-spell-field="school"></select>
+          </label>
+          <label>
+            <span>Ability</span>
+            <select data-spell-field="ability"></select>
+          </label>
+          <label>
+            <span>Cast Type</span>
+            <select data-spell-field="castType"></select>
+          </label>
+          <label>
+            <span>Save Ability</span>
+            <select data-spell-field="saveAbility"></select>
+          </label>
+          <label>
+            <span>Casting Time</span>
+            <input data-spell-field="castingTime" type="text" placeholder="1 action">
+          </label>
+          <label>
+            <span>Range</span>
+            <input data-spell-field="range" type="text" placeholder="120 feet">
+          </label>
+          <label>
+            <span>Duration</span>
+            <input data-spell-field="duration" type="text" placeholder="Instantaneous">
+          </label>
+          <label>
+            <span>Components</span>
+            <input data-spell-field="components" type="text" placeholder="V, S, M">
+          </label>
+          <label>
+            <span>Damage Type</span>
+            <select data-spell-field="damageType"></select>
+          </label>
+          <label>
+            <span>Effect</span>
+            <input data-spell-field="effect" type="text" placeholder="4d6 radiant">
+          </label>
+        </div>
+
+        <div class="spell-options">
+          <label class="inline-check">
+            <input data-spell-field="concentration" type="checkbox">
+            <span>Concentration</span>
+          </label>
+          <label class="inline-check">
+            <input data-spell-field="ritual" type="checkbox">
+            <span>Ritual</span>
+          </label>
+        </div>
+
+        <label>
+          <span>Notes</span>
+          <textarea data-spell-field="notes" rows="3" placeholder="Higher-level scaling, targets, conditions, special riders..."></textarea>
+        </label>
+      </div>
+
+      <div class="spell-results">
+        <button class="result-pill rollable-pill" type="button" data-spell-roll-type="attack">
+          <span>Spell Attack</span>
+          <strong data-spell-output="attack"></strong>
+          <small class="roll-result" data-spell-roll-result="attack">Tap to roll</small>
+        </button>
+        <div class="result-pill">
+          <span>Save DC</span>
+          <strong data-spell-output="save"></strong>
+        </div>
+        <button class="result-pill rollable-pill" type="button" data-spell-roll-type="effect">
+          <span>Effect Roll</span>
+          <strong data-spell-output="effect"></strong>
+          <small class="roll-result" data-spell-roll-result="effect">Tap to roll</small>
+        </button>
+      </div>
+    </article>
+  </template>
+
+  <script src="class-rules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
