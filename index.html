@@ -662,6 +662,8 @@
         aria-label="Open dice roller">Dice</button>
       <button id="floatingImportRulesButton" class="floating-import-rules-button" type="button">
         Load 5eTools</button>
+      <button id="open-feedback-btn" type="button">
+        Report Bug / Request Feature</button>
     </div>
     <button id="floatingActionsToggle" class="floating-actions-toggle" type="button" aria-expanded="false"
       aria-label="Open quick actions">Menu</button>
@@ -1181,6 +1183,33 @@
       </div>
     </article>
   </template>
+
+  <div id="feedback-modal" class="feedback-modal hidden">
+  <div class="feedback-card">
+    <button id="close-feedback-btn" class="feedback-close" type="button">×</button>
+
+    <h2>Feedback</h2>
+    <p>Report a bug or request a new feature.</p>
+
+    <form id="feedback-form">
+      <select name="type" required>
+        <option value="">Choose one</option>
+        <option value="Bug Report">Bug Report</option>
+        <option value="Feature Request">Feature Request</option>
+      </select>
+
+      <input name="title" placeholder="Short title" required />
+
+      <textarea
+        name="description"
+        placeholder="Describe the bug or feature request..."
+        required
+      ></textarea>
+
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+</div>
 
   <script src="class-rules.js"></script>
   <script src="app.js"></script>

@@ -76,6 +76,77 @@ body::before {
   padding: 24px;
 }
 
+.feedback-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.feedback-modal.hidden {
+  display: none;
+}
+
+.feedback-card {
+  position: relative;
+  width: min(420px, 100%);
+  padding: 24px;
+  border-radius: 24px;
+  background: #fffaf2;
+  box-shadow: 0 24px 60px rgba(41, 28, 20, 0.35);
+}
+
+.feedback-card h2 {
+  color: #2f241c; /* same as your light theme ink */
+}
+
+.feedback-card p {
+  color: #2f241c;
+  opacity: 0.8;
+}
+
+.feedback-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+#feedback-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+#feedback-form select,
+#feedback-form input,
+#feedback-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(41, 28, 20, 0.2);
+  border-radius: 14px;
+  font: inherit;
+}
+
+#feedback-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#feedback-form button[type="submit"] {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .floating-actions {
   position: fixed;
   right: 24px;

@@ -633,6 +633,58 @@ let pendingLevelUpAction = null;
 let pendingLevelUpSelections = {};
 let createCharacterSelections = {};
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgorjjzb";
+
+const openFeedbackBtn = document.getElementById("open-feedback-btn");
+const closeFeedbackBtn = document.getElementById("close-feedback-btn");
+const feedbackModal = document.getElementById("feedback-modal");
+const feedbackForm = document.getElementById("feedback-form");
+
+openFeedbackBtn?.addEventListener("click", () => {
+  feedbackModal.classList.remove("hidden");
+});
+
+closeFeedbackBtn?.addEventListener("click", () => {
+  feedbackModal.classList.add("hidden");
+});
+
+feedbackModal?.addEventListener("click", (event) => {
+  if (event.target === feedbackModal) {
+    feedbackModal.classList.add("hidden");
+  }
+});
+
+feedbackForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(feedbackForm);
+
+  formData.append("appVersion", "v8.1");
+  formData.append("page", window.location.href);
+  formData.append("device", navigator.userAgent);
+
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Formspree submission failed");
+    }
+
+    feedbackForm.reset();
+    feedbackModal.classList.add("hidden");
+    showToast("Feedback submitted. Thank you!");
+  } catch (error) {
+    console.error(error);
+    showToast("Could not submit feedback. Please try again.");
+  }
+});
+
 const xpThresholds = [
   0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000,
   85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000
