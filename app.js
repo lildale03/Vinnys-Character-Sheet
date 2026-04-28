@@ -498,8 +498,10 @@ const floatingActionsToggle = document.getElementById("floatingActionsToggle");
 const characterSelect = document.getElementById("characterSelect");
 const newCharacterButton = document.getElementById("newCharacterButton");
 const deleteCharacterButton = document.getElementById("deleteCharacterButton");
-const importRulesButton = document.getElementById("importRulesButton");
-const clearRulesCacheButton = document.getElementById("clearRulesCacheButton");
+const rulesImportPromptModal = document.getElementById("rulesImportPromptModal");
+const closeRulesImportPromptButton = document.getElementById("closeRulesImportPromptButton");
+const confirmRulesImportPromptButton = document.getElementById("confirmRulesImportPromptButton");
+const useLocalRulesPromptButton = document.getElementById("useLocalRulesPromptButton");
 const rulesSourceStatus = document.getElementById("rulesSourceStatus");
 const speciesOptions = document.getElementById("speciesOptions");
 const subraceOptions = document.getElementById("subraceOptions");
@@ -575,6 +577,7 @@ const rollDiceFormulaButton = document.getElementById("rollDiceFormulaButton");
 const floatingDiceButton = document.getElementById("floatingDiceButton");
 const floatingShortRestButton = document.getElementById("floatingShortRestButton");
 const floatingLongRestButton = document.getElementById("floatingLongRestButton");
+const floatingImportRulesButton = document.getElementById("floatingImportRulesButton");
 const spendHitDieButton = document.getElementById("spendHitDieButton");
 const completeShortRestButton = document.getElementById("completeShortRestButton");
 const confirmLongRestButton = document.getElementById("confirmLongRestButton");
@@ -621,6 +624,8 @@ const levelStatusTitle = document.getElementById("levelStatusTitle");
 const levelStatusText = document.getElementById("levelStatusText");
 const featureFilterButtons = Array.from(document.querySelectorAll("[data-feature-filter]"));
 const rollResetTimers = new WeakMap();
+const RULES_IMPORT_PROMPT_KEY = "adventurer-sheet-rules-import-prompt-seen";
+const toastContainer = document.getElementById("toastContainer");
 let activeCenterTab = "actions";
 let activeFeatureFilter = "all";
 let pendingLevelUpAction = null;
@@ -650,6 +655,7 @@ populateRuleReferenceOptions();
 updateRulesSourceStatus();
 refreshDerivedValues();
 setCenterTab(activeCenterTab);
+showRulesImportPromptOnce();
 
 themeButton.addEventListener("click", () => {
   toggleTheme();
@@ -721,6 +727,10 @@ floatingDiceButton.addEventListener("click", () => {
   openDiceModal();
   setFloatingActionsMenu(false);
 });
+floatingImportRulesButton.addEventListener("click", async () => {
+  setFloatingActionsMenu(false);
+  await importFiveEToolsRules();
+});
 floatingShortRestButton.addEventListener("click", () => {
   openShortRestModal();
   setFloatingActionsMenu(false);
@@ -752,8 +762,6 @@ confirmLevelUpChoiceButton.addEventListener("click", completePendingLevelUpActio
 characterSelect.addEventListener("change", () => switchCharacter(characterSelect.value));
 newCharacterButton.addEventListener("click", openCreateCharacterModal);
 deleteCharacterButton.addEventListener("click", deleteActiveCharacter);
-importRulesButton.addEventListener("click", importFiveEToolsRules);
-clearRulesCacheButton.addEventListener("click", clearRulesCache);
 importSpellButton.addEventListener("click", openSpellImportModal);
 importItemButton.addEventListener("click", openItemImportModal);
 confirmSpellImportButton.addEventListener("click", importSelectedSpell);
@@ -792,6 +800,52 @@ document.getElementById("addAttackButton").addEventListener("click", () => {
 confirmAddMulticlassButton.addEventListener("click", addMulticlassLevelFromModal);
 document.addEventListener("click", handleFloatingActionsOutsideClick);
 document.addEventListener("keydown", handleFloatingActionsEscape);
+
+closeRulesImportPromptButton.addEventListener("click", closeRulesImportPrompt);
+useLocalRulesPromptButton.addEventListener("click", closeRulesImportPrompt);
+
+confirmRulesImportPromptButton.addEventListener("click", async () => {
+  closeRulesImportPrompt();
+  await importFiveEToolsRules();
+});
+
+rulesImportPromptModal.addEventListener("click", (event) => {
+  if (event.target instanceof HTMLElement && event.target.dataset.rulesImportPromptClose === "true") {
+    closeRulesImportPrompt();
+  }
+});
+
+function showRulesImportPromptOnce() {
+  if (!rulesImportPromptModal) return;
+
+  const hasSeenPrompt = localStorage.getItem(RULES_IMPORT_PROMPT_KEY) === "true";
+  const alreadyHasRulesCache = Boolean(loadRulesCache());
+
+  if (!hasSeenPrompt && !alreadyHasRulesCache) {
+    rulesImportPromptModal.hidden = false;
+  }
+}
+
+function closeRulesImportPrompt() {
+  if (!rulesImportPromptModal) return;
+
+  rulesImportPromptModal.hidden = true;
+  localStorage.setItem(RULES_IMPORT_PROMPT_KEY, "true");
+}
+
+function showToast(message, type = "success") {
+  if (!toastContainer) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+
+  toastContainer.appendChild(toast);
+
+  window.setTimeout(() => {
+    toast.remove();
+  }, 3200);
+}
 
 function initializeCharacterState() {
   const { characters, activeId } = loadCharacterLibrary();
@@ -933,7 +987,10 @@ function saveRulesCache(cache) {
 }
 
 function updateRulesSourceStatus(message = "") {
+  if (!rulesSourceStatus) return;
+
   const cachedRules = loadRulesCache();
+
   if (message) {
     rulesSourceStatus.textContent = message;
     return;
@@ -941,13 +998,11 @@ function updateRulesSourceStatus(message = "") {
 
   if (!cachedRules) {
     rulesSourceStatus.textContent = "Rules: Local";
-    clearRulesCacheButton.disabled = true;
     return;
   }
 
   const importedDate = new Date(cachedRules.importedAt || Date.now()).toLocaleDateString();
   rulesSourceStatus.textContent = `Rules: 5etools cached ${importedDate}`;
-  clearRulesCacheButton.disabled = false;
 }
 
 function classRuleKey(className) {
@@ -1066,13 +1121,12 @@ function getSubraceOptionsForSpecies(speciesName) {
 }
 
 async function importFiveEToolsRules() {
-  importRulesButton.disabled = true;
-  clearRulesCacheButton.disabled = true;
   updateRulesSourceStatus("Rules: Importing...");
 
   try {
     const cache = await buildFiveEToolsRulesCache();
     let cacheStored = true;
+
     try {
       saveRulesCache(cache);
     } catch (storageError) {
@@ -1081,19 +1135,19 @@ async function importFiveEToolsRules() {
     }
 
     applyRulesCache(cache);
+    applyRulesCache(cache);
+
     if (cacheStored) {
-      saveStatus.textContent = "5etools rules cached";
+      saveStatus.textContent = "5eTools rules cached";
+      showToast("5eTools import failed", "error");
     } else {
-      updateRulesSourceStatus("Rules: 5etools loaded for this session");
+      updateRulesSourceStatus("Rules: 5eTools loaded for this session");
       saveStatus.textContent = "Rules cache too large for local storage";
     }
   } catch (error) {
     console.error(error);
     updateRulesSourceStatus("Rules: Import failed");
     saveStatus.textContent = "Rules import failed";
-  } finally {
-    importRulesButton.disabled = false;
-    clearRulesCacheButton.disabled = !loadRulesCache();
   }
 }
 
@@ -1805,8 +1859,8 @@ function mergeState(base, incoming) {
       : [],
     activeConditions: Array.isArray(incoming?.activeConditions)
       ? incoming.activeConditions
-          .map((condition) => String(condition || "").trim())
-          .filter(Boolean)
+        .map((condition) => String(condition || "").trim())
+        .filter(Boolean)
       : [],
     statuses: Array.isArray(incoming?.statuses)
       ? incoming.statuses.map(normalizeStatus)
@@ -2306,66 +2360,66 @@ function renderAdvancementChoices() {
   advancementChoicesList.innerHTML = "";
 
   state.advancementChoices.forEach((choice) => {
-      const fragment = template.content.cloneNode(true);
-      const card = fragment.querySelector(".advancement-card");
-      const title = fragment.querySelector(".advancement-title");
-      const summary = fragment.querySelector(".advancement-summary");
-      const status = fragment.querySelector('[data-advancement-output="status"]');
+    const fragment = template.content.cloneNode(true);
+    const card = fragment.querySelector(".advancement-card");
+    const title = fragment.querySelector(".advancement-title");
+    const summary = fragment.querySelector(".advancement-summary");
+    const status = fragment.querySelector('[data-advancement-output="status"]');
 
-      card.dataset.choiceId = choice.id;
-      card.dataset.mode = choice.type || "";
-      card.dataset.status = choice.status;
-      card.dataset.asiMode = choice.asiMode || "plus2";
-      title.textContent = `${choice.className || "Class"} Level ${choice.classLevel} Choice`;
-      summary.textContent = describeAdvancementChoice(choice);
-      status.textContent = choice.status === "resolved" ? "Resolved" : "Pending";
+    card.dataset.choiceId = choice.id;
+    card.dataset.mode = choice.type || "";
+    card.dataset.status = choice.status;
+    card.dataset.asiMode = choice.asiMode || "plus2";
+    title.textContent = `${choice.className || "Class"} Level ${choice.classLevel} Choice`;
+    summary.textContent = describeAdvancementChoice(choice);
+    status.textContent = choice.status === "resolved" ? "Resolved" : "Pending";
 
-      fragment.querySelectorAll('[data-advancement-action="asi"]').forEach((button) => {
-        button.addEventListener("click", () => {
-          choice.type = "asi";
-          card.dataset.mode = "asi";
-          queueSave();
-        });
+    fragment.querySelectorAll('[data-advancement-action="asi"]').forEach((button) => {
+      button.addEventListener("click", () => {
+        choice.type = "asi";
+        card.dataset.mode = "asi";
+        queueSave();
       });
-
-      fragment.querySelectorAll('[data-advancement-action="feat"]').forEach((button) => {
-        button.addEventListener("click", () => {
-          choice.type = "feat";
-          card.dataset.mode = "feat";
-          queueSave();
-        });
-      });
-
-      fragment.querySelectorAll("[data-asi-mode]").forEach((button) => {
-        button.addEventListener("click", () => {
-          choice.asiMode = button.dataset.asiMode;
-          card.dataset.asiMode = choice.asiMode;
-          queueSave();
-        });
-      });
-
-      fragment.querySelectorAll("[data-advancement-field]").forEach((field) => {
-        const fieldName = field.dataset.advancementField;
-        if (field.tagName === "SELECT") {
-          populateAbilitySelect(field);
-        }
-        field.value = choice[fieldName] ?? "";
-        field.addEventListener("input", () => {
-          choice[fieldName] = field.value;
-          queueSave();
-        });
-      });
-
-      fragment.querySelector('[data-advancement-action="confirmAsi"]')?.addEventListener("click", () => {
-        resolveAsiChoice(choice);
-      });
-
-      fragment.querySelector('[data-advancement-action="confirmFeat"]')?.addEventListener("click", () => {
-        resolveFeatChoice(choice);
-      });
-
-      advancementChoicesList.appendChild(fragment);
     });
+
+    fragment.querySelectorAll('[data-advancement-action="feat"]').forEach((button) => {
+      button.addEventListener("click", () => {
+        choice.type = "feat";
+        card.dataset.mode = "feat";
+        queueSave();
+      });
+    });
+
+    fragment.querySelectorAll("[data-asi-mode]").forEach((button) => {
+      button.addEventListener("click", () => {
+        choice.asiMode = button.dataset.asiMode;
+        card.dataset.asiMode = choice.asiMode;
+        queueSave();
+      });
+    });
+
+    fragment.querySelectorAll("[data-advancement-field]").forEach((field) => {
+      const fieldName = field.dataset.advancementField;
+      if (field.tagName === "SELECT") {
+        populateAbilitySelect(field);
+      }
+      field.value = choice[fieldName] ?? "";
+      field.addEventListener("input", () => {
+        choice[fieldName] = field.value;
+        queueSave();
+      });
+    });
+
+    fragment.querySelector('[data-advancement-action="confirmAsi"]')?.addEventListener("click", () => {
+      resolveAsiChoice(choice);
+    });
+
+    fragment.querySelector('[data-advancement-action="confirmFeat"]')?.addEventListener("click", () => {
+      resolveFeatChoice(choice);
+    });
+
+    advancementChoicesList.appendChild(fragment);
+  });
 }
 
 function renderAttacks() {
@@ -2610,7 +2664,7 @@ function refreshDerivedValues() {
     if (groupModifier) {
       groupModifier.textContent = formatModifier(modifierValue);
     }
-  if (scoreCap) {
+    if (scoreCap) {
       scoreCap.value = score;
       scoreCap.readOnly = true;
     }
@@ -3204,12 +3258,12 @@ function abbreviateAbility(key) {
 }
 
 function queueSave() {
-  saveStatus.textContent = "Saving...";
   window.clearTimeout(saveTimeout);
+
   saveTimeout = window.setTimeout(() => {
     persistActiveCharacterState();
-    saveStatus.textContent = "Saved locally";
-  }, 180);
+    showToast("Character saved", "success");
+  }, 500); // slightly longer delay = less spam
 }
 
 function persistActiveCharacterState() {
@@ -3611,9 +3665,9 @@ function refreshAttackCards() {
     card.querySelector('[data-roll-type="damage"]').dataset.rollFormula = JSON.stringify(
       attack.versatile
         ? [
-            { label: "1H", formula: damage },
-            { label: "2H", formula: versatileDamage }
-          ]
+          { label: "1H", formula: damage },
+          { label: "2H", formula: versatileDamage }
+        ]
         : [{ label: "Damage", formula: damage }]
     );
     card.querySelector('[data-attack-roll-result="toHit"]').textContent = "Tap to roll";

@@ -27,7 +27,6 @@
             <div>
               <h2>Character Identity</h2>
             </div>
-            <div class="badge" id="saveStatus">Saved locally</div>
           </div>
 
           <div class="character-library-bar">
@@ -38,15 +37,6 @@
             <div class="character-library-actions">
               <button id="newCharacterButton" class="secondary-button compact-button" type="button">New</button>
               <button id="deleteCharacterButton" class="ghost-button compact-button" type="button">Delete</button>
-            </div>
-          </div>
-
-          <div class="rules-cache-bar">
-            <span id="rulesSourceStatus">Rules: Local</span>
-            <div class="rules-cache-actions">
-              <button id="importRulesButton" class="secondary-button compact-button" type="button">Import
-                5etools</button>
-              <button id="clearRulesCacheButton" class="ghost-button compact-button" type="button">Use Local</button>
             </div>
           </div>
 
@@ -349,6 +339,29 @@
       </aside>
     </main>
 
+    <div id="rulesImportPromptModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-rules-import-prompt-close="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rulesImportPromptTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="rulesImportPromptTitle">Use 5eTools Data?</h2>
+          </div>
+          <button id="closeRulesImportPromptButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
+
+        <p>Do you want to pull character options and rules data from 5eTools?</p>
+
+        <div class="modal-actions">
+          <button id="confirmRulesImportPromptButton" class="secondary-button compact-button" type="button">
+            Import 5eTools
+          </button>
+          <button id="useLocalRulesPromptButton" class="ghost-button compact-button" type="button">
+            Use Local
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="abilityModal" class="modal-shell" hidden>
       <div class="modal-backdrop" data-modal-close="true"></div>
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="abilityModalTitle">
@@ -635,6 +648,8 @@
     </main>
   </div>
 
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
   <div class="floating-actions" data-open="false">
     <div class="floating-actions-menu">
       <button id="themeButton" class="theme-button floating-theme-button" type="button" aria-pressed="false">Dark
@@ -645,6 +660,8 @@
         aria-label="Open long rest">Long Rest</button>
       <button id="floatingDiceButton" class="floating-dice-button" type="button"
         aria-label="Open dice roller">Dice</button>
+      <button id="floatingImportRulesButton" class="floating-import-rules-button" type="button">
+        Load 5eTools</button>
     </div>
     <button id="floatingActionsToggle" class="floating-actions-toggle" type="button" aria-expanded="false"
       aria-label="Open quick actions">Menu</button>
