@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,12 @@
   <link rel="apple-touch-icon" href="icons/adventurer-icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="page-shell">
     <main class="dashboard-shell">
@@ -40,7 +44,8 @@
           <div class="rules-cache-bar">
             <span id="rulesSourceStatus">Rules: Local</span>
             <div class="rules-cache-actions">
-              <button id="importRulesButton" class="secondary-button compact-button" type="button">Import 5etools</button>
+              <button id="importRulesButton" class="secondary-button compact-button" type="button">Import
+                5etools</button>
               <button id="clearRulesCacheButton" class="ghost-button compact-button" type="button">Use Local</button>
             </div>
           </div>
@@ -74,7 +79,8 @@
             <div>
               <h2>Ability Scores</h2>
             </div>
-            <button id="modifyAbilityButton" class="secondary-button compact-button icon-button" type="button" aria-label="Modify Ability Scores" title="Modify Ability Scores">⚙</button>
+            <button id="modifyAbilityButton" class="secondary-button compact-button icon-button" type="button"
+              aria-label="Modify Ability Scores" title="Modify Ability Scores">⚙</button>
           </div>
 
           <div id="abilityGroupsList" class="ability-groups-list"></div>
@@ -169,10 +175,13 @@
                     </label>
                   </div>
                   <div class="hp-controls">
-                    <button id="healHpButton" class="hp-icon-button heal-button" type="button" aria-label="Heal">+</button>
-                    <button class="hp-icon-button shield-button" type="button" aria-hidden="true" tabindex="-1">🛡</button>
+                    <button id="healHpButton" class="hp-icon-button heal-button" type="button"
+                      aria-label="Heal">+</button>
+                    <button class="hp-icon-button shield-button" type="button" aria-hidden="true"
+                      tabindex="-1">🛡</button>
                     <input id="hpAdjustInput" class="hp-adjust-amount" type="number" min="0" placeholder="0">
-                    <button id="damageHpButton" class="hp-icon-button damage-button" type="button" aria-label="Damage">−</button>
+                    <button id="damageHpButton" class="hp-icon-button damage-button" type="button"
+                      aria-label="Damage">−</button>
                   </div>
                 </div>
               </div>
@@ -190,11 +199,16 @@
 
         <section class="panel center-tabs-panel">
           <div class="dashboard-tabs" role="tablist" aria-label="Character sections">
-            <button class="dashboard-tab is-active" type="button" role="tab" aria-selected="true" data-center-tab="actions">Actions</button>
-            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="spells">Spells</button>
-            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="inventory">Inventory</button>
-            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="features">Features</button>
-            <button class="dashboard-tab" type="button" role="tab" aria-selected="false" data-center-tab="notes">Notes</button>
+            <button class="dashboard-tab is-active" type="button" role="tab" aria-selected="true"
+              data-center-tab="actions">Actions</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false"
+              data-center-tab="spells">Spells</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false"
+              data-center-tab="inventory">Inventory</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false"
+              data-center-tab="features">Features</button>
+            <button class="dashboard-tab" type="button" role="tab" aria-selected="false"
+              data-center-tab="notes">Notes</button>
           </div>
         </section>
 
@@ -226,8 +240,16 @@
 
           <div class="feature-filter-tabs" role="tablist" aria-label="Feature filters">
             <button class="feature-filter-button is-active" type="button" data-feature-filter="all">All</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Class Feature">Class Features</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Species Trait">Species Traits</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Class Feature">Class
+              Features</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Species Trait">Species
+              Traits</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Feat">Feats</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Background Feature">Background
+              Features</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Boon / Blessing">Boons /
+              Blessings</button>
+            <button class="feature-filter-button" type="button" data-feature-filter="Other">Other</button>
           </div>
 
           <div id="featuresList" class="features-list"></div>
@@ -248,7 +270,8 @@
 
           <label class="full-panel-field">
             <span>Equipment Notes</span>
-            <textarea data-field="equipment" rows="6" placeholder="Pack contents, ammunition, valuables, consumables, and misc gear..."></textarea>
+            <textarea data-field="equipment" rows="6"
+              placeholder="Pack contents, ammunition, valuables, consumables, and misc gear..."></textarea>
           </label>
         </section>
 
@@ -276,15 +299,18 @@
           <div class="proficiencies-grid">
             <label class="proficiency-card">
               <span>Weapons</span>
-              <textarea data-field="weaponProficiencies" rows="4" placeholder="Simple weapons, martial weapons, longbows..."></textarea>
+              <textarea data-field="weaponProficiencies" rows="4"
+                placeholder="Simple weapons, martial weapons, longbows..."></textarea>
             </label>
             <label class="proficiency-card">
               <span>Armor</span>
-              <textarea data-field="armorProficiencies" rows="4" placeholder="Light armor, medium armor, shields..."></textarea>
+              <textarea data-field="armorProficiencies" rows="4"
+                placeholder="Light armor, medium armor, shields..."></textarea>
             </label>
             <label class="proficiency-card">
               <span>Tools</span>
-              <textarea data-field="toolProficiencies" rows="4" placeholder="Thieves' tools, herbalism kit, lute..."></textarea>
+              <textarea data-field="toolProficiencies" rows="4"
+                placeholder="Thieves' tools, herbalism kit, lute..."></textarea>
             </label>
             <label class="proficiency-card">
               <span>Languages</span>
@@ -313,7 +339,8 @@
           </div>
 
           <div class="concentration-toggle-row">
-            <button id="concentrationToggle" class="condition-chip concentration-toggle" type="button" aria-pressed="false">Concentration</button>
+            <button id="concentrationToggle" class="condition-chip concentration-toggle" type="button"
+              aria-pressed="false">Concentration</button>
           </div>
 
           <div id="conditionsList" class="conditions-list"></div>
@@ -322,284 +349,305 @@
       </aside>
     </main>
 
-      <div id="abilityModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-modal-close="true"></div>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="abilityModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="abilityModalTitle">Modify Ability Scores</h2>
-            </div>
-            <button id="closeAbilityModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="abilityModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-modal-close="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="abilityModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="abilityModalTitle">Modify Ability Scores</h2>
           </div>
+          <button id="closeAbilityModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <div class="ability-modal-mode-bar">
-            <button id="abilityModeManualButton" class="ghost-button compact-button" type="button">Manual</button>
-            <button id="abilityModePointBuyButton" class="ghost-button compact-button" type="button">Point Buy</button>
-          </div>
+        <div class="ability-modal-mode-bar">
+          <button id="abilityModeManualButton" class="ghost-button compact-button" type="button">Manual</button>
+          <button id="abilityModePointBuyButton" class="ghost-button compact-button" type="button">Point Buy</button>
+        </div>
 
-          <div id="pointBuySummary" class="point-buy-summary" hidden>
-            <strong id="pointBuySpent">0 / 27 points spent</strong>
-            <p id="pointBuyRemaining">27 points remaining</p>
-          </div>
+        <div id="pointBuySummary" class="point-buy-summary" hidden>
+          <strong id="pointBuySpent">0 / 27 points spent</strong>
+          <p id="pointBuyRemaining">27 points remaining</p>
+        </div>
 
-          <div id="abilityModalGrid" class="ability-modal-grid"></div>
+        <div id="abilityModalGrid" class="ability-modal-grid"></div>
 
-          <div class="modal-actions">
-            <button id="cancelAbilityModalButton" class="ghost-button compact-button" type="button">Cancel</button>
-            <button id="saveAbilityModalButton" class="secondary-button compact-button" type="button">Save Changes</button>
-          </div>
+        <div class="modal-actions">
+          <button id="cancelAbilityModalButton" class="ghost-button compact-button" type="button">Cancel</button>
+          <button id="saveAbilityModalButton" class="secondary-button compact-button" type="button">Save
+            Changes</button>
         </div>
       </div>
+    </div>
 
-      <div id="rollModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-roll-modal-close="true"></div>
-        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="rollModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="rollModalTitle">Roll Result</h2>
-            </div>
-            <button id="closeRollModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="rollModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-roll-modal-close="true"></div>
+      <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="rollModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="rollModalTitle">Roll Result</h2>
           </div>
+          <button id="closeRollModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <div id="rollModalResult" class="roll-modal-result">
-            <strong id="rollModalTotal">0</strong>
-            <p id="rollModalSummary" class="roll-modal-summary">1d20 + 0</p>
-            <p id="rollModalDetail" class="roll-modal-detail">Rolled 10 on the die.</p>
-          </div>
+        <div id="rollModalResult" class="roll-modal-result">
+          <strong id="rollModalTotal">0</strong>
+          <p id="rollModalSummary" class="roll-modal-summary">1d20 + 0</p>
+          <p id="rollModalDetail" class="roll-modal-detail">Rolled 10 on the die.</p>
         </div>
       </div>
+    </div>
 
-      <div id="diceModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-dice-modal-close="true"></div>
-        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="diceModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="diceModalTitle">Dice Roller</h2>
-            </div>
-            <button id="closeDiceModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="diceModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-dice-modal-close="true"></div>
+      <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="diceModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="diceModalTitle">Dice Roller</h2>
           </div>
+          <button id="closeDiceModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <div class="dice-roller-form">
-            <label class="full-panel-field">
-              <span>Roll Formula</span>
-              <input id="diceFormulaInput" type="text" placeholder="4d20 + [STR]">
-            </label>
-            <button id="rollDiceFormulaButton" class="secondary-button" type="button">Roll Dice</button>
-          </div>
+        <div class="dice-roller-form">
+          <label class="full-panel-field">
+            <span>Roll Formula</span>
+            <input id="diceFormulaInput" type="text" placeholder="4d20 + [STR]">
+          </label>
+          <button id="rollDiceFormulaButton" class="secondary-button" type="button">Roll Dice</button>
+        </div>
 
-          <div id="diceModalResult" class="roll-modal-result">
-            <strong id="diceModalTotal">-</strong>
-            <p id="diceModalSummary" class="roll-modal-summary">Enter a formula to roll.</p>
-            <p id="diceModalDetail" class="roll-modal-detail">Supports tokens like [STR], [DEX], and [PROF].</p>
-          </div>
+        <div id="diceModalResult" class="roll-modal-result">
+          <strong id="diceModalTotal">-</strong>
+          <p id="diceModalSummary" class="roll-modal-summary">Enter a formula to roll.</p>
+          <p id="diceModalDetail" class="roll-modal-detail">Supports tokens like [STR], [DEX], and [PROF].</p>
         </div>
       </div>
+    </div>
 
-      <div id="shortRestModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-short-rest-modal-close="true"></div>
-        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="shortRestModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="shortRestModalTitle">Short Rest</h2>
-            </div>
-            <button id="closeShortRestModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="shortRestModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-short-rest-modal-close="true"></div>
+      <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="shortRestModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="shortRestModalTitle">Short Rest</h2>
           </div>
+          <button id="closeShortRestModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <div class="rest-status-grid">
-            <div class="rest-status-card">
-              <span>Remaining Hit Dice</span>
-              <strong id="shortRestHitDiceDisplay">0d0</strong>
-            </div>
-            <div class="rest-status-card">
-              <span>Con Modifier</span>
-              <strong id="shortRestConDisplay">+0</strong>
-            </div>
+        <div class="rest-status-grid">
+          <div class="rest-status-card">
+            <span>Remaining Hit Dice</span>
+            <strong id="shortRestHitDiceDisplay">0d0</strong>
           </div>
-
-          <div id="shortRestResult" class="roll-modal-result">
-            <strong id="shortRestHealTotal">-</strong>
-            <p id="shortRestHealSummary" class="roll-modal-summary">Spend hit dice to heal.</p>
-            <p id="shortRestHealDetail" class="roll-modal-detail">When you finish the rest, short-rest resources will restore automatically.</p>
-          </div>
-
-          <div class="modal-actions">
-            <button id="spendHitDieButton" class="secondary-button compact-button" type="button">Spend 1 Hit Die</button>
-            <button id="completeShortRestButton" class="ghost-button compact-button" type="button">Complete Short Rest</button>
+          <div class="rest-status-card">
+            <span>Con Modifier</span>
+            <strong id="shortRestConDisplay">+0</strong>
           </div>
         </div>
-      </div>
 
-      <div id="longRestModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-long-rest-modal-close="true"></div>
-        <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="longRestModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="longRestModalTitle">Long Rest</h2>
-            </div>
-            <button id="closeLongRestModalButton" class="ghost-button compact-button" type="button">Close</button>
-          </div>
+        <div id="shortRestResult" class="roll-modal-result">
+          <strong id="shortRestHealTotal">-</strong>
+          <p id="shortRestHealSummary" class="roll-modal-summary">Spend hit dice to heal.</p>
+          <p id="shortRestHealDetail" class="roll-modal-detail">When you finish the rest, short-rest resources will
+            restore automatically.</p>
+        </div>
 
-          <div id="longRestResult" class="roll-modal-result">
-            <strong id="longRestSummaryTotal">Ready</strong>
-            <p id="longRestSummaryText" class="roll-modal-summary">Restore hit points, recover hit dice, and refresh matching resources.</p>
-            <p id="longRestDetail" class="roll-modal-detail">Long rest will also restore resources that recover on short or long rest.</p>
-          </div>
-
-          <div class="modal-actions">
-            <button id="confirmLongRestButton" class="secondary-button compact-button" type="button">Take Long Rest</button>
-          </div>
+        <div class="modal-actions">
+          <button id="spendHitDieButton" class="secondary-button compact-button" type="button">Spend 1 Hit Die</button>
+          <button id="completeShortRestButton" class="ghost-button compact-button" type="button">Complete Short
+            Rest</button>
         </div>
       </div>
+    </div>
 
-      <div id="levelUpModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-level-up-modal-close="true"></div>
-        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="levelUpModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="levelUpModalTitle">Level Up</h2>
-            </div>
-            <button id="closeLevelUpModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="longRestModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-long-rest-modal-close="true"></div>
+      <div class="modal-card roll-modal-card" role="dialog" aria-modal="true" aria-labelledby="longRestModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="longRestModalTitle">Long Rest</h2>
           </div>
+          <button id="closeLongRestModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <p id="levelUpModalSummary" class="level-up-modal-summary">Choose an existing class to increase, or add a new class at level 1.</p>
+        <div id="longRestResult" class="roll-modal-result">
+          <strong id="longRestSummaryTotal">Ready</strong>
+          <p id="longRestSummaryText" class="roll-modal-summary">Restore hit points, recover hit dice, and refresh
+            matching resources.</p>
+          <p id="longRestDetail" class="roll-modal-detail">Long rest will also restore resources that recover on short
+            or long rest.</p>
+        </div>
 
-          <div class="level-up-modal-section">
-            <h3 class="level-up-section-title">Increase Existing Class</h3>
-            <div id="levelUpExistingList" class="level-up-existing-list"></div>
-          </div>
-
-          <div class="level-up-modal-section">
-            <h3 class="level-up-section-title">Add New Class</h3>
-            <div class="level-up-new-class-grid">
-              <label>
-                <span>Class</span>
-                <input id="levelUpNewClassName" type="text" list="classAutomationOptions" placeholder="Fighter">
-                <datalist id="classAutomationOptions"></datalist>
-              </label>
-              <label hidden>
-                <span>Subclass</span>
-                <input id="levelUpNewClassSubclass" type="text" placeholder="Champion">
-              </label>
-            </div>
-            <div id="levelUpNewClassPreview" class="level-up-class-preview"></div>
-            <div class="modal-actions">
-              <button id="confirmAddMulticlassButton" class="secondary-button compact-button" type="button">Add Multiclass Level</button>
-            </div>
-          </div>
-
-          <div id="levelUpChoiceSection" class="level-up-modal-section class-choice-section" hidden>
-            <h3 id="levelUpChoiceTitle" class="level-up-section-title">Selections</h3>
-            <div id="levelUpChoiceFields" class="class-choice-fields"></div>
-            <div class="modal-actions">
-              <button id="cancelLevelUpChoiceButton" class="ghost-button compact-button" type="button">Cancel Selection</button>
-              <button id="confirmLevelUpChoiceButton" class="secondary-button compact-button" type="button">Apply Level</button>
-            </div>
-          </div>
+        <div class="modal-actions">
+          <button id="confirmLongRestButton" class="secondary-button compact-button" type="button">Take Long
+            Rest</button>
         </div>
       </div>
+    </div>
 
-      <div id="createCharacterModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-create-character-modal-close="true"></div>
-        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="createCharacterModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="createCharacterModalTitle">New Character</h2>
-            </div>
-            <button id="closeCreateCharacterModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="levelUpModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-level-up-modal-close="true"></div>
+      <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="levelUpModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="levelUpModalTitle">Level Up</h2>
           </div>
+          <button id="closeLevelUpModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <div class="create-character-grid">
-            <label>
-              <span>Name</span>
-              <input id="createCharacterName" type="text" placeholder="Mira Thornvale">
-            </label>
+        <p id="levelUpModalSummary" class="level-up-modal-summary">Choose an existing class to increase, or add a new
+          class at level 1.</p>
+
+        <div class="level-up-modal-section">
+          <h3 class="level-up-section-title">Increase Existing Class</h3>
+          <div id="levelUpExistingList" class="level-up-existing-list"></div>
+        </div>
+
+        <div class="level-up-modal-section">
+          <h3 class="level-up-section-title">Add New Class</h3>
+          <div class="level-up-new-class-grid">
             <label>
               <span>Class</span>
-              <select id="createCharacterClass"></select>
+              <input id="levelUpNewClassName" type="text" list="classAutomationOptions" placeholder="Fighter">
+              <datalist id="classAutomationOptions"></datalist>
             </label>
-            <label>
-              <span>Background</span>
-              <select id="createCharacterBackground"></select>
-            </label>
-              <label>
-                <span>Race / Species</span>
-                <select id="createCharacterSpecies"></select>
-              </label>
-              <label>
-                <span>Subrace / Lineage</span>
-                <select id="createCharacterSubrace"></select>
-              </label>
-              <label>
-                <span>Alignment</span>
-                <input id="createCharacterAlignment" type="text" placeholder="Neutral Good">
+            <label hidden>
+              <span>Subclass</span>
+              <input id="levelUpNewClassSubclass" type="text" placeholder="Champion">
             </label>
           </div>
-
-          <div id="createCharacterClassPreview" class="level-up-class-preview"></div>
-          <div id="createCharacterChoiceFields" class="class-choice-fields" hidden></div>
-
+          <div id="levelUpNewClassPreview" class="level-up-class-preview"></div>
           <div class="modal-actions">
-            <button id="cancelCreateCharacterButton" class="ghost-button compact-button" type="button">Cancel</button>
-            <button id="confirmCreateCharacterButton" class="secondary-button compact-button" type="button">Create Character</button>
+            <button id="confirmAddMulticlassButton" class="secondary-button compact-button" type="button">Add Multiclass
+              Level</button>
+          </div>
+        </div>
+
+        <div id="levelUpChoiceSection" class="level-up-modal-section class-choice-section" hidden>
+          <h3 id="levelUpChoiceTitle" class="level-up-section-title">Selections</h3>
+          <div id="levelUpChoiceFields" class="class-choice-fields"></div>
+          <div class="modal-actions">
+            <button id="cancelLevelUpChoiceButton" class="ghost-button compact-button" type="button">Cancel
+              Selection</button>
+            <button id="confirmLevelUpChoiceButton" class="secondary-button compact-button" type="button">Apply
+              Level</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div id="spellImportModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-spell-import-modal-close="true"></div>
-        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="spellImportModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="spellImportModalTitle">Import Spell</h2>
-            </div>
-            <button id="closeSpellImportModalButton" class="ghost-button compact-button" type="button">Close</button>
+    <div id="createCharacterModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-create-character-modal-close="true"></div>
+      <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true"
+        aria-labelledby="createCharacterModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="createCharacterModalTitle">New Character</h2>
           </div>
+          <button id="closeCreateCharacterModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
 
-          <label class="class-choice-field">
-            <span>Spell</span>
-            <select id="spellImportSelect"></select>
-            <p id="spellImportPreview">Import 5etools rules first to use cached spell data.</p>
+        <div class="create-character-grid">
+          <label>
+            <span>Name</span>
+            <input id="createCharacterName" type="text" placeholder="Mira Thornvale">
           </label>
-
-          <div class="modal-actions">
-            <button id="confirmSpellImportButton" class="secondary-button compact-button" type="button">Import Spell</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="itemImportModal" class="modal-shell" hidden>
-        <div class="modal-backdrop" data-item-import-modal-close="true"></div>
-        <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true" aria-labelledby="itemImportModalTitle">
-          <div class="modal-heading">
-            <div>
-              <h2 id="itemImportModalTitle">Import Item</h2>
-            </div>
-            <button id="closeItemImportModalButton" class="ghost-button compact-button" type="button">Close</button>
-          </div>
-
-          <label class="class-choice-field">
-            <span>Item</span>
-            <select id="itemImportSelect"></select>
-            <p id="itemImportPreview">Import 5etools rules first to use cached item data.</p>
+          <label>
+            <span>Class</span>
+            <select id="createCharacterClass"></select>
           </label>
+          <label>
+            <span>Background</span>
+            <select id="createCharacterBackground"></select>
+          </label>
+          <label>
+            <span>Race / Species</span>
+            <select id="createCharacterSpecies"></select>
+          </label>
+          <label>
+            <span>Subrace / Lineage</span>
+            <select id="createCharacterSubrace"></select>
+          </label>
+          <label>
+            <span>Alignment</span>
+            <input id="createCharacterAlignment" type="text" placeholder="Neutral Good">
+          </label>
+        </div>
 
-          <div class="modal-actions">
-            <button id="confirmItemImportButton" class="secondary-button compact-button" type="button">Import Item</button>
-          </div>
+        <div id="createCharacterClassPreview" class="level-up-class-preview"></div>
+        <div id="createCharacterChoiceFields" class="class-choice-fields" hidden></div>
+
+        <div class="modal-actions">
+          <button id="cancelCreateCharacterButton" class="ghost-button compact-button" type="button">Cancel</button>
+          <button id="confirmCreateCharacterButton" class="secondary-button compact-button" type="button">Create
+            Character</button>
         </div>
       </div>
+    </div>
+
+    <div id="spellImportModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-spell-import-modal-close="true"></div>
+      <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true"
+        aria-labelledby="spellImportModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="spellImportModalTitle">Import Spell</h2>
+          </div>
+          <button id="closeSpellImportModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
+
+        <label class="class-choice-field">
+          <span>Spell</span>
+          <select id="spellImportSelect"></select>
+          <p id="spellImportPreview">Import 5etools rules first to use cached spell data.</p>
+        </label>
+
+        <div class="modal-actions">
+          <button id="confirmSpellImportButton" class="secondary-button compact-button" type="button">Import
+            Spell</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="itemImportModal" class="modal-shell" hidden>
+      <div class="modal-backdrop" data-item-import-modal-close="true"></div>
+      <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true"
+        aria-labelledby="itemImportModalTitle">
+        <div class="modal-heading">
+          <div>
+            <h2 id="itemImportModalTitle">Import Item</h2>
+          </div>
+          <button id="closeItemImportModalButton" class="ghost-button compact-button" type="button">Close</button>
+        </div>
+
+        <label class="class-choice-field">
+          <span>Item</span>
+          <select id="itemImportSelect"></select>
+          <p id="itemImportPreview">Import 5etools rules first to use cached item data.</p>
+        </label>
+
+        <div class="modal-actions">
+          <button id="confirmItemImportButton" class="secondary-button compact-button" type="button">Import
+            Item</button>
+        </div>
+      </div>
+    </div>
 
     </main>
   </div>
 
   <div class="floating-actions" data-open="false">
     <div class="floating-actions-menu">
-      <button id="themeButton" class="theme-button floating-theme-button" type="button" aria-pressed="false">Dark Mode</button>
-      <button id="floatingShortRestButton" class="floating-rest-button" type="button" aria-label="Open short rest">Short Rest</button>
-      <button id="floatingLongRestButton" class="floating-rest-button long-rest-button" type="button" aria-label="Open long rest">Long Rest</button>
-      <button id="floatingDiceButton" class="floating-dice-button" type="button" aria-label="Open dice roller">Dice</button>
+      <button id="themeButton" class="theme-button floating-theme-button" type="button" aria-pressed="false">Dark
+        Mode</button>
+      <button id="floatingShortRestButton" class="floating-rest-button" type="button" aria-label="Open short rest">Short
+        Rest</button>
+      <button id="floatingLongRestButton" class="floating-rest-button long-rest-button" type="button"
+        aria-label="Open long rest">Long Rest</button>
+      <button id="floatingDiceButton" class="floating-dice-button" type="button"
+        aria-label="Open dice roller">Dice</button>
     </div>
-    <button id="floatingActionsToggle" class="floating-actions-toggle" type="button" aria-expanded="false" aria-label="Open quick actions">Menu</button>
+    <button id="floatingActionsToggle" class="floating-actions-toggle" type="button" aria-expanded="false"
+      aria-label="Open quick actions">Menu</button>
   </div>
 
   <datalist id="speciesOptions"></datalist>
@@ -648,9 +696,11 @@
     <div class="point-buy-field">
       <span class="point-buy-label"></span>
       <div class="point-buy-controls">
-        <button class="ghost-button compact-button point-buy-button" type="button" data-point-buy-action="decrease">-</button>
+        <button class="ghost-button compact-button point-buy-button" type="button"
+          data-point-buy-action="decrease">-</button>
         <strong class="point-buy-value"></strong>
-        <button class="ghost-button compact-button point-buy-button" type="button" data-point-buy-action="increase">+</button>
+        <button class="ghost-button compact-button point-buy-button" type="button"
+          data-point-buy-action="increase">+</button>
       </div>
       <small class="point-buy-cost"></small>
     </div>
@@ -715,7 +765,8 @@
 
         <label>
           <span>Notes</span>
-          <textarea data-attack-field="notes" rows="3" placeholder="Use tokens like [STR], [DEX], [WIS], or [PROF] in formulas."></textarea>
+          <textarea data-attack-field="notes" rows="3"
+            placeholder="Use tokens like [STR], [DEX], [WIS], or [PROF] in formulas."></textarea>
         </label>
       </div>
 
@@ -766,9 +817,11 @@
           <p class="tracking-summary"></p>
         </button>
         <div class="tracking-controls">
-          <button class="ghost-button compact-button tracking-step-button" type="button" data-tracking-action="decrease">-</button>
+          <button class="ghost-button compact-button tracking-step-button" type="button"
+            data-tracking-action="decrease">-</button>
           <strong class="tracking-value-display">0 / 0</strong>
-          <button class="secondary-button compact-button tracking-step-button" type="button" data-tracking-action="increase">+</button>
+          <button class="secondary-button compact-button tracking-step-button" type="button"
+            data-tracking-action="increase">+</button>
         </div>
         <button class="ghost-button remove-tracking-button" type="button">Remove</button>
       </div>
@@ -820,7 +873,8 @@
 
       <label>
         <span>Notes</span>
-        <textarea data-status-field="notes" rows="3" placeholder="Targeted effect, save DC, expiration note..."></textarea>
+        <textarea data-status-field="notes" rows="3"
+          placeholder="Targeted effect, save DC, expiration note..."></textarea>
       </label>
     </article>
   </template>
@@ -836,7 +890,8 @@
       </div>
 
       <div class="advancement-choice-buttons">
-        <button class="secondary-button compact-button" type="button" data-advancement-action="asi">Ability Score Improvement</button>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="asi">Ability Score
+          Improvement</button>
         <button class="secondary-button compact-button" type="button" data-advancement-action="feat">Feat</button>
       </div>
 
@@ -855,7 +910,8 @@
             <select data-advancement-field="asiAbilityTwo"></select>
           </label>
         </div>
-        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmAsi">Apply ASI</button>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmAsi">Apply
+          ASI</button>
       </div>
 
       <div class="advancement-feat-form">
@@ -871,9 +927,11 @@
         </div>
         <label>
           <span>Notes</span>
-          <textarea data-advancement-field="featNotes" rows="3" placeholder="Key benefits, custom table ruling, or reminders..."></textarea>
+          <textarea data-advancement-field="featNotes" rows="3"
+            placeholder="Key benefits, custom table ruling, or reminders..."></textarea>
         </label>
-        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmFeat">Save Feat</button>
+        <button class="secondary-button compact-button" type="button" data-advancement-action="confirmFeat">Save
+          Feat</button>
       </div>
     </article>
   </template>
@@ -888,25 +946,26 @@
         <button class="ghost-button remove-feature-button" type="button">Remove</button>
       </div>
 
-        <div class="feature-editor">
-          <div class="feature-grid">
-            <label>
-              <span>Feature Name</span>
-              <input data-feature-field="name" type="text" placeholder="Favored Enemy">
-            </label>
-            <label>
-              <span>Category</span>
-              <select data-feature-field="category"></select>
-            </label>
-            <label>
-              <span>Source</span>
-              <input data-feature-field="source" type="text" placeholder="Ranger 1">
-            </label>
-          </div>
+      <div class="feature-editor">
+        <div class="feature-grid">
+          <label>
+            <span>Feature Name</span>
+            <input data-feature-field="name" type="text" placeholder="Favored Enemy">
+          </label>
+          <label>
+            <span>Category</span>
+            <select data-feature-field="category"></select>
+          </label>
+          <label>
+            <span>Source</span>
+            <input data-feature-field="source" type="text" placeholder="Ranger 1">
+          </label>
+        </div>
 
         <label>
           <span>Notes</span>
-          <textarea data-feature-field="notes" rows="5" placeholder="Rules text, reminders, limitations, and custom notes..."></textarea>
+          <textarea data-feature-field="notes" rows="5"
+            placeholder="Rules text, reminders, limitations, and custom notes..."></textarea>
         </label>
       </div>
     </article>
@@ -1000,7 +1059,8 @@
 
         <label>
           <span>Notes</span>
-          <textarea data-equipment-field="notes" rows="4" placeholder="Weight, magical bonus, attunement, rarity, charges..."></textarea>
+          <textarea data-equipment-field="notes" rows="4"
+            placeholder="Weight, magical bonus, attunement, rarity, charges..."></textarea>
         </label>
       </div>
     </article>
@@ -1081,7 +1141,8 @@
 
         <label>
           <span>Notes</span>
-          <textarea data-spell-field="notes" rows="3" placeholder="Higher-level scaling, targets, conditions, special riders..."></textarea>
+          <textarea data-spell-field="notes" rows="3"
+            placeholder="Higher-level scaling, targets, conditions, special riders..."></textarea>
         </label>
       </div>
 
@@ -1107,4 +1168,5 @@
   <script src="class-rules.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>
