@@ -22,12 +22,12 @@ const standardConditions = [
 ];
 
 const abilities = [
-  { key: "strength", label: "Strength" },
-  { key: "dexterity", label: "Dexterity" },
-  { key: "constitution", label: "Constitution" },
-  { key: "intelligence", label: "Intelligence" },
-  { key: "wisdom", label: "Wisdom" },
-  { key: "charisma", label: "Charisma" }
+  { key: "strength", label: "STR" },
+  { key: "dexterity", label: "DEX" },
+  { key: "constitution", label: "CON" },
+  { key: "intelligence", label: "INT" },
+  { key: "wisdom", label: "WIS" },
+  { key: "charisma", label: "CHA" }
 ];
 
 const skills = [
