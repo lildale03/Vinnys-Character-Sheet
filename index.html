@@ -101,11 +101,10 @@
                 <p id="classSummaryDisplay">Single class</p>
               </div>
               <label class="progress-card xp-card">
-  <span>Experience</span>
-  <input data-field="experience" type="number" min="0" placeholder="6500">
-</label>
-<div class="progress-card xp-helper-card xp-card">
-              <div class="progress-card xp-helper-card">
+                <span>Current XP</span>
+                <input data-field="experience" type="number" min="0" placeholder="6500">
+              </label>
+              <div class="progress-card xp-helper-card xp-card">
                 <label>
                   <span>Add XP</span>
                   <input id="xpGainInput" type="number" min="0" placeholder="250">
@@ -117,14 +116,6 @@
                 <strong id="proficiencyBonusDisplay">+2</strong>
                 <p>Based on total level</p>
               </div>
-
-            <label class="progress-card level-method-card">
-              <span>Level Method</span>
-                <select data-field="levelMethod" id="levelMethodSelect">
-                  <option value="xp">XP</option>
-                  <option value="milestone">Milestone</option>
-                </select>
-              </label>
             </div>
 
             <div id="classList" class="class-list"></div>
@@ -237,17 +228,20 @@
           </div>
 
           <div class="feature-filter-tabs" role="tablist" aria-label="Feature filters">
-            <button class="feature-filter-button is-active" type="button" data-feature-filter="all">All</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Class Feature">Class
-              Features</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Species Trait">Species
-              Traits</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Feat">Feats</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Background Feature">Background
-              Features</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Boon / Blessing">Boons /
-              Blessings</button>
-            <button class="feature-filter-button" type="button" data-feature-filter="Other">Other</button>
+            <button class="feature-filter-button is-active" type="button" role="tab" aria-selected="true"
+              data-feature-filter="all">All</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Class Feature">Class Features</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Species Trait">Species Traits</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Feat">Feats</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Background Feature">Background Features</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Boon / Blessing">Boons / Blessings</button>
+            <button class="feature-filter-button" type="button" role="tab" aria-selected="false"
+              data-feature-filter="Other">Other</button>
           </div>
 
           <div id="featuresList" class="features-list"></div>
@@ -558,7 +552,7 @@
 
     <div id="createCharacterModal" class="modal-shell" hidden>
       <div class="modal-backdrop" data-create-character-modal-close="true"></div>
-      <div class="modal-card level-up-modal-card" role="dialog" aria-modal="true"
+      <div class="modal-card create-character-modal-card" role="dialog" aria-modal="true"
         aria-labelledby="createCharacterModalTitle">
         <div class="modal-heading">
           <div>
@@ -567,18 +561,11 @@
           <button id="closeCreateCharacterModalButton" class="ghost-button compact-button" type="button">Close</button>
         </div>
 
+        <div id="createCharacterStepIdentity" class="create-character-step">
         <div class="create-character-grid">
           <label>
             <span>Name</span>
             <input id="createCharacterName" type="text" placeholder="Mira Thornvale">
-          </label>
-          <label>
-            <span>Class</span>
-            <select id="createCharacterClass"></select>
-          </label>
-          <label>
-            <span>Background</span>
-            <select id="createCharacterBackground"></select>
           </label>
           <label>
             <span>Race / Species</span>
@@ -592,20 +579,88 @@
             <span>Alignment</span>
             <input id="createCharacterAlignment" type="text" placeholder="Neutral Good">
           </label>
-          <label>
-            <span>Level Method</span>
-            <select id="createCharacterLevelMethod">
-              <option value="xp">XP</option>
-              <option value="milestone">Milestone</option>
-            </select>
-          </label>
+        </div>
         </div>
 
-        <div id="createCharacterClassPreview" class="level-up-class-preview"></div>
-        <div id="createCharacterChoiceFields" class="class-choice-fields" hidden></div>
+        <div id="createCharacterStepBuild" class="create-character-step" hidden>
+        <div class="create-character-build-layout">
+          <div class="create-character-build-main">
+            <div class="create-character-grid">
+              <label>
+                <span>Background</span>
+                <select id="createCharacterBackground"></select>
+              </label>
+              <label>
+                <span>Class</span>
+                <select id="createCharacterClass"></select>
+              </label>
+              <label>
+                <span>Level Method</span>
+                <select id="createCharacterLevelMethod">
+                  <option value="xp">XP</option>
+                  <option value="milestone">Milestone</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="createCharacterClassPreview" class="level-up-class-preview"></div>
+            <div id="createCharacterChoiceFields" class="class-choice-fields" hidden></div>
+            <div class="create-character-ability-panel">
+              <div class="create-character-ability-heading">
+                <h3>Ability Scores</h3>
+                <p id="createCharacterAbilitySummary"></p>
+              </div>
+              <div class="ability-modal-mode-bar">
+                <button id="createCharacterAbilityModeManualButton" class="ghost-button compact-button"
+                  type="button">Manual</button>
+                <button id="createCharacterAbilityModePointBuyButton" class="ghost-button compact-button"
+                  type="button">Point Buy</button>
+              </div>
+              <div id="createCharacterPointBuySummary" class="point-buy-summary" hidden>
+                <strong id="createCharacterPointBuySpent">0 / 27 points spent</strong>
+                <p id="createCharacterPointBuyRemaining">27 points remaining</p>
+              </div>
+              <div class="create-character-boost-mode-row">
+                <label>
+                  <span>Background Boost</span>
+                  <select id="createCharacterAbilityBoostMode">
+                    <option value="weighted">+2 / +1</option>
+                    <option value="split">+1 / +1 / +1</option>
+                  </select>
+                </label>
+              </div>
+              <div class="create-character-boost-row">
+                <label id="createCharacterPrimaryBoostField">
+                  <span>+2 Ability</span>
+                  <select id="createCharacterPrimaryBoost"></select>
+                </label>
+                <label id="createCharacterSecondaryBoostField">
+                  <span>+1 Ability</span>
+                  <select id="createCharacterSecondaryBoost"></select>
+                </label>
+                <label id="createCharacterTertiaryBoostField" hidden>
+                  <span>+1 Ability</span>
+                  <select id="createCharacterTertiaryBoost"></select>
+                </label>
+              </div>
+              <div id="createCharacterAbilityGrid" class="create-character-ability-grid"></div>
+            </div>
+          </div>
+          <aside class="create-character-background-panel" aria-labelledby="createCharacterBackgroundTitle">
+            <div>
+              <span>Background</span>
+              <h3 id="createCharacterBackgroundTitle">Choose Background</h3>
+              <p id="createCharacterBackgroundMeta"></p>
+            </div>
+            <div id="createCharacterBackgroundDescription" class="create-character-background-description"></div>
+          </aside>
+          </div>
+        </div>
 
         <div class="modal-actions">
+          <button id="backCreateCharacterButton" class="ghost-button compact-button" type="button" hidden>Back</button>
           <button id="cancelCreateCharacterButton" class="ghost-button compact-button" type="button">Cancel</button>
+          <button id="nextCreateCharacterButton" class="secondary-button compact-button" type="button">Next</button>
           <button id="confirmCreateCharacterButton" class="secondary-button compact-button" type="button">Create
             Character</button>
         </div>
@@ -1207,10 +1262,11 @@
     <p>Report a bug or request a new feature.</p>
 
     <form id="feedback-form">
-      <select name="type" required>
+      <select name="type" title="Feedback type" required>
         <option value="">Choose one</option>
         <option value="Bug Report">Bug Report</option>
         <option value="Feature Request">Feature Request</option>
+        <option value="Name">Name</option>
       </select>
 
       <input name="title" placeholder="Short title" required />

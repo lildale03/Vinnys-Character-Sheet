@@ -393,6 +393,7 @@ button:hover {
   padding: 20px;
   border-radius: 24px;
   background: var(--panel);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: var(--shadow);
@@ -938,6 +939,172 @@ body[data-level-method="milestone"] .xp-card {
 
 .create-character-grid label:first-child {
   grid-column: 1 / -1;
+}
+
+.create-character-modal-card {
+  width: min(1480px, calc(100vw - 32px));
+  max-width: none;
+}
+
+.create-character-step[hidden] {
+  display: none;
+}
+
+.create-character-build-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.create-character-build-main {
+  min-width: 0;
+}
+
+.create-character-ability-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(176, 122, 44, 0.08);
+  border: 1px solid rgba(143, 93, 24, 0.12);
+}
+
+.create-character-ability-heading h3,
+.create-character-ability-heading p {
+  margin: 0;
+}
+
+.create-character-ability-heading p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.create-character-boost-mode-row,
+.create-character-boost-row,
+.create-character-ability-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.create-character-boost-mode-row {
+  grid-template-columns: minmax(180px, 240px);
+  justify-content: center;
+}
+
+.create-character-boost-row {
+  grid-template-columns: repeat(3, minmax(160px, 240px));
+  justify-content: center;
+}
+
+.create-character-ability-grid {
+  grid-template-columns: repeat(3, minmax(180px, 240px));
+  justify-content: center;
+}
+
+.create-character-ability-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--panel-strong);
+  border: 1px solid rgba(143, 93, 24, 0.12);
+  text-align: center;
+}
+
+.create-character-ability-card span,
+.create-character-ability-card strong,
+.create-character-ability-card em,
+.create-character-ability-card small {
+  display: block;
+}
+
+.create-character-ability-card input {
+  text-align: center;
+}
+
+.create-character-ability-card strong {
+  margin-top: 6px;
+  font-family: "Cinzel", serif;
+  font-size: 1.25rem;
+}
+
+.create-character-ability-card em {
+  margin-top: 2px;
+  color: var(--forest);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.create-character-ability-card .point-buy-controls {
+  display: grid;
+  grid-template-columns: 40px minmax(32px, 1fr) 40px;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.create-character-ability-card .point-buy-value {
+  margin-top: 0;
+  min-width: 0;
+  font-size: 1.2rem;
+}
+
+.create-character-ability-card .point-buy-button {
+  min-width: 40px;
+  width: 40px;
+  padding: 8px 0;
+}
+
+.create-character-ability-card small {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.create-character-background-panel {
+  position: sticky;
+  top: 0;
+  max-height: min(620px, calc(100vh - 190px));
+  overflow: auto;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--panel-strong);
+  border: 1px solid rgba(143, 93, 24, 0.14);
+}
+
+.create-character-background-panel span,
+.create-character-background-panel h3,
+.create-character-background-panel p {
+  display: block;
+  margin: 0;
+}
+
+.create-character-background-panel span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.create-character-background-panel h3 {
+  margin-top: 4px;
+  font-family: "Cinzel", serif;
+}
+
+.create-character-background-panel p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.create-character-background-description {
+  margin-top: 14px;
+  white-space: pre-line;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 .level-up-class-preview {
@@ -1898,6 +2065,7 @@ body:not([data-theme="dark"]) .score-cap-input {
   position: absolute;
   inset: 0;
   background: rgba(20, 17, 15, 0.62);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -1919,6 +2087,11 @@ body:not([data-theme="dark"]) .score-cap-input {
 
 .level-up-modal-card {
   width: min(760px, 100%);
+}
+
+.modal-card.create-character-modal-card {
+  width: min(1480px, calc(100vw - 32px));
+  max-width: none;
 }
 
 .modal-heading {
@@ -2389,6 +2562,17 @@ body:not([data-theme="dark"]) .score-cap-input {
   }
 }
 
+@media (max-width: 1250px) {
+  .create-character-build-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    gap: 16px;
+  }
+
+  .create-character-ability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* Under 900px: fully stacked */
 @media (max-width: 1000px) {
   .page-shell {
@@ -2416,6 +2600,7 @@ body:not([data-theme="dark"]) .score-cap-input {
   .vitals-grid,
   .proficiencies-grid,
   .create-character-grid,
+  .create-character-build-layout,
   .status-grid,
   .class-grid,
   .level-up-new-class-grid,
@@ -2423,6 +2608,8 @@ body:not([data-theme="dark"]) .score-cap-input {
   .advancement-asi-grid,
   .advancement-feat-grid,
   .ability-modal-grid,
+  .create-character-boost-row,
+  .create-character-ability-grid,
   .feature-grid,
   .tracking-grid,
   .equipment-grid,

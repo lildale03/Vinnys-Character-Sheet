@@ -509,6 +509,8 @@ const defaultState = {
 
 let characterLibrary = [];
 let activeCharacterId = "";
+let shouldOpenCreateCharacterOnStartup = false;
+let openCreateCharacterAfterRulesPrompt = false;
 let state = initializeCharacterState();
 let classRuleMemory = loadClassRuleMemory();
 let ruleReferenceData = loadRuleReferenceData();
@@ -596,6 +598,12 @@ const confirmAddMulticlassButton = document.getElementById(
   "confirmAddMulticlassButton",
 );
 const createCharacterModal = document.getElementById("createCharacterModal");
+const createCharacterStepIdentity = document.getElementById(
+  "createCharacterStepIdentity",
+);
+const createCharacterStepBuild = document.getElementById(
+  "createCharacterStepBuild",
+);
 const createCharacterName = document.getElementById("createCharacterName");
 const createCharacterClass = document.getElementById("createCharacterClass");
 const createCharacterBackground = document.getElementById(
@@ -619,11 +627,59 @@ const createCharacterChoiceFields = document.getElementById(
 const closeCreateCharacterModalButton = document.getElementById(
   "closeCreateCharacterModalButton",
 );
+const backCreateCharacterButton = document.getElementById(
+  "backCreateCharacterButton",
+);
+const nextCreateCharacterButton = document.getElementById(
+  "nextCreateCharacterButton",
+);
 const cancelCreateCharacterButton = document.getElementById(
   "cancelCreateCharacterButton",
 );
 const confirmCreateCharacterButton = document.getElementById(
   "confirmCreateCharacterButton",
+);
+const createCharacterAbilitySummary = document.getElementById(
+  "createCharacterAbilitySummary",
+);
+const createCharacterAbilityModeManualButton = document.getElementById(
+  "createCharacterAbilityModeManualButton",
+);
+const createCharacterAbilityModePointBuyButton = document.getElementById(
+  "createCharacterAbilityModePointBuyButton",
+);
+const createCharacterPointBuySummary = document.getElementById(
+  "createCharacterPointBuySummary",
+);
+const createCharacterPointBuySpent = document.getElementById(
+  "createCharacterPointBuySpent",
+);
+const createCharacterPointBuyRemaining = document.getElementById(
+  "createCharacterPointBuyRemaining",
+);
+const createCharacterAbilityBoostMode = document.getElementById(
+  "createCharacterAbilityBoostMode",
+);
+const createCharacterPrimaryBoostField = document.getElementById(
+  "createCharacterPrimaryBoostField",
+);
+const createCharacterSecondaryBoostField = document.getElementById(
+  "createCharacterSecondaryBoostField",
+);
+const createCharacterTertiaryBoostField = document.getElementById(
+  "createCharacterTertiaryBoostField",
+);
+const createCharacterPrimaryBoost = document.getElementById(
+  "createCharacterPrimaryBoost",
+);
+const createCharacterSecondaryBoost = document.getElementById(
+  "createCharacterSecondaryBoost",
+);
+const createCharacterTertiaryBoost = document.getElementById(
+  "createCharacterTertiaryBoost",
+);
+const createCharacterAbilityGrid = document.getElementById(
+  "createCharacterAbilityGrid",
 );
 const abilityModeManualButton = document.getElementById(
   "abilityModeManualButton",
@@ -716,7 +772,6 @@ const classList = document.getElementById("classList");
 const advancementChoicesList = document.getElementById(
   "advancementChoicesList",
 );
-const levelMethodSelect = document.getElementById("levelMethodSelect");
 const createCharacterLevelMethod = document.getElementById(
   "createCharacterLevelMethod",
 );
@@ -741,6 +796,9 @@ let activeFeatureFilter = "all";
 let pendingLevelUpAction = null;
 let pendingLevelUpSelections = {};
 let createCharacterSelections = {};
+let createCharacterStep = "identity";
+let createCharacterAbilityMode = "manual";
+let createCharacterAbilityDraft = {};
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgorjjzb";
 
@@ -817,7 +875,6 @@ populateRuleReferenceOptions();
 updateRulesSourceStatus();
 refreshDerivedValues();
 setCenterTab(activeCenterTab);
-showRulesImportPromptOnce();
 
 themeButton.addEventListener("click", () => {
   toggleTheme();
@@ -847,6 +904,12 @@ cancelCreateCharacterButton.addEventListener(
   "click",
   closeCreateCharacterModal,
 );
+backCreateCharacterButton.addEventListener("click", () => {
+  setCreateCharacterStep("identity");
+});
+nextCreateCharacterButton.addEventListener("click", () => {
+  setCreateCharacterStep("build");
+});
 cancelAbilityModalButton.addEventListener("click", closeAbilityModal);
 saveAbilityModalButton.addEventListener("click", saveAbilityModal);
 abilityModal.addEventListener("click", (event) => {
@@ -973,11 +1036,6 @@ levelStatusCard?.addEventListener("click", () => {
   }
 });
 
-levelMethodSelect?.addEventListener("change", () => {
-  state.levelMethod = levelMethodSelect.value;
-  refreshDerivedValues();
-  queueSave();
-});
 levelUpNewClassName.addEventListener("input", updateLevelUpNewClassPreview);
 levelUpNewClassSubclass.addEventListener("input", updateLevelUpNewClassPreview);
 cancelLevelUpChoiceButton.addEventListener("click", clearLevelUpChoiceSection);
@@ -1001,9 +1059,30 @@ createCharacterClass.addEventListener("change", () => {
   createCharacterSelections = {};
   updateCreateCharacterPreview();
 });
+createCharacterAbilityModeManualButton.addEventListener("click", () => {
+  setCreateCharacterAbilityMode("manual");
+});
+createCharacterAbilityModePointBuyButton.addEventListener("click", () => {
+  setCreateCharacterAbilityMode("pointbuy");
+});
+createCharacterBackground.addEventListener("change", () => {
+  syncCreateCharacterBackgroundBoostDefaults();
+  renderCreateCharacterAbilityControls();
+});
 createCharacterSpecies.addEventListener("change", () => {
   createCharacterSubrace.value = "";
   populateCreateCharacterSubraceOptions();
+});
+createCharacterAbilityBoostMode.addEventListener("change", () => {
+  syncCreateCharacterBackgroundBoostDefaults();
+  renderCreateCharacterAbilityControls();
+});
+[
+  createCharacterPrimaryBoost,
+  createCharacterSecondaryBoost,
+  createCharacterTertiaryBoost,
+].forEach((select) => {
+  select.addEventListener("change", renderCreateCharacterAbilityControls);
 });
 confirmCreateCharacterButton.addEventListener(
   "click",
@@ -1051,8 +1130,14 @@ closeRulesImportPromptButton.addEventListener("click", closeRulesImportPrompt);
 useLocalRulesPromptButton.addEventListener("click", closeRulesImportPrompt);
 
 confirmRulesImportPromptButton.addEventListener("click", async () => {
-  closeRulesImportPrompt();
+  const shouldOpenCreateCharacter = openCreateCharacterAfterRulesPrompt;
+  closeRulesImportPrompt({ skipPendingCreateCharacter: true });
   await importFiveEToolsRules();
+
+  if (shouldOpenCreateCharacter) {
+    openCreateCharacterAfterRulesPrompt = false;
+    openCreateCharacterModal();
+  }
 });
 
 rulesImportPromptModal.addEventListener("click", (event) => {
@@ -1064,23 +1149,51 @@ rulesImportPromptModal.addEventListener("click", (event) => {
   }
 });
 
+showInitialModal();
+
+function showInitialModal() {
+  if (shouldOpenCreateCharacterOnStartup) {
+    if (shouldShowRulesImportPrompt()) {
+      openCreateCharacterAfterRulesPrompt = true;
+      showRulesImportPromptOnce();
+      return;
+    }
+
+    openCreateCharacterModal();
+    return;
+  }
+
+  showRulesImportPromptOnce();
+}
+
 function showRulesImportPromptOnce() {
   if (!rulesImportPromptModal) return;
 
-  const hasSeenPrompt =
-    localStorage.getItem(RULES_IMPORT_PROMPT_KEY) === "true";
-  const alreadyHasRulesCache = Boolean(loadRulesCache());
-
-  if (!hasSeenPrompt && !alreadyHasRulesCache) {
+  if (shouldShowRulesImportPrompt()) {
     rulesImportPromptModal.hidden = false;
   }
 }
 
-function closeRulesImportPrompt() {
+function shouldShowRulesImportPrompt() {
+  const hasSeenPrompt =
+    localStorage.getItem(RULES_IMPORT_PROMPT_KEY) === "true";
+  const alreadyHasRulesCache = Boolean(loadRulesCache());
+  return !hasSeenPrompt && !alreadyHasRulesCache;
+}
+
+function closeRulesImportPrompt(options = {}) {
   if (!rulesImportPromptModal) return;
 
   rulesImportPromptModal.hidden = true;
   localStorage.setItem(RULES_IMPORT_PROMPT_KEY, "true");
+
+  if (
+    openCreateCharacterAfterRulesPrompt &&
+    !options.skipPendingCreateCharacter
+  ) {
+    openCreateCharacterAfterRulesPrompt = false;
+    openCreateCharacterModal();
+  }
 }
 
 function showToast(message, type = "success") {
@@ -1095,6 +1208,12 @@ function showToast(message, type = "success") {
   window.setTimeout(() => {
     toast.remove();
   }, 3200);
+}
+
+function setSaveStatus(message) {
+  if (saveStatus) {
+    saveStatus.textContent = message;
+  }
 }
 
 function showUpdateToast(registration) {
@@ -1127,6 +1246,12 @@ function initializeCharacterState() {
   const { characters, activeId } = loadCharacterLibrary();
   characterLibrary = characters;
   activeCharacterId = activeId;
+  shouldOpenCreateCharacterOnStartup = characterLibrary.length === 0;
+
+  if (shouldOpenCreateCharacterOnStartup) {
+    return structuredClone(defaultState);
+  }
+
   return getActiveCharacterRecord().state;
 }
 
@@ -1173,13 +1298,7 @@ function loadCharacterLibrary() {
     // Fall through to default library.
   }
 
-  const initialCharacter = normalizeCharacterRecord();
-  const initialLibrary = {
-    characters: [initialCharacter],
-    activeId: initialCharacter.id,
-  };
-  localStorage.setItem(CHARACTER_LIBRARY_KEY, JSON.stringify(initialLibrary));
-  return initialLibrary;
+  return { characters: [], activeId: "" };
 }
 
 function toggleFloatingActionsMenu() {
@@ -1257,7 +1376,7 @@ function loadRulesCache() {
     }
 
     const parsed = JSON.parse(rawCache);
-    if (parsed?.version !== 2 || parsed?.source !== "5etools") {
+    if (parsed?.version !== 4 || parsed?.source !== "5etools") {
       return null;
     }
 
@@ -1466,19 +1585,18 @@ async function importFiveEToolsRules() {
     }
 
     applyRulesCache(cache);
-    applyRulesCache(cache);
 
     if (cacheStored) {
-      saveStatus.textContent = "5eTools rules cached";
-      showToast("5eTools import failed", "error");
+      setSaveStatus("5eTools rules cached");
+      showToast("5eTools rules cached");
     } else {
       updateRulesSourceStatus("Rules: 5eTools loaded for this session");
-      saveStatus.textContent = "Rules cache too large for local storage";
+      setSaveStatus("Rules cache too large for local storage");
     }
   } catch (error) {
     console.error(error);
     updateRulesSourceStatus("Rules: Import failed");
-    saveStatus.textContent = "Rules import failed";
+    setSaveStatus("Rules import failed");
   }
 }
 
@@ -1500,7 +1618,7 @@ function clearRulesCache() {
   updateCreateCharacterPreview();
   updateLevelUpNewClassPreview();
   updateRulesSourceStatus();
-  saveStatus.textContent = "Using local rules";
+  setSaveStatus("Using local rules");
 }
 
 function applyRulesCache(cache) {
@@ -1570,7 +1688,7 @@ async function buildFiveEToolsRulesCache() {
   });
 
   return {
-    version: 2,
+    version: 4,
     source: "5etools",
     sourceUrl: FIVEETOOLS_DATA_BASE_URL,
     importedAt: Date.now(),
@@ -1989,10 +2107,45 @@ function normalizeFiveEToolsReferenceRecords(records, category) {
       name: record.name || "",
       source: record.source || "",
       speed: normalizeFiveEToolsSpeed(record.speed),
+      abilityOptions: normalizeFiveEToolsBackgroundAbilities(record),
+      description: entriesToPlainText(record.entries || []),
       category,
       features: collectFiveEToolsReferenceFeatures(record.entries || []),
     }))
     .filter((record) => record.name);
+}
+
+function normalizeFiveEToolsBackgroundAbilities(record) {
+  const abilityEntry = (record.ability || []).find(
+    (entry) => entry?.choose?.weighted?.from?.length,
+  );
+  const from = abilityEntry?.choose?.weighted?.from || [];
+  const abilityOptions = from
+    .map((ability) => abilityAbbreviationMap[String(ability).toLowerCase()])
+    .filter(Boolean);
+
+  if (abilityOptions.length) {
+    return Array.from(new Set(abilityOptions));
+  }
+
+  return parseBackgroundAbilityOptionsFromEntries(record.entries || []);
+}
+
+function parseBackgroundAbilityOptionsFromEntries(entries) {
+  const text = entriesToPlainText(entries);
+  const match = text.match(/Ability Scores?:\s*([^\n.]+)/i);
+  if (!match) {
+    return [];
+  }
+
+  const abilityLabels = new Map(
+    abilities.map((ability) => [ability.label.toLowerCase(), ability.key]),
+  );
+
+  return match[1]
+    .split(/,|\band\b/i)
+    .map((part) => abilityLabels.get(part.trim().toLowerCase()))
+    .filter(Boolean);
 }
 
 function normalizeFiveEToolsSubraceRecords(records) {
@@ -3334,9 +3487,6 @@ function openLevelUpModal() {
   levelUpModal.hidden = false;
 }
 
-const levelUpAllowed =
-  progressState.canLevelUp || progressState.levelMethod === "milestone";
-
 function closeLevelUpModal() {
   levelUpModal.hidden = true;
   levelUpNewClassName.value = "";
@@ -3348,6 +3498,9 @@ function closeLevelUpModal() {
 function renderLevelUpModal(progressState) {
   levelUpExistingList.innerHTML = "";
   clearLevelUpChoiceSection();
+  const levelUpAllowed =
+    progressState.canLevelUp || progressState.levelMethod === "milestone";
+
   if (progressState.levelMethod === "milestone") {
     levelUpModalSummary.textContent =
       progressState.totalLevel >= 20
@@ -3402,6 +3555,11 @@ function canApplySingleLevelUp() {
     (sum, classEntry) => sum + Number(classEntry.level || 0),
     0,
   );
+
+  if (state.levelMethod === "milestone") {
+    return totalLevel < 20;
+  }
+
   return getLevelProgressState(totalLevel, state.experience).canLevelUp;
 }
 
@@ -3939,10 +4097,14 @@ function queueSave() {
   saveTimeout = window.setTimeout(() => {
     persistActiveCharacterState();
     showToast("Character saved", "success");
-  }, 500); // slightly longer delay = less spam
+  }, 1000); // slightly longer delay = less spam
 }
 
 function persistActiveCharacterState() {
+  if (!activeCharacterId) {
+    return;
+  }
+
   const recordIndex = characterLibrary.findIndex(
     (entry) => entry.id === activeCharacterId,
   );
@@ -4020,6 +4182,7 @@ function renderCharacterLibraryControls() {
   });
 
   deleteCharacterButton.disabled = characterLibrary.length <= 1;
+  newCharacterButton.disabled = false;
 }
 
 function switchCharacter(characterId) {
@@ -4034,18 +4197,40 @@ function switchCharacter(characterId) {
   syncFieldsFromState();
   refreshDerivedValues();
   renderCharacterLibraryControls();
-  saveStatus.textContent = "Loaded locally";
+  setSaveStatus("Loaded locally");
 }
 
 function openCreateCharacterModal() {
+  const isFirstCharacter = characterLibrary.length === 0;
   resetCreateCharacterForm();
+  closeCreateCharacterModalButton.hidden = isFirstCharacter;
+  cancelCreateCharacterButton.hidden = isFirstCharacter;
   createCharacterModal.hidden = false;
 }
 
 function closeCreateCharacterModal() {
+  if (characterLibrary.length === 0) {
+    return;
+  }
+
   createCharacterModal.hidden = true;
   createCharacterChoiceFields.innerHTML = "";
   createCharacterChoiceFields.hidden = true;
+}
+
+function setCreateCharacterStep(step) {
+  createCharacterStep = step === "build" ? "build" : "identity";
+  createCharacterStepIdentity.hidden = createCharacterStep !== "identity";
+  createCharacterStepBuild.hidden = createCharacterStep !== "build";
+  backCreateCharacterButton.hidden = createCharacterStep !== "build";
+  nextCreateCharacterButton.hidden = createCharacterStep !== "identity";
+  confirmCreateCharacterButton.hidden = createCharacterStep !== "build";
+
+  if (createCharacterStep === "build") {
+    updateCreateCharacterPreview();
+    syncCreateCharacterBackgroundBoostDefaults();
+    renderCreateCharacterAbilityControls();
+  }
 }
 
 function resetCreateCharacterForm() {
@@ -4053,6 +4238,11 @@ function resetCreateCharacterForm() {
     createCharacterLevelMethod.value = "xp";
   }
   createCharacterSelections = {};
+  createCharacterAbilityDraft = Object.fromEntries(
+    abilities.map((ability) => [ability.key, 10]),
+  );
+  createCharacterAbilityMode = "manual";
+  createCharacterAbilityBoostMode.value = "weighted";
   createCharacterName.value = "";
   createCharacterClass.value = "";
   createCharacterBackground.value = "";
@@ -4060,7 +4250,10 @@ function resetCreateCharacterForm() {
   createCharacterSubrace.value = "";
   createCharacterAlignment.value = "";
   populateCreateCharacterSubraceOptions();
+  syncCreateCharacterBackgroundBoostDefaults();
+  renderCreateCharacterAbilityControls();
   updateCreateCharacterPreview();
+  setCreateCharacterStep("identity");
 }
 
 function updateCreateCharacterPreview() {
@@ -4084,7 +4277,290 @@ function updateCreateCharacterPreview() {
   );
 }
 
+function getCreateCharacterBackgroundRecord() {
+  return findCachedReferenceRecord(
+    createCharacterBackground.value,
+    ruleReferenceData.backgrounds,
+  );
+}
+
+function getCreateCharacterBackgroundAbilityOptions() {
+  const backgroundRecord = getCreateCharacterBackgroundRecord();
+  const options = backgroundRecord?.abilityOptions || [];
+  return options.length ? options : abilities.map((ability) => ability.key);
+}
+
+function syncCreateCharacterBackgroundBoostDefaults() {
+  const options = getCreateCharacterBackgroundAbilityOptions();
+  const selectedValues = [
+    createCharacterPrimaryBoost.value,
+    createCharacterSecondaryBoost.value,
+    createCharacterTertiaryBoost.value,
+  ].filter((value) => options.includes(value));
+
+  createCharacterPrimaryBoost.value = selectedValues[0] || options[0] || "";
+  createCharacterSecondaryBoost.value =
+    selectedValues.find(
+      (value) => value !== createCharacterPrimaryBoost.value,
+    ) ||
+    options.find((value) => value !== createCharacterPrimaryBoost.value) ||
+    options[0] ||
+    "";
+  createCharacterTertiaryBoost.value =
+    selectedValues.find(
+      (value) =>
+        value !== createCharacterPrimaryBoost.value &&
+        value !== createCharacterSecondaryBoost.value,
+    ) ||
+    options.find(
+      (value) =>
+        value !== createCharacterPrimaryBoost.value &&
+        value !== createCharacterSecondaryBoost.value,
+    ) ||
+    options[0] ||
+    "";
+}
+
+function renderCreateCharacterAbilityControls() {
+  const backgroundRecord = getCreateCharacterBackgroundRecord();
+  const options = getCreateCharacterBackgroundAbilityOptions();
+  const hasSpecificOptions = Boolean(backgroundRecord?.abilityOptions?.length);
+  const mode = createCharacterAbilityBoostMode.value;
+
+  populateCreateCharacterAbilityBoostSelect(
+    createCharacterPrimaryBoost,
+    options,
+  );
+  populateCreateCharacterAbilityBoostSelect(
+    createCharacterSecondaryBoost,
+    options,
+  );
+  populateCreateCharacterAbilityBoostSelect(
+    createCharacterTertiaryBoost,
+    options,
+  );
+
+  createCharacterPrimaryBoostField.querySelector("span").textContent =
+    mode === "split" ? "+1 Ability" : "+2 Ability";
+  createCharacterSecondaryBoostField.hidden = false;
+  createCharacterTertiaryBoostField.hidden = mode !== "split";
+
+  createCharacterAbilitySummary.textContent = hasSpecificOptions
+    ? `${backgroundRecord.name} supports ${options.map(labelForAbility).join(", ")}.`
+    : "This background has no cached 2024 ability list, so any abilities are available.";
+
+  syncCreateCharacterAbilityModeUi();
+  createCharacterAbilityGrid.innerHTML = "";
+  const boosts = getCreateCharacterAbilityBoosts();
+
+  abilities.forEach((ability) => {
+    const card = document.createElement("div");
+    const title = document.createElement("span");
+    const finalScore = document.createElement("strong");
+    const modifierText = document.createElement("em");
+    const boostText = document.createElement("small");
+    const baseScore =
+      createCharacterAbilityMode === "pointbuy"
+        ? clampPointBuyValue(createCharacterAbilityDraft[ability.key])
+        : Number(createCharacterAbilityDraft[ability.key] || 10);
+    const boost = Number(boosts[ability.key] || 0);
+    const finalValue = Math.min(20, baseScore + boost);
+
+    card.className = "create-character-ability-card";
+    title.textContent = ability.label;
+
+    if (createCharacterAbilityMode === "pointbuy") {
+      const controls = document.createElement("div");
+      const decreaseButton = document.createElement("button");
+      const value = document.createElement("strong");
+      const increaseButton = document.createElement("button");
+
+      controls.className = "point-buy-controls";
+      decreaseButton.className = "ghost-button compact-button point-buy-button";
+      increaseButton.className = "ghost-button compact-button point-buy-button";
+      decreaseButton.type = "button";
+      increaseButton.type = "button";
+      decreaseButton.textContent = "-";
+      increaseButton.textContent = "+";
+      value.className = "point-buy-value";
+      value.textContent = baseScore;
+      decreaseButton.addEventListener("click", () => {
+        updateCreateCharacterPointBuyAbility(ability.key, -1);
+      });
+      increaseButton.addEventListener("click", () => {
+        updateCreateCharacterPointBuyAbility(ability.key, 1);
+      });
+      controls.append(decreaseButton, value, increaseButton);
+      card.append(title, controls);
+    } else {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "1";
+      input.max = "20";
+      input.value = baseScore;
+      input.addEventListener("input", () => {
+        createCharacterAbilityDraft[ability.key] = Number(input.value || 0);
+        renderCreateCharacterAbilityControls();
+      });
+      card.append(title, input);
+    }
+
+    finalScore.textContent = `Final ${finalValue}`;
+    modifierText.textContent = formatModifier(abilityModifier(finalValue));
+    boostText.textContent = boost
+      ? `Background +${boost}`
+      : "No background boost";
+    card.append(finalScore, modifierText, boostText);
+    createCharacterAbilityGrid.appendChild(card);
+  });
+
+  updateCreateCharacterPointBuySummary();
+  updateCreateCharacterBackgroundDescription(backgroundRecord);
+}
+
+function updateCreateCharacterBackgroundDescription(backgroundRecord) {
+  if (!backgroundRecord) {
+    createCharacterBackgroundTitle.textContent = "Choose Background";
+    createCharacterBackgroundMeta.textContent =
+      "Select a background to review its rules and story details.";
+    createCharacterBackgroundDescription.textContent =
+      "Imported 5eTools backgrounds will show their description here.";
+    return;
+  }
+
+  createCharacterBackgroundTitle.textContent = backgroundRecord.name;
+  createCharacterBackgroundMeta.textContent = backgroundRecord.source
+    ? `Source: ${backgroundRecord.source}`
+    : "";
+
+  const featureText = (backgroundRecord.features || [])
+    .map((feature) => {
+      const title = feature.name ? `${feature.name}\n` : "";
+      return `${title}${feature.notes || ""}`.trim();
+    })
+    .filter(Boolean)
+    .join("\n\n");
+  const description = String(
+    backgroundRecord.description || featureText,
+  ).trim();
+
+  createCharacterBackgroundDescription.textContent =
+    description ||
+    "No cached description is available for this background. Re-import 5eTools data to refresh background details.";
+}
+
+function setCreateCharacterAbilityMode(mode) {
+  createCharacterAbilityMode = mode === "pointbuy" ? "pointbuy" : "manual";
+  if (createCharacterAbilityMode === "pointbuy") {
+    createCharacterAbilityDraft = Object.fromEntries(
+      abilities.map((ability) => [
+        ability.key,
+        clampPointBuyValue(createCharacterAbilityDraft[ability.key]),
+      ]),
+    );
+  }
+  renderCreateCharacterAbilityControls();
+}
+
+function syncCreateCharacterAbilityModeUi() {
+  createCharacterAbilityModeManualButton.classList.toggle(
+    "is-active",
+    createCharacterAbilityMode === "manual",
+  );
+  createCharacterAbilityModePointBuyButton.classList.toggle(
+    "is-active",
+    createCharacterAbilityMode === "pointbuy",
+  );
+  createCharacterPointBuySummary.hidden =
+    createCharacterAbilityMode !== "pointbuy";
+}
+
+function updateCreateCharacterPointBuyAbility(key, delta) {
+  const nextValue = clampPointBuyValue(
+    Number(createCharacterAbilityDraft[key] || 8) + delta,
+  );
+  if (nextValue === createCharacterAbilityDraft[key]) {
+    return;
+  }
+
+  const nextDraft = { ...createCharacterAbilityDraft, [key]: nextValue };
+  if (totalPointBuyCost(nextDraft) > 27) {
+    return;
+  }
+
+  createCharacterAbilityDraft = nextDraft;
+  renderCreateCharacterAbilityControls();
+}
+
+function updateCreateCharacterPointBuySummary() {
+  if (createCharacterAbilityMode !== "pointbuy") {
+    return;
+  }
+
+  const spent = totalPointBuyCost(createCharacterAbilityDraft);
+  const remaining = 27 - spent;
+  createCharacterPointBuySpent.textContent = `${spent} / 27 points spent`;
+  createCharacterPointBuyRemaining.textContent = `${remaining} points remaining`;
+}
+
+function populateCreateCharacterAbilityBoostSelect(select, options) {
+  const previousValue = select.value;
+  select.innerHTML = "";
+  options.forEach((abilityKey) => {
+    const option = document.createElement("option");
+    option.value = abilityKey;
+    option.textContent = labelForAbility(abilityKey);
+    select.appendChild(option);
+  });
+  select.value = options.includes(previousValue)
+    ? previousValue
+    : options[0] || "";
+}
+
+function getCreateCharacterAbilityBoosts() {
+  const boosts = {};
+  const mode = createCharacterAbilityBoostMode.value;
+  const addBoost = (abilityKey, value) => {
+    if (!abilityKey) {
+      return;
+    }
+    boosts[abilityKey] = Math.min(2, Number(boosts[abilityKey] || 0) + value);
+  };
+
+  if (mode === "split") {
+    [
+      createCharacterPrimaryBoost.value,
+      createCharacterSecondaryBoost.value,
+      createCharacterTertiaryBoost.value,
+    ].forEach((abilityKey) => addBoost(abilityKey, 1));
+  } else {
+    addBoost(createCharacterPrimaryBoost.value, 2);
+    addBoost(createCharacterSecondaryBoost.value, 1);
+  }
+
+  return boosts;
+}
+
+function getCreateCharacterFinalAbilities() {
+  const boosts = getCreateCharacterAbilityBoosts();
+  return Object.fromEntries(
+    abilities.map((ability) => {
+      const baseScore =
+        createCharacterAbilityMode === "pointbuy"
+          ? clampPointBuyValue(createCharacterAbilityDraft[ability.key])
+          : Number(createCharacterAbilityDraft[ability.key] || 10);
+      const boost = Number(boosts[ability.key] || 0);
+      return [ability.key, Math.min(20, baseScore + boost)];
+    }),
+  );
+}
+
 function createCharacterFromModal() {
+  if (createCharacterStep !== "build") {
+    setCreateCharacterStep("build");
+    return;
+  }
+
   const className = createCharacterClass.value;
   if (!className) {
     createCharacterClass.focus();
@@ -4117,6 +4593,7 @@ function createCharacterFromModal() {
     subrace: createCharacterSubrace.value,
     alignment: createCharacterAlignment.value.trim(),
     levelMethod: createCharacterLevelMethod?.value || "xp",
+    abilities: getCreateCharacterFinalAbilities(),
     speed:
       getDefaultSpeedForSpecies(
         createCharacterSpecies.value,
@@ -4156,13 +4633,14 @@ function createCharacterFromModal() {
   });
   characterLibrary.push(newRecord);
   activeCharacterId = newRecord.id;
+  shouldOpenCreateCharacterOnStartup = false;
   state = mergeState(defaultState, newRecord.state);
   closeCreateCharacterModal();
   syncFieldsFromState();
   refreshDerivedValues();
   persistActiveCharacterState();
   characterSelect.focus();
-  saveStatus.textContent = "New character created";
+  setSaveStatus("New character created");
 }
 
 function addCachedReferenceFeatureCards(value, records, category) {
@@ -4259,7 +4737,7 @@ function deleteActiveCharacter() {
   syncFieldsFromState();
   refreshDerivedValues();
   persistActiveCharacterState();
-  saveStatus.textContent = "Character deleted";
+  setSaveStatus("Character deleted");
 }
 
 function adjustHitPoints(mode) {
@@ -6130,10 +6608,6 @@ function updateLevelMethodDisplay() {
     card.hidden = isMilestone;
   });
 
-  if (levelMethodSelect) {
-    levelMethodSelect.value = levelMethod;
-  }
-
   document.body.dataset.levelMethod = levelMethod;
 }
 
@@ -6346,11 +6820,11 @@ function resetSheet() {
   syncFieldsFromState();
   refreshDerivedValues();
   persistActiveCharacterState();
-  saveStatus.textContent = "Reset complete";
+  setSaveStatus("Reset complete");
 }
 
 function applyStoredTheme() {
-  const storedTheme = localStorage.getItem(THEME_KEY) || "light";
+  const storedTheme = localStorage.getItem(THEME_KEY) || "dark";
   setTheme(storedTheme);
 }
 

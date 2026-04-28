@@ -1,4 +1,4 @@
-const CACHE_NAME = "adventurer-sheet-v8.5";
+const CACHE_NAME = "adventurer-sheet-v9";
 
 const APP_SHELL = [
   "./",
@@ -8,12 +8,12 @@ const APP_SHELL = [
   "./app.js",
   "./manifest.webmanifest",
   "./icons/adventurer-icon.svg",
-  "./icons/adventurer-icon-maskable.svg"
+  "./icons/adventurer-icon-maskable.svg",
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
   );
 });
 
@@ -25,15 +25,16 @@ self.addEventListener("message", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys()
+    caches
+      .keys()
       .then((keys) =>
         Promise.all(
           keys
             .filter((key) => key !== CACHE_NAME)
-            .map((key) => caches.delete(key))
-        )
+            .map((key) => caches.delete(key)),
+        ),
       )
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -54,7 +55,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          if (response && response.status === 200 && response.type === "basic") {
+          if (
+            response &&
+            response.status === 200 &&
+            response.type === "basic"
+          ) {
             const responseToCache = response.clone();
 
             caches.open(CACHE_NAME).then((cache) => {
@@ -64,7 +69,7 @@ self.addEventListener("fetch", (event) => {
 
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(event.request)),
     );
 
     return;
@@ -89,6 +94,6 @@ self.addEventListener("fetch", (event) => {
 
         return response;
       });
-    })
+    }),
   );
 });
