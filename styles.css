@@ -2120,6 +2120,20 @@ body:not([data-theme="dark"]) .score-cap-input {
   background: linear-gradient(135deg, var(--danger), #b05950);
 }
 
+.toast.update-toast {
+  opacity: 1;
+  transform: none;
+  animation: none;
+  cursor: pointer;
+  border: none;
+  pointer-events: auto;
+  font: inherit;
+}
+
+.toast.update-toast:disabled {
+  cursor: wait;
+}
+
 @keyframes toast-in {
   to {
     opacity: 1;

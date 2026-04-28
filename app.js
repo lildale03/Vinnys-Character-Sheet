@@ -626,6 +626,7 @@ const featureFilterButtons = Array.from(document.querySelectorAll("[data-feature
 const rollResetTimers = new WeakMap();
 const RULES_IMPORT_PROMPT_KEY = "adventurer-sheet-rules-import-prompt-seen";
 const toastContainer = document.getElementById("toastContainer");
+let updateToastElement = null;
 let activeCenterTab = "actions";
 let activeFeatureFilter = "all";
 let pendingLevelUpAction = null;
@@ -845,6 +846,32 @@ function showToast(message, type = "success") {
   window.setTimeout(() => {
     toast.remove();
   }, 3200);
+}
+
+function showUpdateToast(registration) {
+  if (!toastContainer || updateToastElement) return;
+
+  const toast = document.createElement("button");
+  toast.type = "button";
+  toast.className = "toast toast-info update-toast";
+  toast.textContent = "Update available. Tap to refresh.";
+  toast.setAttribute("aria-label", "Update available. Refresh the app.");
+
+  toast.addEventListener("click", () => {
+    toast.disabled = true;
+    toast.textContent = "Refreshing...";
+
+    const waitingWorker = registration.waiting || registration.installing;
+    if (waitingWorker) {
+      waitingWorker.postMessage({ type: "SKIP_WAITING" });
+      return;
+    }
+
+    window.location.reload();
+  });
+
+  toastContainer.appendChild(toast);
+  updateToastElement = toast;
 }
 
 function initializeCharacterState() {
@@ -1232,6 +1259,38 @@ async function buildFiveEToolsRulesCache() {
     spells: normalizeFiveEToolsSpellFiles(spellFiles),
     items: normalizeFiveEToolsItems([...(itemsBaseData.baseitem || []), ...(itemsData.item || [])])
   };
+}
+
+if ("serviceWorker" in navigator) {
+  let refreshing = false;
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
+
+  navigator.serviceWorker.register("./service-worker.js").then((registration) => {
+    if (registration.waiting) {
+      showUpdateToast(registration);
+    }
+
+    registration.addEventListener("updatefound", () => {
+      const newWorker = registration.installing;
+      if (!newWorker) return;
+
+      newWorker.addEventListener("statechange", () => {
+        if (
+          newWorker.state === "installed" &&
+          navigator.serviceWorker.controller
+        ) {
+          showUpdateToast(registration);
+        }
+      });
+    });
+  }).catch(() => {
+    // Ignore registration failures; the app still works without offline support.
+  });
 }
 
 async function fetchFiveEToolsJson(path) {
@@ -5418,12 +5477,4 @@ function setTheme(theme) {
   const darkModeActive = theme === "dark";
   themeButton.textContent = darkModeActive ? "Light Mode" : "Dark Mode";
   themeButton.setAttribute("aria-pressed", String(darkModeActive));
-}
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(() => {
-      // Ignore registration failures; the app still works without offline support.
-    });
-  });
 }
