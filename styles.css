@@ -11,10 +11,22 @@
   --forest: #2f5b43;
   --danger: #9d453e;
   --shadow: 0 18px 40px rgba(72, 45, 24, 0.14);
-  --hero-bg: linear-gradient(135deg, rgba(255, 248, 234, 0.9), rgba(244, 230, 198, 0.8));
+  --hero-bg: linear-gradient(
+    135deg,
+    rgba(255, 248, 234, 0.9),
+    rgba(244, 230, 198, 0.8)
+  );
   --body-bg:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(176, 122, 44, 0.15), transparent 25%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.8),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(176, 122, 44, 0.15),
+      transparent 25%
+    ),
     linear-gradient(135deg, #efe6d3 0%, #e8dcc4 45%, #d9c8a6 100%);
   --grid-line: rgba(77, 59, 43, 0.04);
   --theme-button-bg: linear-gradient(135deg, #2f241c, #5d4838);
@@ -34,10 +46,22 @@ body[data-theme="dark"] {
   --forest: #6f9f87;
   --danger: #c56d63;
   --shadow: 0 20px 42px rgba(0, 0, 0, 0.38);
-  --hero-bg: linear-gradient(135deg, rgba(34, 29, 26, 0.95), rgba(53, 42, 34, 0.88));
+  --hero-bg: linear-gradient(
+    135deg,
+    rgba(34, 29, 26, 0.95),
+    rgba(53, 42, 34, 0.88)
+  );
   --body-bg:
-    radial-gradient(circle at top left, rgba(214, 164, 86, 0.11), transparent 22%),
-    radial-gradient(circle at bottom right, rgba(111, 159, 135, 0.12), transparent 24%),
+    radial-gradient(
+      circle at top left,
+      rgba(214, 164, 86, 0.11),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(111, 159, 135, 0.12),
+      transparent 24%
+    ),
     linear-gradient(135deg, #121010 0%, #1b1816 50%, #27211c 100%);
   --grid-line: rgba(255, 245, 228, 0.035);
   --theme-button-bg: linear-gradient(135deg, #e8d4b6, #caa067);
@@ -167,7 +191,9 @@ body::before {
   transform: translateY(8px) scale(0.98);
   transform-origin: bottom right;
   pointer-events: none;
-  transition: opacity 140ms ease, transform 140ms ease;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
 }
 
 .floating-actions[data-open="true"] .floating-actions-menu {
@@ -258,7 +284,10 @@ button {
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    opacity 140ms ease;
 }
 
 button:hover {
@@ -306,7 +335,7 @@ button:hover {
 
 .dashboard-shell {
   display: grid;
-  grid-template-columns: fit-content(380px) minmax(0, 1fr) minmax(300px, 20vw);
+  grid-template-columns: fit-content(380px) minmax(0, 1fr) minmax(340px, 20vw);
   gap: 20px;
   align-items: start;
 }
@@ -327,9 +356,10 @@ button:hover {
 
 .dashboard-center {
   display: grid;
-  grid-template-columns: minmax(560px, 800px) minmax(0, 1fr);
+  grid-template-columns: minmax(610px, 1.1fr) minmax(555px, 1fr);
+  grid-template-rows: auto auto auto;
   gap: 20px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .dashboard-overview {
@@ -338,8 +368,7 @@ button:hover {
 
 .progress-panel {
   grid-column: 1;
-  grid-row: 1 / span 3;
-  align-self: stretch;
+  grid-row: 1;
 }
 
 .vitals-panel {
@@ -348,7 +377,7 @@ button:hover {
 }
 
 .center-tabs-panel {
-  grid-column: 2;
+  grid-column: 1 / -1;
   grid-row: 2;
 }
 
@@ -356,7 +385,7 @@ button:hover {
 .features-panel,
 .equipment-panel,
 .notes-panel {
-  grid-column: 2;
+  grid-column: 1 / -1;
   grid-row: 3;
 }
 
@@ -558,7 +587,7 @@ button:hover {
 }
 
 .progress-card label,
-.progress-card>span {
+.progress-card > span {
   text-align: center;
 }
 
@@ -723,8 +752,14 @@ button:hover {
   border-radius: 20px;
   background: rgba(176, 122, 44, 0.08);
   border: 1px solid rgba(143, 93, 24, 0.16);
+
+  width: 100%;
+  text-align: left;
+  color: var(--ink);
+  cursor: default;
 }
 
+/* Base text styling */
 .level-status-card span {
   display: block;
   font-size: 0.85rem;
@@ -748,6 +783,29 @@ button:hover {
   color: var(--muted);
 }
 
+/* Hover control */
+.level-status-card:hover {
+  transform: none;
+}
+
+/* Clickable states */
+.level-status-card[data-status="available"],
+.level-status-card[data-status="milestone"] {
+  cursor: pointer;
+}
+
+.level-status-card[data-status="available"]:hover,
+.level-status-card[data-status="milestone"]:hover {
+  transform: translateY(-1px);
+}
+
+/* Disabled */
+.level-status-card:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+/* XP Available */
 .level-status-card[data-status="available"] {
   background: rgba(47, 91, 67, 0.12);
   border-color: rgba(47, 91, 67, 0.22);
@@ -762,12 +820,28 @@ button:hover {
   visibility: hidden;
 }
 
+/* XP Next */
 .level-status-card[data-status="next"] strong {
   font-size: 1.35rem;
 }
 
 .level-status-card[data-status="next"] p {
   visibility: hidden;
+}
+
+/* Milestone Mode */
+.level-status-card[data-status="milestone"] {
+  background: rgba(47, 91, 67, 0.12);
+  border-color: rgba(47, 91, 67, 0.22);
+}
+
+.level-status-card[data-status="milestone"] strong {
+  font-size: 1.45rem;
+  color: var(--forest);
+}
+
+body[data-level-method="milestone"] .xp-card {
+  display: none;
 }
 
 .class-card {
@@ -802,7 +876,7 @@ button:hover {
   color: var(--muted);
 }
 
-.level-up-modal-section+.level-up-modal-section {
+.level-up-modal-section + .level-up-modal-section {
   margin-top: 18px;
 }
 
@@ -1042,8 +1116,8 @@ label,
   gap: 8px;
 }
 
-label>span,
-.stat-card>span {
+label > span,
+.stat-card > span {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--muted);
@@ -1059,7 +1133,10 @@ textarea {
   font: inherit;
   color: var(--ink);
   background: rgba(255, 252, 245, 0.88);
-  transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
 }
 
 body[data-theme="dark"] input,
@@ -1133,7 +1210,10 @@ textarea {
   overflow: hidden;
   max-height: 1000px;
   opacity: 1;
-  transition: max-height 220ms ease, opacity 180ms ease, margin 220ms ease;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    margin 220ms ease;
 }
 
 .attack-title,
@@ -1213,7 +1293,10 @@ textarea {
   box-shadow: none;
   color: var(--ink);
   cursor: pointer;
-  transition: transform 140ms ease, background 140ms ease, box-shadow 140ms ease;
+  transition:
+    transform 140ms ease,
+    background 140ms ease,
+    box-shadow 140ms ease;
 }
 
 .rollable-pill:hover {
@@ -1301,7 +1384,10 @@ textarea {
   overflow: hidden;
   max-height: 900px;
   opacity: 1;
-  transition: max-height 220ms ease, opacity 180ms ease, margin 220ms ease;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    margin 220ms ease;
 }
 
 .feature-card[data-collapsed="true"] .feature-editor {
@@ -1399,7 +1485,10 @@ textarea {
   overflow: hidden;
   max-height: 700px;
   opacity: 1;
-  transition: max-height 220ms ease, opacity 180ms ease, margin 220ms ease;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    margin 220ms ease;
 }
 
 .tracking-card[data-collapsed="true"] .tracking-editor {
@@ -1479,7 +1568,10 @@ textarea {
   overflow: hidden;
   max-height: 1200px;
   opacity: 1;
-  transition: max-height 220ms ease, opacity 180ms ease, margin 220ms ease;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    margin 220ms ease;
 }
 
 .equipment-card[data-collapsed="true"] .equipment-editor {
@@ -1515,7 +1607,8 @@ textarea {
   display: grid;
 }
 
-.equipment-card[data-item-type="weapon"][data-versatile="false"] .equipment-versatile-field {
+.equipment-card[data-item-type="weapon"][data-versatile="false"]
+  .equipment-versatile-field {
   display: none;
 }
 
@@ -1557,7 +1650,10 @@ textarea {
   overflow: hidden;
   max-height: 1200px;
   opacity: 1;
-  transition: max-height 220ms ease, opacity 180ms ease, margin 220ms ease;
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    margin 220ms ease;
 }
 
 .spell-title,
@@ -1612,7 +1708,7 @@ textarea {
 }
 
 .hp-widget-card {
-  grid-column: span 2;
+  grid-column: 1 / -1;
 }
 
 .hp-widget {
@@ -2175,7 +2271,9 @@ body:not([data-theme="dark"]) .score-cap-input {
   font-weight: 800;
   opacity: 0;
   transform: translateY(10px) scale(0.98);
-  animation: toast-in 180ms ease forwards, toast-out 220ms ease forwards 2.8s;
+  animation:
+    toast-in 180ms ease forwards,
+    toast-out 220ms ease forwards 2.8s;
   text-align: center;
 }
 
@@ -2219,26 +2317,56 @@ body:not([data-theme="dark"]) .score-cap-input {
   }
 }
 
-@media (max-width: 1366px),
-(max-width: 1680px) and (pointer: coarse) {
-  .page-shell {
-    padding: 18px;
-  }
-
+/* 2100px–1800px: left sidebar + 2-column main */
+@media (max-width: 2100px) {
   .dashboard-shell {
-    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
-    gap: 18px;
+    grid-template-columns: 420px minmax(0, 1fr);
+    gap: 20px;
   }
 
-  .dashboard-center {
-    grid-template-columns: 1fr;
-    gap: 18px;
+  .dashboard-left {
+    grid-column: 1;
   }
 
-  .dashboard-overview {
+  .dashboard-center,
+  .dashboard-right {
+    grid-column: 2;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .center-tabs-panel,
+  .attacks-panel,
+  .features-panel,
+  .equipment-panel,
+  .notes-panel {
+    grid-column: 1 / -1;
+  }
+
+  .progress-panel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .vitals-panel {
+    grid-column: 2;
+    grid-row: auto;
+  }
+}
+
+/* 1800px–900px: left sidebar + 1-column main */
+@media (max-width: 1800px) {
+  .dashboard-shell {
+    grid-template-columns: 420px minmax(0, 1fr);
+  }
+
+  .dashboard-center,
+  .dashboard-right {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .progress-panel,
@@ -2252,183 +2380,40 @@ body:not([data-theme="dark"]) .score-cap-input {
     grid-row: auto;
   }
 
+  .xp-helper-card {
+    grid-template-columns: 1fr;
+  }
+
+  .xp-helper-card button {
+    width: 100%;
+  }
+}
+
+/* Under 900px: fully stacked */
+@media (max-width: 1000px) {
+  .page-shell {
+    padding: 16px;
+  }
+
+  .dashboard-shell,
+  .dashboard-center,
   .dashboard-right {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-left,
+  .dashboard-center,
+  .dashboard-right {
+    grid-column: 1;
   }
 
   .dashboard-left .panel {
     max-width: none;
   }
 
-  .skills-panel {
-    overflow: hidden;
-  }
-
-  .ability-group-card {
-    grid-template-columns: 96px minmax(0, 1fr);
-    gap: 10px;
-  }
-
-  .ability-group-score {
-    min-height: 126px;
-  }
-
-  .ability-group-details {
-    max-width: none;
-    overflow: hidden;
-  }
-
-  .ability-divider {
-    left: -10px;
-  }
-
-  .group-item {
-    grid-template-columns: 52px 1fr;
-    gap: 8px;
-  }
-
-  .progress-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .vitals-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .floating-actions {
-    right: 18px;
-    bottom: max(18px, env(safe-area-inset-bottom));
-    gap: 8px;
-  }
-
-  .floating-theme-button,
-  .floating-rest-button,
-  .floating-actions-toggle {
-    min-height: 46px;
-    padding-inline: 16px;
-    font-size: 0.95rem;
-  }
-
-  .floating-dice-button {
-    min-width: 58px;
-    min-height: 58px;
-  }
-}
-
-@media (max-width: 1380px) {
-  .dashboard-shell {
-    grid-template-columns: 280px minmax(0, 1fr);
-  }
-
-  .dashboard-right {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 1120px) {
-  .dashboard-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-center,
-  .dashboard-right {
-    grid-template-columns: 1fr;
-  }
-
-  .progress-panel,
-  .vitals-panel,
-  .center-tabs-panel,
-  .attacks-panel,
-  .features-panel,
-  .equipment-panel,
-  .notes-panel {
-    grid-column: 1;
-    grid-row: auto;
-  }
-}
-
-@media (max-width: 1100px) {
-
   .profile-grid,
   .progress-grid,
   .vitals-grid,
-  .proficiencies-grid,
-  .create-character-grid,
-  .status-grid,
-  .class-grid,
-  .level-up-new-class-grid,
-  .character-library-bar,
-  .advancement-asi-grid,
-  .advancement-feat-grid,
-  .ability-modal-grid,
-  .feature-grid,
-  .tracking-grid,
-  .equipment-grid,
-  .spell-grid,
-  .attack-grid,
-  .attack-results {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ability-groups-list {
-    grid-template-columns: 1fr;
-  }
-
-  .ability-group-card {
-    max-width: none;
-  }
-}
-
-@media (max-width: 720px) {
-  .floating-actions {
-    right: 16px;
-    bottom: 16px;
-  }
-
-  .floating-dice-button,
-  .floating-rest-button,
-  .floating-actions-toggle {
-    min-width: 64px;
-  }
-
-  .floating-dice-button,
-  .floating-actions-toggle {
-    min-height: 64px;
-  }
-
-  .floating-rest-button {
-    min-height: 52px;
-  }
-
-  .dice-roller-form {
-    grid-template-columns: 1fr;
-  }
-
-  .rest-status-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 760px) {
-  .page-shell {
-    padding: 16px;
-  }
-
-  .hero,
-  .panel-heading {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .profile-grid,
-  .progress-grid,
-  .vitals-grid,
-  .ability-groups-list,
   .proficiencies-grid,
   .create-character-grid,
   .status-grid,
@@ -2448,26 +2433,16 @@ body:not([data-theme="dark"]) .score-cap-input {
     grid-template-columns: 1fr;
   }
 
-  .rules-cache-bar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .rules-cache-actions {
-    justify-content: stretch;
-  }
-
-  .hp-adjust-grid {
-    grid-template-columns: 1fr;
-  }
-
   .hp-widget-card {
     grid-column: auto;
   }
 
-  .hp-widget,
-  .hp-values {
+  .hp-widget {
     grid-template-columns: 1fr;
+  }
+
+  .hp-values {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   button {
@@ -2476,58 +2451,5 @@ body:not([data-theme="dark"]) .score-cap-input {
 
   .floating-actions button {
     width: auto;
-  }
-
-  .attack-card-top {
-    flex-direction: column;
-  }
-
-  .spell-card-top {
-    flex-direction: column;
-  }
-
-  .feature-card-top {
-    flex-direction: column;
-  }
-
-  .tracking-card-top {
-    grid-template-columns: 1fr;
-  }
-
-  .equipment-card-top {
-    flex-direction: column;
-  }
-
-  .advancement-card-top,
-  .advancement-choice-buttons,
-  .advancement-mode-buttons,
-  .character-library-actions,
-  .ability-modal-mode-bar,
-  .modal-heading,
-  .modal-actions {
-    flex-direction: column;
-  }
-
-  .xp-helper-card {
-    grid-template-columns: 1fr;
-  }
-
-  .ability-group-card {
-    grid-template-columns: 1fr;
-  }
-
-  .ability-group-details {
-    padding-top: 0;
-  }
-
-  .ability-group-items {
-    grid-template-rows: none;
-    grid-auto-flow: row;
-    grid-auto-columns: auto;
-    column-gap: 0;
-  }
-
-  .ability-divider {
-    display: none;
   }
 }

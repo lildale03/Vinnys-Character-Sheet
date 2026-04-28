@@ -2,7 +2,8 @@ const STORAGE_KEY = "adventurer-sheet-v1";
 const CHARACTER_LIBRARY_KEY = "adventurer-sheet-library-v1";
 const THEME_KEY = "adventurer-sheet-theme";
 const RULES_CACHE_KEY = "adventurer-sheet-rules-cache-v2";
-const FIVEETOOLS_DATA_BASE_URL = "https://raw.githubusercontent.com/5etools-mirror-3/5etools-src/main/data/";
+const FIVEETOOLS_DATA_BASE_URL =
+  "https://raw.githubusercontent.com/5etools-mirror-3/5etools-src/main/data/";
 const standardConditions = [
   "Blinded",
   "Charmed",
@@ -18,7 +19,7 @@ const standardConditions = [
   "Prone",
   "Restrained",
   "Stunned",
-  "Unconscious"
+  "Unconscious",
 ];
 
 const abilities = [
@@ -27,7 +28,7 @@ const abilities = [
   { key: "constitution", label: "CON" },
   { key: "intelligence", label: "INT" },
   { key: "wisdom", label: "WIS" },
-  { key: "charisma", label: "CHA" }
+  { key: "charisma", label: "CHA" },
 ];
 
 const skills = [
@@ -48,7 +49,7 @@ const skills = [
   { key: "religion", label: "Religion", ability: "intelligence" },
   { key: "sleightOfHand", label: "Sleight of Hand", ability: "dexterity" },
   { key: "stealth", label: "Stealth", ability: "dexterity" },
-  { key: "survival", label: "Survival", ability: "wisdom" }
+  { key: "survival", label: "Survival", ability: "wisdom" },
 ];
 
 const attackFormulaTokens = {
@@ -59,7 +60,7 @@ const attackFormulaTokens = {
   WIS: "wisdom",
   CHA: "charisma",
   PROF: "proficiencyBonus",
-  PB: "proficiencyBonus"
+  PB: "proficiencyBonus",
 };
 
 const damageTypes = [
@@ -75,22 +76,37 @@ const damageTypes = [
   "Psychic",
   "Radiant",
   "Slashing",
-  "Thunder"
+  "Thunder",
 ];
 
 const spellLevels = [
-  "Cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"
+  "Cantrip",
+  "1st",
+  "2nd",
+  "3rd",
+  "4th",
+  "5th",
+  "6th",
+  "7th",
+  "8th",
+  "9th",
 ];
 
 const spellSchools = [
-  "Abjuration", "Conjuration", "Divination", "Enchantment",
-  "Evocation", "Illusion", "Necromancy", "Transmutation"
+  "Abjuration",
+  "Conjuration",
+  "Divination",
+  "Enchantment",
+  "Evocation",
+  "Illusion",
+  "Necromancy",
+  "Transmutation",
 ];
 
 const spellCastTypes = [
   { value: "attack", label: "Attack Roll" },
   { value: "save", label: "Saving Throw" },
-  { value: "utility", label: "Utility / Other" }
+  { value: "utility", label: "Utility / Other" },
 ];
 
 const trackingTotalOptions = [
@@ -103,7 +119,7 @@ const trackingTotalOptions = [
   { value: "constitutionModifier", label: "Constitution Modifier" },
   { value: "intelligenceModifier", label: "Intelligence Modifier" },
   { value: "wisdomModifier", label: "Wisdom Modifier" },
-  { value: "charismaModifier", label: "Charisma Modifier" }
+  { value: "charismaModifier", label: "Charisma Modifier" },
 ];
 
 const trackingRestoreOptions = [
@@ -111,12 +127,20 @@ const trackingRestoreOptions = [
   { value: "shortRest", label: "Short Rest" },
   { value: "longRest", label: "Long Rest" },
   { value: "dawn", label: "Dawn" },
-  { value: "daily", label: "Daily" }
+  { value: "daily", label: "Daily" },
 ];
 
 const equipmentTypes = ["gear", "weapon", "armor", "shield"];
 const armorCategories = ["light", "medium", "heavy"];
-const preferredRuleSources = ["XPHB", "PHB", "MPMM", "TCE", "XGE", "DMG", "SRD"];
+const preferredRuleSources = [
+  "XPHB",
+  "PHB",
+  "MPMM",
+  "TCE",
+  "XGE",
+  "DMG",
+  "SRD",
+];
 const spellSchoolMap = {
   A: "Abjuration",
   C: "Conjuration",
@@ -125,7 +149,7 @@ const spellSchoolMap = {
   V: "Evocation",
   I: "Illusion",
   N: "Necromancy",
-  T: "Transmutation"
+  T: "Transmutation",
 };
 const abilityAbbreviationMap = {
   str: "strength",
@@ -133,7 +157,7 @@ const abilityAbbreviationMap = {
   con: "constitution",
   int: "intelligence",
   wis: "wisdom",
-  cha: "charisma"
+  cha: "charisma",
 };
 const itemDamageTypeMap = {
   A: "acid",
@@ -148,7 +172,7 @@ const itemDamageTypeMap = {
   Y: "psychic",
   R: "radiant",
   S: "slashing",
-  T: "thunder"
+  T: "thunder",
 };
 
 const featureCategories = [
@@ -157,7 +181,7 @@ const featureCategories = [
   "Feat",
   "Background Feature",
   "Boon / Blessing",
-  "Other"
+  "Other",
 ];
 
 const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
@@ -182,8 +206,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       15: ["Persistent Rage"],
       17: ["Brutal Critical"],
       18: ["Indomitable Might"],
-      20: ["Primal Champion"]
-    }
+      20: ["Primal Champion"],
+    },
   },
   bard: {
     label: "Bard",
@@ -200,8 +224,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       10: ["Expertise", "Magical Secrets"],
       14: ["College Feature", "Magical Secrets"],
       18: ["Magical Secrets"],
-      20: ["Superior Inspiration"]
-    }
+      20: ["Superior Inspiration"],
+    },
   },
   cleric: {
     label: "Cleric",
@@ -218,16 +242,18 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
             {
               value: "protector",
               label: "Protector",
-              description: "Gain a more martial cleric direction, including heavier defensive training and weapon readiness."
+              description:
+                "Gain a more martial cleric direction, including heavier defensive training and weapon readiness.",
             },
             {
               value: "thaumaturge",
               label: "Thaumaturge",
-              description: "Lean further into divine magic, improving sacred knowledge and cantrip flexibility."
-            }
-          ]
-        }
-      ]
+              description:
+                "Lean further into divine magic, improving sacred knowledge and cantrip flexibility.",
+            },
+          ],
+        },
+      ],
     },
     levels: {
       1: ["Spellcasting", "Divine Order"],
@@ -238,8 +264,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       8: ["Destroy Undead", "Domain Feature"],
       10: ["Divine Intervention"],
       17: ["Destroy Undead", "Domain Feature"],
-      20: ["Divine Intervention Improvement"]
-    }
+      20: ["Divine Intervention Improvement"],
+    },
   },
   druid: {
     label: "Druid",
@@ -254,8 +280,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       10: ["Circle Feature"],
       14: ["Circle Feature"],
       18: ["Timeless Body", "Beast Spells"],
-      20: ["Archdruid"]
-    }
+      20: ["Archdruid"],
+    },
   },
   fighter: {
     label: "Fighter",
@@ -276,8 +302,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       15: ["Archetype Feature"],
       17: ["Action Surge", "Indomitable"],
       18: ["Archetype Feature"],
-      20: ["Extra Attack"]
-    }
+      20: ["Extra Attack"],
+    },
   },
   monk: {
     label: "Monk",
@@ -300,8 +326,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       15: ["Timeless Body"],
       17: ["Tradition Feature"],
       18: ["Empty Body"],
-      20: ["Perfect Self"]
-    }
+      20: ["Perfect Self"],
+    },
   },
   paladin: {
     label: "Paladin",
@@ -321,8 +347,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       14: ["Cleansing Touch"],
       15: ["Oath Feature"],
       18: ["Aura Improvements"],
-      20: ["Oath Feature"]
-    }
+      20: ["Oath Feature"],
+    },
   },
   ranger: {
     label: "Ranger",
@@ -342,8 +368,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       14: ["Vanish"],
       15: ["Archetype Feature"],
       18: ["Feral Senses"],
-      20: ["Foe Slayer"]
-    }
+      20: ["Foe Slayer"],
+    },
   },
   rogue: {
     label: "Rogue",
@@ -365,8 +391,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       15: ["Slippery Mind"],
       17: ["Archetype Feature"],
       18: ["Elusive"],
-      20: ["Stroke of Luck"]
-    }
+      20: ["Stroke of Luck"],
+    },
   },
   sorcerer: {
     label: "Sorcerer",
@@ -383,8 +409,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       14: ["Origin Feature"],
       17: ["Metamagic"],
       18: ["Origin Feature"],
-      20: ["Sorcerous Restoration"]
-    }
+      20: ["Sorcerous Restoration"],
+    },
   },
   warlock: {
     label: "Warlock",
@@ -402,8 +428,8 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       13: ["Mystic Arcanum"],
       15: ["Mystic Arcanum"],
       17: ["Mystic Arcanum"],
-      20: ["Eldritch Master"]
-    }
+      20: ["Eldritch Master"],
+    },
   },
   wizard: {
     label: "Wizard",
@@ -418,15 +444,15 @@ const builtInClassRuleMemory = window.ADVENTURER_CLASS_RULE_MEMORY || {
       10: ["Tradition Feature"],
       14: ["Tradition Feature"],
       18: ["Spell Mastery"],
-      20: ["Signature Spells"]
-    }
-  }
+      20: ["Signature Spells"],
+    },
+  },
 };
 
 const standardAsiLevels = [4, 8, 12, 16, 19];
 let classFeatureDescriptions = {
   ...(window.ADVENTURER_FEATURE_DESCRIPTIONS || {}),
-  ...(loadRulesCache()?.featureDescriptions || {})
+  ...(loadRulesCache()?.featureDescriptions || {}),
 };
 const pointBuyCosts = {
   8: 0,
@@ -436,7 +462,7 @@ const pointBuyCosts = {
   12: 4,
   13: 5,
   14: 7,
-  15: 9
+  15: 9,
 };
 
 const defaultState = {
@@ -447,10 +473,9 @@ const defaultState = {
   subrace: "",
   alignment: "",
   experience: "",
+  levelMethod: "xp",
   proficiencyBonus: 2,
-  classes: [
-    { name: "", subclass: "", level: 1 }
-  ],
+  classes: [{ name: "", subclass: "", level: 1 }],
   armorClass: "",
   initiative: "",
   speed: "",
@@ -478,8 +503,8 @@ const defaultState = {
   abilities: Object.fromEntries(abilities.map(({ key }) => [key, 10])),
   proficiencies: {
     savingThrows: {},
-    skills: {}
-  }
+    skills: {},
+  },
 };
 
 let characterLibrary = [];
@@ -498,10 +523,18 @@ const floatingActionsToggle = document.getElementById("floatingActionsToggle");
 const characterSelect = document.getElementById("characterSelect");
 const newCharacterButton = document.getElementById("newCharacterButton");
 const deleteCharacterButton = document.getElementById("deleteCharacterButton");
-const rulesImportPromptModal = document.getElementById("rulesImportPromptModal");
-const closeRulesImportPromptButton = document.getElementById("closeRulesImportPromptButton");
-const confirmRulesImportPromptButton = document.getElementById("confirmRulesImportPromptButton");
-const useLocalRulesPromptButton = document.getElementById("useLocalRulesPromptButton");
+const rulesImportPromptModal = document.getElementById(
+  "rulesImportPromptModal",
+);
+const closeRulesImportPromptButton = document.getElementById(
+  "closeRulesImportPromptButton",
+);
+const confirmRulesImportPromptButton = document.getElementById(
+  "confirmRulesImportPromptButton",
+);
+const useLocalRulesPromptButton = document.getElementById(
+  "useLocalRulesPromptButton",
+);
 const rulesSourceStatus = document.getElementById("rulesSourceStatus");
 const speciesOptions = document.getElementById("speciesOptions");
 const subraceOptions = document.getElementById("subraceOptions");
@@ -524,7 +557,9 @@ const diceModalTotal = document.getElementById("diceModalTotal");
 const diceModalSummary = document.getElementById("diceModalSummary");
 const diceModalDetail = document.getElementById("diceModalDetail");
 const shortRestModal = document.getElementById("shortRestModal");
-const shortRestHitDiceDisplay = document.getElementById("shortRestHitDiceDisplay");
+const shortRestHitDiceDisplay = document.getElementById(
+  "shortRestHitDiceDisplay",
+);
 const shortRestConDisplay = document.getElementById("shortRestConDisplay");
 const shortRestResult = document.getElementById("shortRestResult");
 const shortRestHealTotal = document.getElementById("shortRestHealTotal");
@@ -539,49 +574,105 @@ const levelUpModal = document.getElementById("levelUpModal");
 const levelUpModalSummary = document.getElementById("levelUpModalSummary");
 const levelUpExistingList = document.getElementById("levelUpExistingList");
 const levelUpNewClassName = document.getElementById("levelUpNewClassName");
-const levelUpNewClassSubclass = document.getElementById("levelUpNewClassSubclass");
-const levelUpNewClassPreview = document.getElementById("levelUpNewClassPreview");
+const levelUpNewClassSubclass = document.getElementById(
+  "levelUpNewClassSubclass",
+);
+const levelUpNewClassPreview = document.getElementById(
+  "levelUpNewClassPreview",
+);
 const levelUpChoiceSection = document.getElementById("levelUpChoiceSection");
 const levelUpChoiceTitle = document.getElementById("levelUpChoiceTitle");
 const levelUpChoiceFields = document.getElementById("levelUpChoiceFields");
-const cancelLevelUpChoiceButton = document.getElementById("cancelLevelUpChoiceButton");
-const confirmLevelUpChoiceButton = document.getElementById("confirmLevelUpChoiceButton");
-const classAutomationOptions = document.getElementById("classAutomationOptions");
-const confirmAddMulticlassButton = document.getElementById("confirmAddMulticlassButton");
+const cancelLevelUpChoiceButton = document.getElementById(
+  "cancelLevelUpChoiceButton",
+);
+const confirmLevelUpChoiceButton = document.getElementById(
+  "confirmLevelUpChoiceButton",
+);
+const classAutomationOptions = document.getElementById(
+  "classAutomationOptions",
+);
+const confirmAddMulticlassButton = document.getElementById(
+  "confirmAddMulticlassButton",
+);
 const createCharacterModal = document.getElementById("createCharacterModal");
 const createCharacterName = document.getElementById("createCharacterName");
 const createCharacterClass = document.getElementById("createCharacterClass");
-const createCharacterBackground = document.getElementById("createCharacterBackground");
-const createCharacterSpecies = document.getElementById("createCharacterSpecies");
-const createCharacterSubrace = document.getElementById("createCharacterSubrace");
-const createCharacterAlignment = document.getElementById("createCharacterAlignment");
-const createCharacterClassPreview = document.getElementById("createCharacterClassPreview");
-const createCharacterChoiceFields = document.getElementById("createCharacterChoiceFields");
-const closeCreateCharacterModalButton = document.getElementById("closeCreateCharacterModalButton");
-const cancelCreateCharacterButton = document.getElementById("cancelCreateCharacterButton");
-const confirmCreateCharacterButton = document.getElementById("confirmCreateCharacterButton");
-const abilityModeManualButton = document.getElementById("abilityModeManualButton");
-const abilityModePointBuyButton = document.getElementById("abilityModePointBuyButton");
+const createCharacterBackground = document.getElementById(
+  "createCharacterBackground",
+);
+const createCharacterSpecies = document.getElementById(
+  "createCharacterSpecies",
+);
+const createCharacterSubrace = document.getElementById(
+  "createCharacterSubrace",
+);
+const createCharacterAlignment = document.getElementById(
+  "createCharacterAlignment",
+);
+const createCharacterClassPreview = document.getElementById(
+  "createCharacterClassPreview",
+);
+const createCharacterChoiceFields = document.getElementById(
+  "createCharacterChoiceFields",
+);
+const closeCreateCharacterModalButton = document.getElementById(
+  "closeCreateCharacterModalButton",
+);
+const cancelCreateCharacterButton = document.getElementById(
+  "cancelCreateCharacterButton",
+);
+const confirmCreateCharacterButton = document.getElementById(
+  "confirmCreateCharacterButton",
+);
+const abilityModeManualButton = document.getElementById(
+  "abilityModeManualButton",
+);
+const abilityModePointBuyButton = document.getElementById(
+  "abilityModePointBuyButton",
+);
 const pointBuySummary = document.getElementById("pointBuySummary");
 const pointBuySpent = document.getElementById("pointBuySpent");
 const pointBuyRemaining = document.getElementById("pointBuyRemaining");
-const closeAbilityModalButton = document.getElementById("closeAbilityModalButton");
+const closeAbilityModalButton = document.getElementById(
+  "closeAbilityModalButton",
+);
 const closeRollModalButton = document.getElementById("closeRollModalButton");
 const closeDiceModalButton = document.getElementById("closeDiceModalButton");
-const closeShortRestModalButton = document.getElementById("closeShortRestModalButton");
-const closeLongRestModalButton = document.getElementById("closeLongRestModalButton");
-const closeLevelUpModalButton = document.getElementById("closeLevelUpModalButton");
-const cancelAbilityModalButton = document.getElementById("cancelAbilityModalButton");
-const saveAbilityModalButton = document.getElementById("saveAbilityModalButton");
+const closeShortRestModalButton = document.getElementById(
+  "closeShortRestModalButton",
+);
+const closeLongRestModalButton = document.getElementById(
+  "closeLongRestModalButton",
+);
+const closeLevelUpModalButton = document.getElementById(
+  "closeLevelUpModalButton",
+);
+const cancelAbilityModalButton = document.getElementById(
+  "cancelAbilityModalButton",
+);
+const saveAbilityModalButton = document.getElementById(
+  "saveAbilityModalButton",
+);
 const rollDiceFormulaButton = document.getElementById("rollDiceFormulaButton");
 const floatingDiceButton = document.getElementById("floatingDiceButton");
-const floatingShortRestButton = document.getElementById("floatingShortRestButton");
-const floatingLongRestButton = document.getElementById("floatingLongRestButton");
-const floatingImportRulesButton = document.getElementById("floatingImportRulesButton");
+const floatingShortRestButton = document.getElementById(
+  "floatingShortRestButton",
+);
+const floatingLongRestButton = document.getElementById(
+  "floatingLongRestButton",
+);
+const floatingImportRulesButton = document.getElementById(
+  "floatingImportRulesButton",
+);
 const spendHitDieButton = document.getElementById("spendHitDieButton");
-const completeShortRestButton = document.getElementById("completeShortRestButton");
+const completeShortRestButton = document.getElementById(
+  "completeShortRestButton",
+);
 const confirmLongRestButton = document.getElementById("confirmLongRestButton");
-const centerTabButtons = Array.from(document.querySelectorAll("[data-center-tab]"));
+const centerTabButtons = Array.from(
+  document.querySelectorAll("[data-center-tab]"),
+);
 const attacksPanel = document.querySelector(".attacks-panel");
 const featuresPanel = document.querySelector(".features-panel");
 const equipmentPanel = document.querySelector(".equipment-panel");
@@ -597,13 +688,21 @@ const inspirationToggle = document.getElementById("inspirationToggle");
 const spellImportModal = document.getElementById("spellImportModal");
 const spellImportSelect = document.getElementById("spellImportSelect");
 const spellImportPreview = document.getElementById("spellImportPreview");
-const closeSpellImportModalButton = document.getElementById("closeSpellImportModalButton");
-const confirmSpellImportButton = document.getElementById("confirmSpellImportButton");
+const closeSpellImportModalButton = document.getElementById(
+  "closeSpellImportModalButton",
+);
+const confirmSpellImportButton = document.getElementById(
+  "confirmSpellImportButton",
+);
 const itemImportModal = document.getElementById("itemImportModal");
 const itemImportSelect = document.getElementById("itemImportSelect");
 const itemImportPreview = document.getElementById("itemImportPreview");
-const closeItemImportModalButton = document.getElementById("closeItemImportModalButton");
-const confirmItemImportButton = document.getElementById("confirmItemImportButton");
+const closeItemImportModalButton = document.getElementById(
+  "closeItemImportModalButton",
+);
+const confirmItemImportButton = document.getElementById(
+  "confirmItemImportButton",
+);
 const attacksList = document.getElementById("attacksList");
 const spellsList = document.getElementById("spellsList");
 const featuresList = document.getElementById("featuresList");
@@ -614,15 +713,25 @@ const equipmentList = document.getElementById("equipmentList");
 const xpGainInput = document.getElementById("xpGainInput");
 const hpAdjustInput = document.getElementById("hpAdjustInput");
 const classList = document.getElementById("classList");
-const advancementChoicesList = document.getElementById("advancementChoicesList");
-const levelUpButton = document.getElementById("levelUpButton");
+const advancementChoicesList = document.getElementById(
+  "advancementChoicesList",
+);
+const levelMethodSelect = document.getElementById("levelMethodSelect");
+const createCharacterLevelMethod = document.getElementById(
+  "createCharacterLevelMethod",
+);
+const xpCards = Array.from(document.querySelectorAll(".xp-card"));
 const totalLevelDisplay = document.getElementById("totalLevelDisplay");
 const classSummaryDisplay = document.getElementById("classSummaryDisplay");
-const proficiencyBonusDisplay = document.getElementById("proficiencyBonusDisplay");
+const proficiencyBonusDisplay = document.getElementById(
+  "proficiencyBonusDisplay",
+);
 const levelStatusCard = document.getElementById("levelStatusCard");
 const levelStatusTitle = document.getElementById("levelStatusTitle");
 const levelStatusText = document.getElementById("levelStatusText");
-const featureFilterButtons = Array.from(document.querySelectorAll("[data-feature-filter]"));
+const featureFilterButtons = Array.from(
+  document.querySelectorAll("[data-feature-filter]"),
+);
 const rollResetTimers = new WeakMap();
 const RULES_IMPORT_PROMPT_KEY = "adventurer-sheet-rules-import-prompt-seen";
 const toastContainer = document.getElementById("toastContainer");
@@ -686,8 +795,8 @@ feedbackForm?.addEventListener("submit", async (event) => {
 });
 
 const xpThresholds = [
-  0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000,
-  85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000
+  0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000, 85000, 100000,
+  120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000,
 ];
 
 applyStoredTheme();
@@ -716,8 +825,12 @@ themeButton.addEventListener("click", () => {
 });
 floatingActionsToggle.addEventListener("click", toggleFloatingActionsMenu);
 modifyAbilityButton.addEventListener("click", openAbilityModal);
-abilityModeManualButton.addEventListener("click", () => setAbilityModalMode("manual"));
-abilityModePointBuyButton.addEventListener("click", () => setAbilityModalMode("pointbuy"));
+abilityModeManualButton.addEventListener("click", () =>
+  setAbilityModalMode("manual"),
+);
+abilityModePointBuyButton.addEventListener("click", () =>
+  setAbilityModalMode("pointbuy"),
+);
 closeAbilityModalButton.addEventListener("click", closeAbilityModal);
 closeRollModalButton.addEventListener("click", closeRollModal);
 closeDiceModalButton.addEventListener("click", closeDiceModal);
@@ -726,52 +839,85 @@ closeLongRestModalButton.addEventListener("click", closeLongRestModal);
 closeSpellImportModalButton.addEventListener("click", closeSpellImportModal);
 closeItemImportModalButton.addEventListener("click", closeItemImportModal);
 closeLevelUpModalButton.addEventListener("click", closeLevelUpModal);
-closeCreateCharacterModalButton.addEventListener("click", closeCreateCharacterModal);
-cancelCreateCharacterButton.addEventListener("click", closeCreateCharacterModal);
+closeCreateCharacterModalButton.addEventListener(
+  "click",
+  closeCreateCharacterModal,
+);
+cancelCreateCharacterButton.addEventListener(
+  "click",
+  closeCreateCharacterModal,
+);
 cancelAbilityModalButton.addEventListener("click", closeAbilityModal);
 saveAbilityModalButton.addEventListener("click", saveAbilityModal);
 abilityModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.modalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.modalClose === "true"
+  ) {
     closeAbilityModal();
   }
 });
 rollModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.rollModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.rollModalClose === "true"
+  ) {
     closeRollModal();
   }
 });
 diceModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.diceModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.diceModalClose === "true"
+  ) {
     closeDiceModal();
   }
 });
 shortRestModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.shortRestModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.shortRestModalClose === "true"
+  ) {
     closeShortRestModal();
   }
 });
 longRestModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.longRestModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.longRestModalClose === "true"
+  ) {
     closeLongRestModal();
   }
 });
 spellImportModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.spellImportModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.spellImportModalClose === "true"
+  ) {
     closeSpellImportModal();
   }
 });
 itemImportModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.itemImportModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.itemImportModalClose === "true"
+  ) {
     closeItemImportModal();
   }
 });
 levelUpModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.levelUpModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.levelUpModalClose === "true"
+  ) {
     closeLevelUpModal();
   }
 });
 createCharacterModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.createCharacterModalClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.createCharacterModalClose === "true"
+  ) {
     closeCreateCharacterModal();
   }
 });
@@ -807,12 +953,41 @@ diceFormulaInput.addEventListener("keydown", (event) => {
   }
 });
 document.getElementById("addXpButton").addEventListener("click", addExperience);
-levelUpButton.addEventListener("click", openLevelUpModal);
+levelStatusCard?.addEventListener("click", () => {
+  const totalLevel = state.classes.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
+
+  if (state.levelMethod === "milestone") {
+    if (totalLevel < 20) {
+      openLevelUpModal();
+    }
+    return;
+  }
+
+  const progressState = getLevelProgressState(totalLevel, state.experience);
+
+  if (progressState.canLevelUp) {
+    openLevelUpModal();
+  }
+});
+
+levelMethodSelect?.addEventListener("change", () => {
+  state.levelMethod = levelMethodSelect.value;
+  refreshDerivedValues();
+  queueSave();
+});
 levelUpNewClassName.addEventListener("input", updateLevelUpNewClassPreview);
 levelUpNewClassSubclass.addEventListener("input", updateLevelUpNewClassPreview);
 cancelLevelUpChoiceButton.addEventListener("click", clearLevelUpChoiceSection);
-confirmLevelUpChoiceButton.addEventListener("click", completePendingLevelUpAction);
-characterSelect.addEventListener("change", () => switchCharacter(characterSelect.value));
+confirmLevelUpChoiceButton.addEventListener(
+  "click",
+  completePendingLevelUpAction,
+);
+characterSelect.addEventListener("change", () =>
+  switchCharacter(characterSelect.value),
+);
 newCharacterButton.addEventListener("click", openCreateCharacterModal);
 deleteCharacterButton.addEventListener("click", deleteActiveCharacter);
 importSpellButton.addEventListener("click", openSpellImportModal);
@@ -830,27 +1005,45 @@ createCharacterSpecies.addEventListener("change", () => {
   createCharacterSubrace.value = "";
   populateCreateCharacterSubraceOptions();
 });
-confirmCreateCharacterButton.addEventListener("click", createCharacterFromModal);
+confirmCreateCharacterButton.addEventListener(
+  "click",
+  createCharacterFromModal,
+);
 featureFilterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     setFeatureFilter(button.dataset.featureFilter || "all");
   });
 });
-document.getElementById("addSpellButton").addEventListener("click", addSpellEntry);
-document.getElementById("addFeatureButton").addEventListener("click", addFeatureEntry);
-document.getElementById("addTrackingButton").addEventListener("click", addTrackingResource);
+document
+  .getElementById("addSpellButton")
+  .addEventListener("click", addSpellEntry);
+document
+  .getElementById("addFeatureButton")
+  .addEventListener("click", addFeatureEntry);
+document
+  .getElementById("addTrackingButton")
+  .addEventListener("click", addTrackingResource);
 addStatusButton.addEventListener("click", addStatusEntry);
 concentrationToggle.addEventListener("click", toggleConcentration);
-document.getElementById("addItemButton").addEventListener("click", addEquipmentItem);
-document.getElementById("damageHpButton").addEventListener("click", () => adjustHitPoints("damage"));
-document.getElementById("healHpButton").addEventListener("click", () => adjustHitPoints("heal"));
+document
+  .getElementById("addItemButton")
+  .addEventListener("click", addEquipmentItem);
+document
+  .getElementById("damageHpButton")
+  .addEventListener("click", () => adjustHitPoints("damage"));
+document
+  .getElementById("healHpButton")
+  .addEventListener("click", () => adjustHitPoints("heal"));
 document.getElementById("addAttackButton").addEventListener("click", () => {
   state.attacks.push(normalizeAttack());
   renderAttacks();
   refreshDerivedValues();
   queueSave();
 });
-confirmAddMulticlassButton.addEventListener("click", addMulticlassLevelFromModal);
+confirmAddMulticlassButton.addEventListener(
+  "click",
+  addMulticlassLevelFromModal,
+);
 document.addEventListener("click", handleFloatingActionsOutsideClick);
 document.addEventListener("keydown", handleFloatingActionsEscape);
 
@@ -863,7 +1056,10 @@ confirmRulesImportPromptButton.addEventListener("click", async () => {
 });
 
 rulesImportPromptModal.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLElement && event.target.dataset.rulesImportPromptClose === "true") {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.dataset.rulesImportPromptClose === "true"
+  ) {
     closeRulesImportPrompt();
   }
 });
@@ -871,7 +1067,8 @@ rulesImportPromptModal.addEventListener("click", (event) => {
 function showRulesImportPromptOnce() {
   if (!rulesImportPromptModal) return;
 
-  const hasSeenPrompt = localStorage.getItem(RULES_IMPORT_PROMPT_KEY) === "true";
+  const hasSeenPrompt =
+    localStorage.getItem(RULES_IMPORT_PROMPT_KEY) === "true";
   const alreadyHasRulesCache = Boolean(loadRulesCache());
 
   if (!hasSeenPrompt && !alreadyHasRulesCache) {
@@ -945,7 +1142,9 @@ function loadCharacterLibrary() {
       const characters = Array.isArray(parsed?.characters)
         ? parsed.characters.map(normalizeCharacterRecord)
         : [];
-      const activeId = characters.some((record) => record.id === parsed?.activeId)
+      const activeId = characters.some(
+        (record) => record.id === parsed?.activeId,
+      )
         ? parsed.activeId
         : characters[0]?.id;
 
@@ -957,12 +1156,17 @@ function loadCharacterLibrary() {
     const legacyRaw = localStorage.getItem(STORAGE_KEY);
     if (legacyRaw) {
       const migratedState = mergeState(defaultState, JSON.parse(legacyRaw));
-      const migratedCharacter = normalizeCharacterRecord({ state: migratedState });
+      const migratedCharacter = normalizeCharacterRecord({
+        state: migratedState,
+      });
       const migratedLibrary = {
         characters: [migratedCharacter],
-        activeId: migratedCharacter.id
+        activeId: migratedCharacter.id,
       };
-      localStorage.setItem(CHARACTER_LIBRARY_KEY, JSON.stringify(migratedLibrary));
+      localStorage.setItem(
+        CHARACTER_LIBRARY_KEY,
+        JSON.stringify(migratedLibrary),
+      );
       return migratedLibrary;
     }
   } catch {
@@ -972,7 +1176,7 @@ function loadCharacterLibrary() {
   const initialCharacter = normalizeCharacterRecord();
   const initialLibrary = {
     characters: [initialCharacter],
-    activeId: initialCharacter.id
+    activeId: initialCharacter.id,
   };
   localStorage.setItem(CHARACTER_LIBRARY_KEY, JSON.stringify(initialLibrary));
   return initialLibrary;
@@ -1009,7 +1213,7 @@ function normalizeCharacterRecord(record = {}) {
   return {
     id: record.id || generateId(),
     state: mergeState(defaultState, record.state || {}),
-    updatedAt: Number(record.updatedAt || Date.now())
+    updatedAt: Number(record.updatedAt || Date.now()),
   };
 }
 
@@ -1037,9 +1241,11 @@ function loadRuleReferenceData() {
   return {
     species: Array.isArray(cachedRules?.species) ? cachedRules.species : [],
     subraces: Array.isArray(cachedRules?.subraces) ? cachedRules.subraces : [],
-    backgrounds: Array.isArray(cachedRules?.backgrounds) ? cachedRules.backgrounds : [],
+    backgrounds: Array.isArray(cachedRules?.backgrounds)
+      ? cachedRules.backgrounds
+      : [],
     spells: Array.isArray(cachedRules?.spells) ? cachedRules.spells : [],
-    items: Array.isArray(cachedRules?.items) ? cachedRules.items : []
+    items: Array.isArray(cachedRules?.items) ? cachedRules.items : [],
   };
 }
 
@@ -1080,12 +1286,17 @@ function updateRulesSourceStatus(message = "") {
     return;
   }
 
-  const importedDate = new Date(cachedRules.importedAt || Date.now()).toLocaleDateString();
+  const importedDate = new Date(
+    cachedRules.importedAt || Date.now(),
+  ).toLocaleDateString();
   rulesSourceStatus.textContent = `Rules: 5etools cached ${importedDate}`;
 }
 
 function classRuleKey(className) {
-  return String(className || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "");
+  return String(className || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
 }
 
 function getClassRule(className) {
@@ -1119,12 +1330,27 @@ function populateRuleReferenceOptions() {
   populateDatalist(speciesOptions, ruleReferenceData.species);
   populateDatalist(subraceOptions, ruleReferenceData.subraces);
   populateDatalist(backgroundOptions, ruleReferenceData.backgrounds);
-  populateCreateCharacterSelect(createCharacterSpecies, ruleReferenceData.species, "Choose race / species", "No cached species");
-  populateCreateCharacterSelect(createCharacterBackground, ruleReferenceData.backgrounds, "Choose background", "No cached backgrounds");
+  populateCreateCharacterSelect(
+    createCharacterSpecies,
+    ruleReferenceData.species,
+    "Choose race / species",
+    "No cached species",
+  );
+  populateCreateCharacterSelect(
+    createCharacterBackground,
+    ruleReferenceData.backgrounds,
+    "Choose background",
+    "No cached backgrounds",
+  );
   populateCreateCharacterSubraceOptions();
 }
 
-function populateCreateCharacterSelect(select, records, placeholderText, emptyText) {
+function populateCreateCharacterSelect(
+  select,
+  records,
+  placeholderText,
+  emptyText,
+) {
   if (!select) return;
 
   const currentValue = select.value;
@@ -1137,15 +1363,23 @@ function populateCreateCharacterSelect(select, records, placeholderText, emptyTe
 
   records
     .slice()
-    .sort((a, b) => a.name.localeCompare(b.name) || String(a.source || "").localeCompare(String(b.source || "")))
+    .sort(
+      (a, b) =>
+        a.name.localeCompare(b.name) ||
+        String(a.source || "").localeCompare(String(b.source || "")),
+    )
     .forEach((record) => {
       const option = document.createElement("option");
       option.value = record.name;
-      option.textContent = record.source ? `${record.name} (${record.source})` : record.name;
+      option.textContent = record.source
+        ? `${record.name} (${record.source})`
+        : record.name;
       select.appendChild(option);
     });
 
-  select.value = records.some((record) => record.name === currentValue) ? currentValue : "";
+  select.value = records.some((record) => record.name === currentValue)
+    ? currentValue
+    : "";
   select.disabled = records.length === 0;
 }
 
@@ -1153,7 +1387,11 @@ function populateDatalist(datalist, records) {
   datalist.innerHTML = "";
   records
     .slice()
-    .sort((a, b) => a.name.localeCompare(b.name) || String(a.source || "").localeCompare(String(b.source || "")))
+    .sort(
+      (a, b) =>
+        a.name.localeCompare(b.name) ||
+        String(a.source || "").localeCompare(String(b.source || "")),
+    )
     .forEach((record) => {
       const option = document.createElement("option");
       option.value = record.name;
@@ -1166,37 +1404,51 @@ function populateDatalist(datalist, records) {
 
 function populateCreateCharacterSubraceOptions() {
   const selectedSpecies = createCharacterSpecies?.value || "";
-  const subraces = selectedSpecies ? getSubraceOptionsForSpecies(selectedSpecies) : [];
+  const subraces = selectedSpecies
+    ? getSubraceOptionsForSpecies(selectedSpecies)
+    : [];
   const currentValue = createCharacterSubrace.value;
   createCharacterSubrace.innerHTML = "";
 
   const noneOption = document.createElement("option");
   noneOption.value = "";
   noneOption.textContent = selectedSpecies
-    ? subraces.length ? "No subrace / lineage" : "No cached subraces"
+    ? subraces.length
+      ? "No subrace / lineage"
+      : "No cached subraces"
     : "Choose race first";
   createCharacterSubrace.appendChild(noneOption);
 
   subraces.forEach((subrace) => {
     const option = document.createElement("option");
     option.value = subrace.name;
-    option.textContent = subrace.source ? `${subrace.name} (${subrace.source})` : subrace.name;
+    option.textContent = subrace.source
+      ? `${subrace.name} (${subrace.source})`
+      : subrace.name;
     createCharacterSubrace.appendChild(option);
   });
 
-  createCharacterSubrace.value = subraces.some((subrace) => subrace.name === currentValue) ? currentValue : "";
+  createCharacterSubrace.value = subraces.some(
+    (subrace) => subrace.name === currentValue,
+  )
+    ? currentValue
+    : "";
   createCharacterSubrace.disabled = !selectedSpecies || subraces.length === 0;
 }
 
 function getSubraceOptionsForSpecies(speciesName) {
   const speciesKey = classRuleKey(speciesName);
-  const matches = ruleReferenceData.subraces.filter((subrace) =>
-    !speciesKey || classRuleKey(subrace.parentName) === speciesKey
+  const matches = ruleReferenceData.subraces.filter(
+    (subrace) => !speciesKey || classRuleKey(subrace.parentName) === speciesKey,
   );
 
   return matches
     .slice()
-    .sort((a, b) => a.name.localeCompare(b.name) || String(a.source || "").localeCompare(String(b.source || "")));
+    .sort(
+      (a, b) =>
+        a.name.localeCompare(b.name) ||
+        String(a.source || "").localeCompare(String(b.source || "")),
+    );
 }
 
 async function importFiveEToolsRules() {
@@ -1233,8 +1485,16 @@ async function importFiveEToolsRules() {
 function clearRulesCache() {
   localStorage.removeItem(RULES_CACHE_KEY);
   classRuleMemory = structuredClone(builtInClassRuleMemory);
-  ruleReferenceData = { species: [], subraces: [], backgrounds: [], spells: [], items: [] };
-  classFeatureDescriptions = { ...(window.ADVENTURER_FEATURE_DESCRIPTIONS || {}) };
+  ruleReferenceData = {
+    species: [],
+    subraces: [],
+    backgrounds: [],
+    spells: [],
+    items: [],
+  };
+  classFeatureDescriptions = {
+    ...(window.ADVENTURER_FEATURE_DESCRIPTIONS || {}),
+  };
   populateClassAutomationOptions();
   populateRuleReferenceOptions();
   updateCreateCharacterPreview();
@@ -1250,11 +1510,11 @@ function applyRulesCache(cache) {
     subraces: Array.isArray(cache.subraces) ? cache.subraces : [],
     backgrounds: Array.isArray(cache.backgrounds) ? cache.backgrounds : [],
     spells: Array.isArray(cache.spells) ? cache.spells : [],
-    items: Array.isArray(cache.items) ? cache.items : []
+    items: Array.isArray(cache.items) ? cache.items : [],
   };
   classFeatureDescriptions = {
     ...(window.ADVENTURER_FEATURE_DESCRIPTIONS || {}),
-    ...(cache.featureDescriptions || {})
+    ...(cache.featureDescriptions || {}),
   };
   populateClassAutomationOptions();
   populateRuleReferenceOptions();
@@ -1265,26 +1525,37 @@ function applyRulesCache(cache) {
 }
 
 async function buildFiveEToolsRulesCache() {
-  const [classIndex, spellIndex, racesData, backgroundsData, optionalFeaturesData, itemsBaseData, itemsData] = await Promise.all([
+  const [
+    classIndex,
+    spellIndex,
+    racesData,
+    backgroundsData,
+    optionalFeaturesData,
+    itemsBaseData,
+    itemsData,
+  ] = await Promise.all([
     fetchFiveEToolsJson("class/index.json"),
     fetchFiveEToolsJson("spells/index.json"),
     fetchFiveEToolsJson("races.json"),
     fetchFiveEToolsJson("backgrounds.json"),
     fetchFiveEToolsJson("optionalfeatures.json"),
     fetchFiveEToolsJson("items-base.json"),
-    fetchFiveEToolsJson("items.json")
+    fetchFiveEToolsJson("items.json"),
   ]);
-  const optionalFeatureLookup = buildOptionalFeatureLookup(optionalFeaturesData);
-  const [classFiles, spellFiles] = await Promise.all([
-    Object.entries(classIndex).map(async ([key, fileName]) => ({
-      key,
-      data: await fetchFiveEToolsJson(`class/${fileName}`)
-    })),
-    Object.entries(spellIndex).map(async ([key, fileName]) => ({
-      key,
-      data: await fetchFiveEToolsJson(`spells/${fileName}`)
-    }))
-  ].map((requests) => Promise.all(requests)));
+  const optionalFeatureLookup =
+    buildOptionalFeatureLookup(optionalFeaturesData);
+  const [classFiles, spellFiles] = await Promise.all(
+    [
+      Object.entries(classIndex).map(async ([key, fileName]) => ({
+        key,
+        data: await fetchFiveEToolsJson(`class/${fileName}`),
+      })),
+      Object.entries(spellIndex).map(async ([key, fileName]) => ({
+        key,
+        data: await fetchFiveEToolsJson(`spells/${fileName}`),
+      })),
+    ].map((requests) => Promise.all(requests)),
+  );
 
   const classRules = {};
   const featureDescriptions = {};
@@ -1305,11 +1576,20 @@ async function buildFiveEToolsRulesCache() {
     importedAt: Date.now(),
     classRules,
     featureDescriptions,
-    species: normalizeFiveEToolsReferenceRecords(racesData.race || [], "Species Trait"),
+    species: normalizeFiveEToolsReferenceRecords(
+      racesData.race || [],
+      "Species Trait",
+    ),
     subraces: normalizeFiveEToolsSubraceRecords(racesData.subrace || []),
-    backgrounds: normalizeFiveEToolsReferenceRecords(backgroundsData.background || [], "Background Feature"),
+    backgrounds: normalizeFiveEToolsReferenceRecords(
+      backgroundsData.background || [],
+      "Background Feature",
+    ),
     spells: normalizeFiveEToolsSpellFiles(spellFiles),
-    items: normalizeFiveEToolsItems([...(itemsBaseData.baseitem || []), ...(itemsData.item || [])])
+    items: normalizeFiveEToolsItems([
+      ...(itemsBaseData.baseitem || []),
+      ...(itemsData.item || []),
+    ]),
   };
 }
 
@@ -1322,32 +1602,35 @@ if ("serviceWorker" in navigator) {
     window.location.reload();
   });
 
-  navigator.serviceWorker.register("./service-worker.js").then((registration) => {
-    if (registration.waiting) {
-      showUpdateToast(registration);
-    }
+  navigator.serviceWorker
+    .register("./service-worker.js")
+    .then((registration) => {
+      if (registration.waiting) {
+        showUpdateToast(registration);
+      }
 
-    registration.addEventListener("updatefound", () => {
-      const newWorker = registration.installing;
-      if (!newWorker) return;
+      registration.addEventListener("updatefound", () => {
+        const newWorker = registration.installing;
+        if (!newWorker) return;
 
-      newWorker.addEventListener("statechange", () => {
-        if (
-          newWorker.state === "installed" &&
-          navigator.serviceWorker.controller
-        ) {
-          showUpdateToast(registration);
-        }
+        newWorker.addEventListener("statechange", () => {
+          if (
+            newWorker.state === "installed" &&
+            navigator.serviceWorker.controller
+          ) {
+            showUpdateToast(registration);
+          }
+        });
       });
+    })
+    .catch(() => {
+      // Ignore registration failures; the app still works without offline support.
     });
-  }).catch(() => {
-    // Ignore registration failures; the app still works without offline support.
-  });
 }
 
 async function fetchFiveEToolsJson(path) {
   const response = await fetch(`${FIVEETOOLS_DATA_BASE_URL}${path}`, {
-    cache: "no-cache"
+    cache: "no-cache",
   });
 
   if (!response.ok) {
@@ -1374,8 +1657,13 @@ function normalizeFiveEToolsClassFile(data, optionalFeatureLookup) {
       return;
     }
 
-    const feature = resolveFiveEToolsClassFeature(featureRef, data.classFeature || []);
-    const featureName = normalizeFiveEToolsFeatureName(feature?.name || featureRef.name);
+    const feature = resolveFiveEToolsClassFeature(
+      featureRef,
+      data.classFeature || [],
+    );
+    const featureName = normalizeFiveEToolsFeatureName(
+      feature?.name || featureRef.name,
+    );
     if (!featureName) {
       return;
     }
@@ -1395,27 +1683,40 @@ function normalizeFiveEToolsClassFile(data, optionalFeatureLookup) {
       featureDescriptions[featureName] = description;
     }
 
-    const choice = extractFiveEToolsChoice(feature, data.classFeature || [], optionalFeatureLookup);
+    const choice = extractFiveEToolsChoice(
+      feature,
+      data.classFeature || [],
+      optionalFeatureLookup,
+    );
     if (choice) {
       choices[featureRef.level] ||= [];
       choices[featureRef.level].push(choice);
     }
   });
 
-  const subclasses = normalizeFiveEToolsSubclasses(data.subclass || [], classEntry);
-  const subclassLevel = detectFiveEToolsSubclassLevel(featureRefs, classEntry, subclasses);
+  const subclasses = normalizeFiveEToolsSubclasses(
+    data.subclass || [],
+    classEntry,
+  );
+  const subclassLevel = detectFiveEToolsSubclassLevel(
+    featureRefs,
+    classEntry,
+    subclasses,
+  );
 
   return {
     label: classEntry.name,
     hitDie: Number(classEntry.hd?.faces || 8),
-    asiLevels: Array.from(asiLevels).length ? Array.from(asiLevels).sort((a, b) => a - b) : standardAsiLevels,
+    asiLevels: Array.from(asiLevels).length
+      ? Array.from(asiLevels).sort((a, b) => a - b)
+      : standardAsiLevels,
     subclassLevel,
     subclassLabel: classEntry.subclassTitle || "Subclass",
     subclasses,
     choices,
     levels,
     featureDescriptions,
-    source: classEntry.source || ""
+    source: classEntry.source || "",
   };
 }
 
@@ -1446,7 +1747,7 @@ function parseFiveEToolsFeatureRef(ref) {
       classSource: parts[2] || "",
       level: Number(parts[3] || 0),
       source: parts[4] || parts[2] || "",
-      raw: ref
+      raw: ref,
     };
   }
 
@@ -1464,25 +1765,35 @@ function parseFiveEToolsFeatureRef(ref) {
     classSource: ref?.classSource || "",
     level: Number(ref?.level || 0),
     source: ref?.source || ref?.classSource || "",
-    raw: ref
+    raw: ref,
   };
 }
 
 function resolveFiveEToolsClassFeature(featureRef, features) {
-  return features.find((feature) =>
-    feature.name === featureRef.name &&
-    Number(feature.level || 0) === Number(featureRef.level || 0) &&
-    classRuleKey(feature.className) === classRuleKey(featureRef.className) &&
-    (!featureRef.source || feature.source === featureRef.source || feature.source === featureRef.classSource)
-  ) || features.find((feature) =>
-    feature.name === featureRef.name &&
-    Number(feature.level || 0) === Number(featureRef.level || 0) &&
-    classRuleKey(feature.className) === classRuleKey(featureRef.className)
+  return (
+    features.find(
+      (feature) =>
+        feature.name === featureRef.name &&
+        Number(feature.level || 0) === Number(featureRef.level || 0) &&
+        classRuleKey(feature.className) ===
+          classRuleKey(featureRef.className) &&
+        (!featureRef.source ||
+          feature.source === featureRef.source ||
+          feature.source === featureRef.classSource),
+    ) ||
+    features.find(
+      (feature) =>
+        feature.name === featureRef.name &&
+        Number(feature.level || 0) === Number(featureRef.level || 0) &&
+        classRuleKey(feature.className) === classRuleKey(featureRef.className),
+    )
   );
 }
 
 function normalizeFiveEToolsFeatureName(name) {
-  return String(name || "").replace(/\s+/g, " ").trim();
+  return String(name || "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function isAsiFeatureName(name) {
@@ -1493,7 +1804,9 @@ function detectFiveEToolsSubclassLevel(featureRefs, classEntry, subclasses) {
   const titleKey = classRuleKey(classEntry.subclassTitle || "");
   const directFeatureRef = featureRefs.find((featureRef) => {
     const featureKey = classRuleKey(featureRef.name);
-    return titleKey && (featureKey === titleKey || featureKey.includes(titleKey));
+    return (
+      titleKey && (featureKey === titleKey || featureKey.includes(titleKey))
+    );
   });
 
   if (directFeatureRef?.level) {
@@ -1512,9 +1825,10 @@ function detectFiveEToolsSubclassLevel(featureRefs, classEntry, subclasses) {
 
 function normalizeFiveEToolsSubclasses(subclasses, classEntry) {
   return subclasses
-    .filter((subclass) =>
-      classRuleKey(subclass.className) === classRuleKey(classEntry.name) &&
-      (!subclass.classSource || subclass.classSource === classEntry.source)
+    .filter(
+      (subclass) =>
+        classRuleKey(subclass.className) === classRuleKey(classEntry.name) &&
+        (!subclass.classSource || subclass.classSource === classEntry.source),
     )
     .map((subclass) => {
       const featureLevels = (subclass.subclassFeatures || [])
@@ -1528,13 +1842,17 @@ function normalizeFiveEToolsSubclasses(subclasses, classEntry) {
         name: subclass.name,
         source: subclass.source || "",
         description: entriesToPlainText(subclass.entries || []),
-        featureLevels
+        featureLevels,
       };
     })
     .sort((a, b) => a.label.localeCompare(b.label));
 }
 
-function extractFiveEToolsChoice(feature, classFeatures, optionalFeatureLookup) {
+function extractFiveEToolsChoice(
+  feature,
+  classFeatures,
+  optionalFeatureLookup,
+) {
   if (!feature?.entries) {
     return null;
   }
@@ -1543,17 +1861,25 @@ function extractFiveEToolsChoice(feature, classFeatures, optionalFeatureLookup) 
   collectFiveEToolsOptionNodes(feature.entries, optionNodes);
   const options = optionNodes
     .flatMap((node) => node.entries || node.items || [])
-    .map((entry) => normalizeFiveEToolsChoiceOption(entry, classFeatures, optionalFeatureLookup))
+    .map((entry) =>
+      normalizeFiveEToolsChoiceOption(
+        entry,
+        classFeatures,
+        optionalFeatureLookup,
+      ),
+    )
     .filter(Boolean);
 
   if (options.length < 2 && feature.name === "Divine Order") {
     ["Protector", "Thaumaturge"].forEach((optionName) => {
-      const optionFeature = classFeatures.find((classFeature) => classFeature.name === optionName);
+      const optionFeature = classFeatures.find(
+        (classFeature) => classFeature.name === optionName,
+      );
       if (optionFeature) {
         options.push({
           value: classRuleKey(optionName),
           label: optionName,
-          description: entriesToPlainText(optionFeature.entries || [])
+          description: entriesToPlainText(optionFeature.entries || []),
         });
       }
     });
@@ -1567,7 +1893,7 @@ function extractFiveEToolsChoice(feature, classFeatures, optionalFeatureLookup) 
     key: classRuleKey(feature.name),
     label: feature.name,
     description: entriesToPlainText(feature.entries).slice(0, 240),
-    options
+    options,
   };
 }
 
@@ -1586,10 +1912,16 @@ function collectFiveEToolsOptionNodes(value, optionNodes) {
     return;
   }
 
-  Object.values(value).forEach((entry) => collectFiveEToolsOptionNodes(entry, optionNodes));
+  Object.values(value).forEach((entry) =>
+    collectFiveEToolsOptionNodes(entry, optionNodes),
+  );
 }
 
-function normalizeFiveEToolsChoiceOption(entry, classFeatures, optionalFeatureLookup) {
+function normalizeFiveEToolsChoiceOption(
+  entry,
+  classFeatures,
+  optionalFeatureLookup,
+) {
   if (entry?.type === "refClassFeature" && entry.classFeature) {
     const featureRef = parseFiveEToolsFeatureRef(entry.classFeature);
     const feature = resolveFiveEToolsClassFeature(featureRef, classFeatures);
@@ -1597,18 +1929,23 @@ function normalizeFiveEToolsChoiceOption(entry, classFeatures, optionalFeatureLo
     return {
       value: classRuleKey(`${label}-${feature?.source || featureRef.source}`),
       label,
-      description: entriesToPlainText(feature?.entries || [])
+      description: entriesToPlainText(feature?.entries || []),
     };
   }
 
   if (entry?.type === "refOptionalfeature" && entry.optionalfeature) {
-    const optionalFeatureRef = parseFiveEToolsOptionalFeatureRef(entry.optionalfeature);
-    const optionalFeature = optionalFeatureLookup.get(optionalFeatureRef.key) ||
+    const optionalFeatureRef = parseFiveEToolsOptionalFeatureRef(
+      entry.optionalfeature,
+    );
+    const optionalFeature =
+      optionalFeatureLookup.get(optionalFeatureRef.key) ||
       optionalFeatureLookup.get(classRuleKey(optionalFeatureRef.name));
     return {
-      value: classRuleKey(`${optionalFeatureRef.name}-${optionalFeatureRef.source}`),
+      value: classRuleKey(
+        `${optionalFeatureRef.name}-${optionalFeatureRef.source}`,
+      ),
       label: optionalFeatureRef.name,
-      description: entriesToPlainText(optionalFeature?.entries || [])
+      description: entriesToPlainText(optionalFeature?.entries || []),
     };
   }
 
@@ -1616,7 +1953,7 @@ function normalizeFiveEToolsChoiceOption(entry, classFeatures, optionalFeatureLo
     return {
       value: classRuleKey(entry.name),
       label: entry.name,
-      description: entriesToPlainText(entry.entries || entry.entry || [])
+      description: entriesToPlainText(entry.entries || entry.entry || []),
     };
   }
 
@@ -1628,14 +1965,17 @@ function parseFiveEToolsOptionalFeatureRef(value) {
   return {
     name: parts[0] || "",
     source: parts[1] || "",
-    key: classRuleKey(`${parts[0] || ""}-${parts[1] || ""}`)
+    key: classRuleKey(`${parts[0] || ""}-${parts[1] || ""}`),
   };
 }
 
 function buildOptionalFeatureLookup(optionalFeaturesData) {
   const lookup = new Map();
   (optionalFeaturesData.optionalfeature || []).forEach((feature) => {
-    lookup.set(classRuleKey(`${feature.name}-${feature.source || ""}`), feature);
+    lookup.set(
+      classRuleKey(`${feature.name}-${feature.source || ""}`),
+      feature,
+    );
     if (!lookup.has(classRuleKey(feature.name))) {
       lookup.set(classRuleKey(feature.name), feature);
     }
@@ -1650,7 +1990,7 @@ function normalizeFiveEToolsReferenceRecords(records, category) {
       source: record.source || "",
       speed: normalizeFiveEToolsSpeed(record.speed),
       category,
-      features: collectFiveEToolsReferenceFeatures(record.entries || [])
+      features: collectFiveEToolsReferenceFeatures(record.entries || []),
     }))
     .filter((record) => record.name);
 }
@@ -1660,11 +2000,13 @@ function normalizeFiveEToolsSubraceRecords(records) {
     .map((record) => ({
       name: record.name || "",
       source: record.source || "",
-      parentName: record.raceName || record.race?.name || record._copy?.name || "",
-      parentSource: record.raceSource || record.race?.source || record._copy?.source || "",
+      parentName:
+        record.raceName || record.race?.name || record._copy?.name || "",
+      parentSource:
+        record.raceSource || record.race?.source || record._copy?.source || "",
       speed: normalizeFiveEToolsSpeed(record.speed),
       category: "Species Trait",
-      features: collectFiveEToolsReferenceFeatures(record.entries || [])
+      features: collectFiveEToolsReferenceFeatures(record.entries || []),
     }))
     .filter((record) => record.name);
 }
@@ -1695,13 +2037,18 @@ function normalizeFiveEToolsSpellFiles(spellFiles) {
     .forEach((spell) => {
       const key = classRuleKey(spell.name);
       const existing = preferred.get(key);
-      if (!existing || sourcePreferenceRank(spell.source) < sourcePreferenceRank(existing.source)) {
+      if (
+        !existing ||
+        sourcePreferenceRank(spell.source) <
+          sourcePreferenceRank(existing.source)
+      ) {
         preferred.set(key, spell);
       }
     });
 
-  return [...preferred.values()]
-    .sort((a, b) => a.name.localeCompare(b.name) || a.source.localeCompare(b.source));
+  return [...preferred.values()].sort(
+    (a, b) => a.name.localeCompare(b.name) || a.source.localeCompare(b.source),
+  );
 }
 
 function normalizeFiveEToolsSpell(spell) {
@@ -1709,13 +2056,22 @@ function normalizeFiveEToolsSpell(spell) {
     return null;
   }
 
-  const damageType = Array.isArray(spell.damageInflict) && spell.damageInflict.length
-    ? String(spell.damageInflict[0]).toLowerCase()
-    : inferDamageTypeFromText(entriesToPlainText([spell.entries || [], spell.entriesHigherLevel || []])) || "force";
-  const savingThrow = Array.isArray(spell.savingThrow) && spell.savingThrow.length
-    ? abilityAbbreviationMap[String(spell.savingThrow[0]).toLowerCase()] || "none"
-    : "none";
-  const hasAttack = Array.isArray(spell.spellAttack) && spell.spellAttack.length > 0;
+  const damageType =
+    Array.isArray(spell.damageInflict) && spell.damageInflict.length
+      ? String(spell.damageInflict[0]).toLowerCase()
+      : inferDamageTypeFromText(
+          entriesToPlainText([
+            spell.entries || [],
+            spell.entriesHigherLevel || [],
+          ]),
+        ) || "force";
+  const savingThrow =
+    Array.isArray(spell.savingThrow) && spell.savingThrow.length
+      ? abilityAbbreviationMap[String(spell.savingThrow[0]).toLowerCase()] ||
+        "none"
+      : "none";
+  const hasAttack =
+    Array.isArray(spell.spellAttack) && spell.spellAttack.length > 0;
   const hasSave = savingThrow !== "none";
 
   return {
@@ -1731,10 +2087,17 @@ function normalizeFiveEToolsSpell(spell) {
     duration: formatFiveEToolsDuration(spell.duration),
     components: formatFiveEToolsComponents(spell.components),
     damageType,
-    effect: inferDiceExpression(entriesToPlainText([spell.entries || [], spell.entriesHigherLevel || []])),
-    concentration: (spell.duration || []).some((duration) => Boolean(duration.concentration)),
+    effect: inferDiceExpression(
+      entriesToPlainText([spell.entries || [], spell.entriesHigherLevel || []]),
+    ),
+    concentration: (spell.duration || []).some((duration) =>
+      Boolean(duration.concentration),
+    ),
     ritual: Boolean(spell.meta?.ritual),
-    notes: entriesToPlainText([spell.entries || [], spell.entriesHigherLevel || []])
+    notes: entriesToPlainText([
+      spell.entries || [],
+      spell.entriesHigherLevel || [],
+    ]),
   };
 }
 
@@ -1746,13 +2109,18 @@ function normalizeFiveEToolsItems(items) {
     .forEach((item) => {
       const key = classRuleKey(item.name);
       const existing = preferred.get(key);
-      if (!existing || sourcePreferenceRank(item.source) < sourcePreferenceRank(existing.source)) {
+      if (
+        !existing ||
+        sourcePreferenceRank(item.source) <
+          sourcePreferenceRank(existing.source)
+      ) {
         preferred.set(key, item);
       }
     });
 
-  return [...preferred.values()]
-    .sort((a, b) => a.name.localeCompare(b.name) || a.source.localeCompare(b.source));
+  return [...preferred.values()].sort(
+    (a, b) => a.name.localeCompare(b.name) || a.source.localeCompare(b.source),
+  );
 }
 
 function normalizeFiveEToolsItem(item) {
@@ -1761,13 +2129,24 @@ function normalizeFiveEToolsItem(item) {
   }
 
   const typeCode = String(item.type || "").split("|")[0];
-  const isShield = item.shield || typeCode === "S" || /^shield$/i.test(item.name);
+  const isShield =
+    item.shield || typeCode === "S" || /^shield$/i.test(item.name);
   const isArmor = Boolean(item.armor || ["LA", "MA", "HA"].includes(typeCode));
   const isWeapon = Boolean(item.weapon || item.dmg1);
-  const type = isShield ? "shield" : isArmor ? "armor" : isWeapon ? "weapon" : "gear";
+  const type = isShield
+    ? "shield"
+    : isArmor
+      ? "armor"
+      : isWeapon
+        ? "weapon"
+        : "gear";
   const range = item.range
     ? `${isRangedItem(item) ? "Ranged" : "Melee"} Weapon Attack ${item.range} ft.`
-    : isRangedItem(item) ? "Ranged Weapon Attack" : isWeapon ? "Melee Weapon Attack" : "";
+    : isRangedItem(item)
+      ? "Ranged Weapon Attack"
+      : isWeapon
+        ? "Melee Weapon Attack"
+        : "";
 
   return {
     id: ruleRecordId(item),
@@ -1777,17 +2156,25 @@ function normalizeFiveEToolsItem(item) {
     quantity: 1,
     equipped: false,
     ability: isRangedItem(item) ? "dexterity" : "strength",
-    damageType: itemDamageTypeMap[String(item.dmgType || "").split("|")[0]] || "bludgeoning",
+    damageType:
+      itemDamageTypeMap[String(item.dmgType || "").split("|")[0]] ||
+      "bludgeoning",
     damageDice: item.dmg1 || "",
     range,
     proficient: true,
-    versatile: Array.isArray(item.property) && item.property.some((property) => String(property).split("|")[0] === "V"),
+    versatile:
+      Array.isArray(item.property) &&
+      item.property.some((property) => String(property).split("|")[0] === "V"),
     versatileDice: item.dmg2 || "",
-    armorCategory: typeCode === "MA" ? "medium" : typeCode === "HA" ? "heavy" : "light",
+    armorCategory:
+      typeCode === "MA" ? "medium" : typeCode === "HA" ? "heavy" : "light",
     armorBase: Number(item.ac || (isShield ? 0 : 10)),
     shieldBonus: isShield ? Number(item.ac || 2) : 2,
-    notes: entriesToPlainText([item.entries || [], item.additionalEntries || []]),
-    collapsed: true
+    notes: entriesToPlainText([
+      item.entries || [],
+      item.additionalEntries || [],
+    ]),
+    collapsed: true,
   };
 }
 
@@ -1806,12 +2193,18 @@ function isRangedItem(item) {
 }
 
 function inferDiceExpression(text) {
-  const damageTagMatch = String(text || "").match(/\b\d+d\d+(?:\s*[+-]\s*\d+)?\b/i);
+  const damageTagMatch = String(text || "").match(
+    /\b\d+d\d+(?:\s*[+-]\s*\d+)?\b/i,
+  );
   return damageTagMatch ? damageTagMatch[0].replace(/\s+/g, "") : "";
 }
 
 function inferDamageTypeFromText(text) {
-  const match = String(text || "").toLowerCase().match(/\b(acid|bludgeoning|cold|fire|force|lightning|necrotic|piercing|poison|psychic|radiant|slashing|thunder)\b/);
+  const match = String(text || "")
+    .toLowerCase()
+    .match(
+      /\b(acid|bludgeoning|cold|fire|force|lightning|necrotic|piercing|poison|psychic|radiant|slashing|thunder)\b/,
+    );
   return match?.[1] || "";
 }
 
@@ -1894,12 +2287,25 @@ function formatFiveEToolsComponents(components = {}) {
 }
 
 function collectFiveEToolsReferenceFeatures(entries) {
-  const ignoredNames = new Set(["Age", "Alignment", "Size", "Language", "Languages", "Height and Weight"]);
+  const ignoredNames = new Set([
+    "Age",
+    "Alignment",
+    "Size",
+    "Language",
+    "Languages",
+    "Height and Weight",
+  ]);
   return (entries || [])
-    .filter((entry) => entry && typeof entry === "object" && entry.name && !ignoredNames.has(entry.name))
+    .filter(
+      (entry) =>
+        entry &&
+        typeof entry === "object" &&
+        entry.name &&
+        !ignoredNames.has(entry.name),
+    )
     .map((entry) => ({
       name: entry.name,
-      notes: entriesToPlainText(entry.entries || entry.entry || [])
+      notes: entriesToPlainText(entry.entries || entry.entry || []),
     }))
     .filter((feature) => feature.notes);
 }
@@ -1926,7 +2332,9 @@ function entriesToPlainText(value) {
     return value.name ? `${value.name}: ${entryText}` : entryText;
   }
 
-  const namedEntryText = entriesToPlainText(value.entries || value.entry || value.items || []);
+  const namedEntryText = entriesToPlainText(
+    value.entries || value.entry || value.items || [],
+  );
   if (value.name && namedEntryText) {
     return `${value.name}: ${namedEntryText}`;
   }
@@ -1951,11 +2359,12 @@ function mergeState(base, incoming) {
     ...incoming,
     abilities: {
       ...base.abilities,
-      ...(incoming?.abilities || {})
+      ...(incoming?.abilities || {}),
     },
-    classes: Array.isArray(incoming?.classes) && incoming.classes.length
-      ? incoming.classes.map(normalizeClassEntry)
-      : [normalizeClassEntry(parseLegacyClassLevel(incoming?.classLevel))],
+    classes:
+      Array.isArray(incoming?.classes) && incoming.classes.length
+        ? incoming.classes.map(normalizeClassEntry)
+        : [normalizeClassEntry(parseLegacyClassLevel(incoming?.classLevel))],
     attacks: Array.isArray(incoming?.attacks)
       ? incoming.attacks.map(normalizeAttack)
       : [],
@@ -1970,8 +2379,8 @@ function mergeState(base, incoming) {
       : [],
     activeConditions: Array.isArray(incoming?.activeConditions)
       ? incoming.activeConditions
-        .map((condition) => String(condition || "").trim())
-        .filter(Boolean)
+          .map((condition) => String(condition || "").trim())
+          .filter(Boolean)
       : [],
     statuses: Array.isArray(incoming?.statuses)
       ? incoming.statuses.map(normalizeStatus)
@@ -1986,13 +2395,13 @@ function mergeState(base, incoming) {
     proficiencies: {
       savingThrows: {
         ...base.proficiencies.savingThrows,
-        ...(incoming?.proficiencies?.savingThrows || {})
+        ...(incoming?.proficiencies?.savingThrows || {}),
       },
       skills: {
         ...base.proficiencies.skills,
-        ...(incoming?.proficiencies?.skills || {})
-      }
-    }
+        ...(incoming?.proficiencies?.skills || {}),
+      },
+    },
   };
 }
 
@@ -2017,8 +2426,12 @@ function renderEquipmentItems() {
     summary.textContent = summarizeEquipmentItem(item);
 
     toggleButton.addEventListener("click", () => {
-      state.equipmentItems[index].collapsed = !Boolean(state.equipmentItems[index].collapsed);
-      card.dataset.collapsed = String(Boolean(state.equipmentItems[index].collapsed));
+      state.equipmentItems[index].collapsed = !Boolean(
+        state.equipmentItems[index].collapsed,
+      );
+      card.dataset.collapsed = String(
+        Boolean(state.equipmentItems[index].collapsed),
+      );
       syncEquipmentEditorHeight(card);
       queueSave();
     });
@@ -2059,7 +2472,9 @@ function renderEquipmentItems() {
           if (fieldName === "equipped") {
             refreshDerivedValues();
           } else {
-            summary.textContent = summarizeEquipmentItem(state.equipmentItems[index]);
+            summary.textContent = summarizeEquipmentItem(
+              state.equipmentItems[index],
+            );
           }
           queueSave();
         });
@@ -2068,17 +2483,19 @@ function renderEquipmentItems() {
 
       field.value = item[fieldName] ?? "";
       field.addEventListener("input", () => {
-        state.equipmentItems[index][fieldName] = field.type === "number"
-          ? Number(field.value || 0)
-          : field.value;
+        state.equipmentItems[index][fieldName] =
+          field.type === "number" ? Number(field.value || 0) : field.value;
         if (fieldName === "type") {
           card.dataset.itemType = field.value;
         }
         if (fieldName === "versatile") {
           card.dataset.versatile = String(Boolean(field.value));
         }
-        title.textContent = state.equipmentItems[index].name || `Item ${index + 1}`;
-        summary.textContent = summarizeEquipmentItem(state.equipmentItems[index]);
+        title.textContent =
+          state.equipmentItems[index].name || `Item ${index + 1}`;
+        summary.textContent = summarizeEquipmentItem(
+          state.equipmentItems[index],
+        );
         refreshDerivedValues();
         queueSave();
       });
@@ -2095,7 +2512,10 @@ function renderFeatures() {
   syncFeatureFilterButtons();
 
   state.features.forEach((feature, index) => {
-    if (activeFeatureFilter !== "all" && feature.category !== activeFeatureFilter) {
+    if (
+      activeFeatureFilter !== "all" &&
+      feature.category !== activeFeatureFilter
+    ) {
       return;
     }
 
@@ -2112,7 +2532,9 @@ function renderFeatures() {
     summary.textContent = summarizeFeature(feature);
 
     toggleButton.addEventListener("click", () => {
-      state.features[index].collapsed = !Boolean(state.features[index].collapsed);
+      state.features[index].collapsed = !Boolean(
+        state.features[index].collapsed,
+      );
       card.dataset.collapsed = String(Boolean(state.features[index].collapsed));
       syncFeatureEditorHeight(card);
       queueSave();
@@ -2132,7 +2554,8 @@ function renderFeatures() {
       field.value = feature[fieldName] ?? "";
       field.addEventListener("input", () => {
         state.features[index][fieldName] = field.value;
-        title.textContent = state.features[index].name || `Feature ${index + 1}`;
+        title.textContent =
+          state.features[index].name || `Feature ${index + 1}`;
         summary.textContent = summarizeFeature(state.features[index]);
         queueSave();
       });
@@ -2150,7 +2573,10 @@ function setFeatureFilter(filter) {
 
 function syncFeatureFilterButtons() {
   featureFilterButtons.forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.featureFilter === activeFeatureFilter);
+    button.classList.toggle(
+      "is-active",
+      button.dataset.featureFilter === activeFeatureFilter,
+    );
   });
 }
 
@@ -2167,8 +2593,12 @@ function renderTrackingResources() {
     const valueDisplay = fragment.querySelector(".tracking-value-display");
     const removeButton = fragment.querySelector(".remove-tracking-button");
     const toggleButton = fragment.querySelector(".tracking-toggle");
-    const minusButton = fragment.querySelector('[data-tracking-action="decrease"]');
-    const plusButton = fragment.querySelector('[data-tracking-action="increase"]');
+    const minusButton = fragment.querySelector(
+      '[data-tracking-action="decrease"]',
+    );
+    const plusButton = fragment.querySelector(
+      '[data-tracking-action="increase"]',
+    );
 
     state.trackingResources[index] = normalizedResource;
     card.dataset.resourceIndex = index;
@@ -2179,8 +2609,12 @@ function renderTrackingResources() {
     valueDisplay.textContent = formatTrackingValueDisplay(normalizedResource);
 
     toggleButton.addEventListener("click", () => {
-      state.trackingResources[index].collapsed = !Boolean(state.trackingResources[index].collapsed);
-      card.dataset.collapsed = String(Boolean(state.trackingResources[index].collapsed));
+      state.trackingResources[index].collapsed = !Boolean(
+        state.trackingResources[index].collapsed,
+      );
+      card.dataset.collapsed = String(
+        Boolean(state.trackingResources[index].collapsed),
+      );
       syncTrackingEditorHeight(card);
       queueSave();
     });
@@ -2214,10 +2648,11 @@ function renderTrackingResources() {
 
       field.value = normalizedResource[fieldName] ?? "";
       field.addEventListener("input", () => {
-        state.trackingResources[index][fieldName] = field.type === "number"
-          ? Number(field.value || 0)
-          : field.value;
-        state.trackingResources[index] = normalizeTrackingResource(state.trackingResources[index]);
+        state.trackingResources[index][fieldName] =
+          field.type === "number" ? Number(field.value || 0) : field.value;
+        state.trackingResources[index] = normalizeTrackingResource(
+          state.trackingResources[index],
+        );
         const updatedResource = state.trackingResources[index];
         card.dataset.totalMode = updatedResource.totalSource;
         title.textContent = updatedResource.name || `Resource ${index + 1}`;
@@ -2382,13 +2817,18 @@ function bindFields() {
         renderCharacterLibraryControls();
       }
       if (key === "species") {
-        populateDatalist(subraceOptions, getSubraceOptionsForSpecies(field.value));
+        populateDatalist(
+          subraceOptions,
+          getSubraceOptionsForSpecies(field.value),
+        );
         if (!String(state.speed || "").trim()) {
-          state.speed = getDefaultSpeedForSpecies(state.species, state.subrace) || "";
+          state.speed =
+            getDefaultSpeedForSpecies(state.species, state.subrace) || "";
         }
       }
       if (key === "subrace" && !String(state.speed || "").trim()) {
-        state.speed = getDefaultSpeedForSpecies(state.species, state.subrace) || "";
+        state.speed =
+          getDefaultSpeedForSpecies(state.species, state.subrace) || "";
       }
       refreshDerivedValues();
       queueSave();
@@ -2435,7 +2875,9 @@ function renderClasses() {
     const removeButton = fragment.querySelector(".remove-class-button");
 
     card.dataset.classIndex = index;
-    title.textContent = classEntry.name ? `${classEntry.name} ${classEntry.level}` : `Class Entry ${index + 1}`;
+    title.textContent = classEntry.name
+      ? `${classEntry.name} ${classEntry.level}`
+      : `Class Entry ${index + 1}`;
 
     removeButton.addEventListener("click", () => {
       state.classes.splice(index, 1);
@@ -2451,9 +2893,8 @@ function renderClasses() {
       const fieldName = field.dataset.classField;
       field.value = classEntry[fieldName] ?? "";
       field.addEventListener("input", () => {
-        state.classes[index][fieldName] = field.type === "number"
-          ? Number(field.value || 0)
-          : field.value;
+        state.classes[index][fieldName] =
+          field.type === "number" ? Number(field.value || 0) : field.value;
         title.textContent = state.classes[index].name
           ? `${state.classes[index].name} ${Math.max(1, Number(state.classes[index].level || 1))}`
           : `Class Entry ${index + 1}`;
@@ -2485,21 +2926,25 @@ function renderAdvancementChoices() {
     summary.textContent = describeAdvancementChoice(choice);
     status.textContent = choice.status === "resolved" ? "Resolved" : "Pending";
 
-    fragment.querySelectorAll('[data-advancement-action="asi"]').forEach((button) => {
-      button.addEventListener("click", () => {
-        choice.type = "asi";
-        card.dataset.mode = "asi";
-        queueSave();
+    fragment
+      .querySelectorAll('[data-advancement-action="asi"]')
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          choice.type = "asi";
+          card.dataset.mode = "asi";
+          queueSave();
+        });
       });
-    });
 
-    fragment.querySelectorAll('[data-advancement-action="feat"]').forEach((button) => {
-      button.addEventListener("click", () => {
-        choice.type = "feat";
-        card.dataset.mode = "feat";
-        queueSave();
+    fragment
+      .querySelectorAll('[data-advancement-action="feat"]')
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          choice.type = "feat";
+          card.dataset.mode = "feat";
+          queueSave();
+        });
       });
-    });
 
     fragment.querySelectorAll("[data-asi-mode]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -2521,13 +2966,17 @@ function renderAdvancementChoices() {
       });
     });
 
-    fragment.querySelector('[data-advancement-action="confirmAsi"]')?.addEventListener("click", () => {
-      resolveAsiChoice(choice);
-    });
+    fragment
+      .querySelector('[data-advancement-action="confirmAsi"]')
+      ?.addEventListener("click", () => {
+        resolveAsiChoice(choice);
+      });
 
-    fragment.querySelector('[data-advancement-action="confirmFeat"]')?.addEventListener("click", () => {
-      resolveFeatChoice(choice);
-    });
+    fragment
+      .querySelector('[data-advancement-action="confirmFeat"]')
+      ?.addEventListener("click", () => {
+        resolveFeatChoice(choice);
+      });
 
     advancementChoicesList.appendChild(fragment);
   });
@@ -2591,9 +3040,8 @@ function renderAttacks() {
 
       field.value = attack[fieldName] ?? "";
       field.addEventListener("input", () => {
-        state.attacks[index][fieldName] = field.type === "number"
-          ? Number(field.value || 0)
-          : field.value;
+        state.attacks[index][fieldName] =
+          field.type === "number" ? Number(field.value || 0) : field.value;
         refreshDerivedValues();
         queueSave();
       });
@@ -2668,10 +3116,11 @@ function renderAbilityGroups() {
     const scoreNameButton = fragment.querySelector(".score-name-button");
     const scoreCap = fragment.querySelector(".score-cap-input");
     const itemsWrap = fragment.querySelector(".ability-group-items");
-    const rollAbility = () => openAbilityRollModal(
-      `${ability.label} Check`,
-      abilityModifier(Number(state.abilities[ability.key] || 0))
-    );
+    const rollAbility = () =>
+      openAbilityRollModal(
+        `${ability.label} Check`,
+        abilityModifier(Number(state.abilities[ability.key] || 0)),
+      );
 
     card.dataset.ability = ability.key;
     scoreCap.dataset.scoreInput = ability.key;
@@ -2690,7 +3139,7 @@ function renderAbilityGroups() {
       label: "Saving Throw",
       group: "savingThrows",
       ability: ability.key,
-      kind: "save"
+      kind: "save",
     };
 
     const relatedSkills = skills
@@ -2698,13 +3147,15 @@ function renderAbilityGroups() {
       .map((skill) => ({
         ...skill,
         group: "skills",
-        kind: "skill"
+        kind: "skill",
       }));
 
     [savingThrow, ...relatedSkills].forEach((item) => {
       const itemFragment = itemTemplate.content.cloneNode(true);
       const row = itemFragment.querySelector(".group-item");
-      const toggleButton = itemFragment.querySelector(".group-item-prof-toggle");
+      const toggleButton = itemFragment.querySelector(
+        ".group-item-prof-toggle",
+      );
       const rollButton = itemFragment.querySelector(".group-item-roll");
       const value = itemFragment.querySelector(".group-item-value");
       const name = itemFragment.querySelector(".group-item-name");
@@ -2717,7 +3168,9 @@ function renderAbilityGroups() {
       name.textContent = item.label;
 
       toggleButton.addEventListener("click", () => {
-        state.proficiencies[item.group][item.key] = !Boolean(state.proficiencies[item.group][item.key]);
+        state.proficiencies[item.group][item.key] = !Boolean(
+          state.proficiencies[item.group][item.key],
+        );
         refreshDerivedValues();
         queueSave();
       });
@@ -2725,7 +3178,8 @@ function renderAbilityGroups() {
       rollButton.addEventListener("click", () => {
         const abilityKey = item.ability;
         const proficient = Boolean(state.proficiencies[item.group][item.key]);
-        const modifier = abilityModifier(Number(state.abilities[abilityKey] || 0)) +
+        const modifier =
+          abilityModifier(Number(state.abilities[abilityKey] || 0)) +
           (proficient ? Number(state.proficiencyBonus || 0) : 0);
         openAbilityRollModal(item.label, modifier);
       });
@@ -2752,9 +3206,14 @@ function renderAbilityModal() {
 function refreshDerivedValues() {
   const normalizedClasses = state.classes.map(normalizeClassEntry);
   state.classes = normalizedClasses;
-  state.trackingResources = state.trackingResources.map(normalizeTrackingResource);
+  state.trackingResources = state.trackingResources.map(
+    normalizeTrackingResource,
+  );
   syncAdvancementChoices();
-  const totalLevel = normalizedClasses.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0);
+  const totalLevel = normalizedClasses.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
   const classSummary = buildClassSummary(normalizedClasses);
   const proficiencyBonus = calculateProficiencyBonus(totalLevel);
   const experience = Number(state.experience || 0);
@@ -2765,13 +3224,17 @@ function refreshDerivedValues() {
   classSummaryDisplay.textContent = classSummary || "Single class";
   proficiencyBonusDisplay.textContent = formatModifier(proficiencyBonus);
   updateLevelStatus(totalLevel, experience);
-  syncLevelUpButton(totalLevel, experience);
+  updateLevelMethodDisplay();
 
   abilities.forEach((ability) => {
     const score = Number(state.abilities[ability.key] || 0);
     const modifierValue = abilityModifier(score);
-    const groupModifier = document.querySelector(`[data-group-modifier="${ability.key}"]`);
-    const scoreCap = document.querySelector(`[data-score-input="${ability.key}"]`);
+    const groupModifier = document.querySelector(
+      `[data-group-modifier="${ability.key}"]`,
+    );
+    const scoreCap = document.querySelector(
+      `[data-score-input="${ability.key}"]`,
+    );
     if (groupModifier) {
       groupModifier.textContent = formatModifier(modifierValue);
     }
@@ -2784,7 +3247,7 @@ function refreshDerivedValues() {
   const armorClassField = document.querySelector('[data-field="armorClass"]');
   if (armorClassField) {
     const derivedArmorClass = deriveArmorClass();
-    armorClassField.value = derivedArmorClass ?? (state.armorClass ?? "");
+    armorClassField.value = derivedArmorClass ?? state.armorClass ?? "";
   }
 
   const speedField = document.querySelector('[data-field="speed"]');
@@ -2793,30 +3256,47 @@ function refreshDerivedValues() {
   }
 
   abilities.forEach((ability) => {
-    const itemNode = document.querySelector(`.group-item[data-group="savingThrows"][data-key="${ability.key}"]`);
-    const valueNode = document.querySelector(`.group-item-value[data-group="savingThrows"][data-key="${ability.key}"]`);
+    const itemNode = document.querySelector(
+      `.group-item[data-group="savingThrows"][data-key="${ability.key}"]`,
+    );
+    const valueNode = document.querySelector(
+      `.group-item-value[data-group="savingThrows"][data-key="${ability.key}"]`,
+    );
     if (valueNode) {
-      const total = abilityModifier(Number(state.abilities[ability.key] || 0)) +
+      const total =
+        abilityModifier(Number(state.abilities[ability.key] || 0)) +
         (state.proficiencies.savingThrows[ability.key] ? proficiencyBonus : 0);
       valueNode.textContent = formatModifier(total);
-      itemNode.dataset.proficient = String(Boolean(state.proficiencies.savingThrows[ability.key]));
+      itemNode.dataset.proficient = String(
+        Boolean(state.proficiencies.savingThrows[ability.key]),
+      );
     }
   });
 
   skills.forEach((skill) => {
-    const itemNode = document.querySelector(`.group-item[data-group="skills"][data-key="${skill.key}"]`);
-    const valueNode = document.querySelector(`.group-item-value[data-group="skills"][data-key="${skill.key}"]`);
+    const itemNode = document.querySelector(
+      `.group-item[data-group="skills"][data-key="${skill.key}"]`,
+    );
+    const valueNode = document.querySelector(
+      `.group-item-value[data-group="skills"][data-key="${skill.key}"]`,
+    );
     if (valueNode) {
-      const total = abilityModifier(Number(state.abilities[skill.ability] || 0)) +
+      const total =
+        abilityModifier(Number(state.abilities[skill.ability] || 0)) +
         (state.proficiencies.skills[skill.key] ? proficiencyBonus : 0);
       valueNode.textContent = formatModifier(total);
-      itemNode.dataset.proficient = String(Boolean(state.proficiencies.skills[skill.key]));
+      itemNode.dataset.proficient = String(
+        Boolean(state.proficiencies.skills[skill.key]),
+      );
     }
   });
 
-  const passivePerceptionField = document.querySelector('[data-field="passivePerception"]');
+  const passivePerceptionField = document.querySelector(
+    '[data-field="passivePerception"]',
+  );
   if (passivePerceptionField) {
-    const perception = abilityModifier(Number(state.abilities.wisdom || 0)) +
+    const perception =
+      abilityModifier(Number(state.abilities.wisdom || 0)) +
       (state.proficiencies.skills.perception ? proficiencyBonus : 0);
     state.passivePerception = 10 + perception;
     passivePerceptionField.value = state.passivePerception;
@@ -2828,21 +3308,34 @@ function refreshDerivedValues() {
   renderAdvancementChoices();
 }
 
-function syncLevelUpButton(totalLevel, experience) {
-  const { canLevelUp, levelsAvailable } = getLevelProgressState(totalLevel, experience);
-  levelUpButton.textContent = "Level Up";
-  levelUpButton.title = canLevelUp
-    ? `${levelsAvailable} level ${levelsAvailable === 1 ? "available" : "available"}`
-    : "View level-up options";
-  levelUpButton.setAttribute("aria-disabled", "false");
-}
-
 function openLevelUpModal() {
-  const totalLevel = state.classes.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0);
-  const progressState = getLevelProgressState(totalLevel, state.experience);
+  const totalLevel = state.classes.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
+
+  const baseProgressState = getLevelProgressState(totalLevel, state.experience);
+
+  const progressState =
+    state.levelMethod === "milestone"
+      ? {
+          ...baseProgressState,
+          totalLevel,
+          canLevelUp: totalLevel < 20,
+          levelsAvailable: totalLevel < 20 ? 1 : 0,
+          levelMethod: "milestone",
+        }
+      : {
+          ...baseProgressState,
+          levelMethod: "xp",
+        };
+
   renderLevelUpModal(progressState);
   levelUpModal.hidden = false;
 }
+
+const levelUpAllowed =
+  progressState.canLevelUp || progressState.levelMethod === "milestone";
 
 function closeLevelUpModal() {
   levelUpModal.hidden = true;
@@ -2855,20 +3348,27 @@ function closeLevelUpModal() {
 function renderLevelUpModal(progressState) {
   levelUpExistingList.innerHTML = "";
   clearLevelUpChoiceSection();
-  if (!progressState.canLevelUp) {
+  if (progressState.levelMethod === "milestone") {
+    levelUpModalSummary.textContent =
+      progressState.totalLevel >= 20
+        ? "Level 20 reached. No further level-ups apply."
+        : "Milestone level up available. Choose an existing class to increase, or add a new class at level 1.";
+  } else if (!levelUpAllowed) {
     const nextLevel = Math.min(20, progressState.totalLevel + 1);
     const nextThreshold = xpThresholds[Math.min(19, progressState.totalLevel)];
     const xpRemaining = Math.max(0, nextThreshold - progressState.experience);
-    levelUpModalSummary.textContent = progressState.totalLevel >= 20
-      ? "Level 20 reached. No further level-ups apply."
-      : `${xpRemaining.toLocaleString()} XP needed to reach level ${nextLevel}.`;
+    levelUpModalSummary.textContent =
+      progressState.totalLevel >= 20
+        ? "Level 20 reached. No further level-ups apply."
+        : `${xpRemaining.toLocaleString()} XP needed to reach level ${nextLevel}.`;
   } else {
-    levelUpModalSummary.textContent = progressState.levelsAvailable > 1
-      ? `${progressState.levelsAvailable} levels are available from your current XP. Apply one level now.`
-      : "Choose an existing class to increase, or add a new class at level 1.";
+    levelUpModalSummary.textContent =
+      progressState.levelsAvailable > 1
+        ? `${progressState.levelsAvailable} levels are available from your current XP. Apply one level now.`
+        : "Choose an existing class to increase, or add a new class at level 1.";
   }
 
-  confirmAddMulticlassButton.disabled = !progressState.canLevelUp;
+  confirmAddMulticlassButton.disabled = !levelUpAllowed;
 
   state.classes.forEach((classEntry, index) => {
     const button = document.createElement("button");
@@ -2877,7 +3377,7 @@ function renderLevelUpModal(progressState) {
     const preview = getLevelAutomationPreview(classEntry.name, nextLevel);
     button.type = "button";
     button.className = "level-up-existing-option";
-    button.disabled = !progressState.canLevelUp;
+    button.disabled = !levelUpAllowed;
     const content = document.createElement("div");
     const title = document.createElement("strong");
     const levelText = document.createElement("span");
@@ -2898,7 +3398,10 @@ function renderLevelUpModal(progressState) {
 }
 
 function canApplySingleLevelUp() {
-  const totalLevel = state.classes.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0);
+  const totalLevel = state.classes.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
   return getLevelProgressState(totalLevel, state.experience).canLevelUp;
 }
 
@@ -2909,7 +3412,14 @@ function startLevelExistingClass(index) {
 
   const nextLevel = Math.max(1, Number(state.classes[index].level || 1)) + 1;
   const classRule = getClassRule(state.classes[index].name);
-  if (showLevelSelectionIfNeeded({ type: "existing", index, level: nextLevel }, state.classes[index], classRule, nextLevel)) {
+  if (
+    showLevelSelectionIfNeeded(
+      { type: "existing", index, level: nextLevel },
+      state.classes[index],
+      classRule,
+      nextLevel,
+    )
+  ) {
     return;
   }
 
@@ -2944,12 +3454,14 @@ function addMulticlassLevelFromModal() {
     return;
   }
 
-  if (showLevelSelectionIfNeeded(
-    { type: "multiclass", classEntry: classBuild.classEntry, level: 1 },
-    classBuild.classEntry,
-    classBuild.classRule,
-    1
-  )) {
+  if (
+    showLevelSelectionIfNeeded(
+      { type: "multiclass", classEntry: classBuild.classEntry, level: 1 },
+      classBuild.classEntry,
+      classBuild.classRule,
+      1,
+    )
+  ) {
     return;
   }
 
@@ -2968,7 +3480,7 @@ function buildMulticlassEntryFromModal() {
   const classEntry = normalizeClassEntry({
     name: classRule?.label || name,
     subclass,
-    level: 1
+    level: 1,
   });
 
   return { classEntry, classRule };
@@ -2994,7 +3506,13 @@ function showLevelSelectionIfNeeded(action, classEntry, classRule, level) {
   pendingLevelUpAction = action;
   pendingLevelUpSelections = {};
   levelUpChoiceTitle.textContent = `${classRule.label} Level ${level} Selections`;
-  renderClassSelectionFields(levelUpChoiceFields, classEntry, classRule, level, pendingLevelUpSelections);
+  renderClassSelectionFields(
+    levelUpChoiceFields,
+    classEntry,
+    classRule,
+    level,
+    pendingLevelUpSelections,
+  );
   levelUpChoiceSection.hidden = false;
 
   return true;
@@ -3022,7 +3540,7 @@ function completePendingLevelUpAction() {
     levelUpChoiceFields,
     context.classEntry,
     context.classRule,
-    context.level
+    context.level,
   );
   if (!selections) {
     return;
@@ -3051,7 +3569,7 @@ function getPendingLevelUpContext(action) {
     return {
       classEntry,
       classRule: getClassRule(classEntry.name),
-      level: action.level
+      level: action.level,
     };
   }
 
@@ -3059,7 +3577,7 @@ function getPendingLevelUpContext(action) {
     return {
       classEntry: action.classEntry,
       classRule: getClassRule(action.classEntry.name),
-      level: action.level
+      level: action.level,
     };
   }
 
@@ -3079,9 +3597,10 @@ function getLevelAutomationPreview(className, level) {
   const classRule = getClassRule(className);
   if (!classRule) {
     return {
-      summary: "No local class memory found. The level can still be added manually.",
+      summary:
+        "No local class memory found. The level can still be added manually.",
       features: [],
-      hitDie: null
+      hitDie: null,
     };
   }
 
@@ -3096,13 +3615,15 @@ function getLevelAutomationPreview(className, level) {
     parts.push("ASI / Feat choice");
   }
   if (choices.length) {
-    parts.push(`Selections: ${choices.map((choice) => choice.label).join(", ")}`);
+    parts.push(
+      `Selections: ${choices.map((choice) => choice.label).join(", ")}`,
+    );
   }
 
   return {
     summary: parts.join(". "),
     features,
-    hitDie: classRule.hitDie
+    hitDie: classRule.hitDie,
   };
 }
 
@@ -3148,7 +3669,7 @@ function getClassSelectionDefinitions(classEntry, classRule, level) {
       key: "subclass",
       label: classRule.subclassLabel || "Subclass",
       description: `Choose the ${classRule.subclassLabel || "subclass"} for this ${classRule.label} level.`,
-      options: classRule.subclasses || []
+      options: classRule.subclasses || [],
     });
   }
 
@@ -3156,7 +3677,7 @@ function getClassSelectionDefinitions(classEntry, classRule, level) {
     if (!classEntry.selections?.[choice.key]) {
       definitions.push({
         type: "choice",
-        ...choice
+        ...choice,
       });
     }
   });
@@ -3164,8 +3685,18 @@ function getClassSelectionDefinitions(classEntry, classRule, level) {
   return definitions;
 }
 
-function renderClassSelectionFields(container, classEntry, classRule, level, draft) {
-  const definitions = getClassSelectionDefinitions(classEntry, classRule, level);
+function renderClassSelectionFields(
+  container,
+  classEntry,
+  classRule,
+  level,
+  draft,
+) {
+  const definitions = getClassSelectionDefinitions(
+    classEntry,
+    classRule,
+    level,
+  );
   container.innerHTML = "";
   container.hidden = definitions.length === 0;
 
@@ -3175,7 +3706,8 @@ function renderClassSelectionFields(container, classEntry, classRule, level, dra
     const description = document.createElement("p");
     field.className = "class-choice-field";
     label.textContent = definition.label;
-    description.textContent = definition.description || "Choose one option for this level.";
+    description.textContent =
+      definition.description || "Choose one option for this level.";
 
     if (definition.type === "subclass" && !definition.options?.length) {
       const input = document.createElement("input");
@@ -3200,17 +3732,22 @@ function renderClassSelectionFields(container, classEntry, classRule, level, dra
 
     (definition.options || []).forEach((option) => {
       const optionNode = document.createElement("option");
-      optionNode.value = definition.type === "subclass" ? option.label : option.value;
+      optionNode.value =
+        definition.type === "subclass" ? option.label : option.value;
       optionNode.textContent = option.label;
       select.appendChild(optionNode);
     });
 
     select.value = draft[definition.key] || "";
     const updateChoiceDescription = () => {
-      const selectedOption = (definition.options || []).find((option) =>
-        option.value === select.value || option.label === select.value
+      const selectedOption = (definition.options || []).find(
+        (option) =>
+          option.value === select.value || option.label === select.value,
       );
-      description.textContent = selectedOption?.description || definition.description || "Choose one option for this level.";
+      description.textContent =
+        selectedOption?.description ||
+        definition.description ||
+        "Choose one option for this level.";
     };
     select.addEventListener("change", () => {
       draft[definition.key] = select.value;
@@ -3224,11 +3761,17 @@ function renderClassSelectionFields(container, classEntry, classRule, level, dra
 }
 
 function collectClassSelectionValues(container, classEntry, classRule, level) {
-  const definitions = getClassSelectionDefinitions(classEntry, classRule, level);
+  const definitions = getClassSelectionDefinitions(
+    classEntry,
+    classRule,
+    level,
+  );
   const values = {};
 
   for (const definition of definitions) {
-    const field = container.querySelector(`[data-class-choice-key="${definition.key}"]`);
+    const field = container.querySelector(
+      `[data-class-choice-key="${definition.key}"]`,
+    );
     const value = String(field?.value || "").trim();
 
     if (!value) {
@@ -3250,7 +3793,7 @@ function applyClassSelections(classEntry, classRule, level, selections = {}) {
   }
 
   classEntry.selections = {
-    ...(classEntry.selections || {})
+    ...(classEntry.selections || {}),
   };
 
   if (selections.subclass) {
@@ -3258,7 +3801,8 @@ function applyClassSelections(classEntry, classRule, level, selections = {}) {
   }
 
   getClassLevelChoices(classRule, level).forEach((choice) => {
-    const selectedValue = selections[choice.key] || classEntry.selections[choice.key];
+    const selectedValue =
+      selections[choice.key] || classEntry.selections[choice.key];
     if (selectedValue) {
       classEntry.selections[choice.key] = selectedValue;
     }
@@ -3274,7 +3818,7 @@ function getClassLevelFeatures(classRule, level) {
 
       return {
         name: feature.name || feature.label || "",
-        description: feature.description || ""
+        description: feature.description || "",
       };
     })
     .filter((feature) => feature.name);
@@ -3286,9 +3830,11 @@ function getClassLevelChoices(classRule, level) {
 }
 
 function getClassFeatureDescription(classRule, featureName) {
-  return classRule?.featureDescriptions?.[featureName] ||
+  return (
+    classRule?.featureDescriptions?.[featureName] ||
     classFeatureDescriptions[featureName] ||
-    "";
+    ""
+  );
 }
 
 function addClassFeatureCards(classRule, level, classEntry = {}) {
@@ -3296,8 +3842,14 @@ function addClassFeatureCards(classRule, level, classEntry = {}) {
   const source = `${classRule.label} ${level}`;
 
   features.forEach((feature) => {
-    const selectedChoice = getSelectedChoiceForFeature(classRule, level, feature.name, classEntry);
-    const isSubclassFeature = Number(classRule.subclassLevel || 0) === Number(level || 0) &&
+    const selectedChoice = getSelectedChoiceForFeature(
+      classRule,
+      level,
+      feature.name,
+      classEntry,
+    );
+    const isSubclassFeature =
+      Number(classRule.subclassLevel || 0) === Number(level || 0) &&
       feature.name === (classRule.subclassLabel || "Subclass") &&
       String(classEntry.subclass || "").trim();
     const featureName = selectedChoice
@@ -3306,39 +3858,54 @@ function addClassFeatureCards(classRule, level, classEntry = {}) {
         ? `${feature.name}: ${classEntry.subclass.trim()}`
         : feature.name;
     const featureNotes = selectedChoice
-      ? selectedChoice.option.description || getClassFeatureDescription(classRule, selectedChoice.choice.label)
+      ? selectedChoice.option.description ||
+        getClassFeatureDescription(classRule, selectedChoice.choice.label)
       : isSubclassFeature
         ? `Your ${classRule.label} ${classRule.subclassLabel || "subclass"} selection. Add ${classEntry.subclass.trim()} details here.`
-        : feature.description || getClassFeatureDescription(classRule, feature.name);
-    const existingFeature = state.features.find((feature) =>
-      feature.category === "Class Feature" &&
-      feature.name === featureName &&
-      feature.source === source
+        : feature.description ||
+          getClassFeatureDescription(classRule, feature.name);
+    const existingFeature = state.features.find(
+      (feature) =>
+        feature.category === "Class Feature" &&
+        feature.name === featureName &&
+        feature.source === source,
     );
 
     if (!existingFeature) {
-      state.features.push(normalizeFeature({
-        name: featureName,
-        category: "Class Feature",
-        source,
-        notes: featureNotes,
-        collapsed: true
-      }));
+      state.features.push(
+        normalizeFeature({
+          name: featureName,
+          category: "Class Feature",
+          source,
+          notes: featureNotes,
+          collapsed: true,
+        }),
+      );
     } else if (!String(existingFeature.notes || "").trim() && featureNotes) {
       existingFeature.notes = featureNotes;
     }
   });
 }
 
-function getSelectedChoiceForFeature(classRule, level, featureName, classEntry) {
+function getSelectedChoiceForFeature(
+  classRule,
+  level,
+  featureName,
+  classEntry,
+) {
   const choices = getClassLevelChoices(classRule, level);
-  const choice = choices.find((entry) => entry.label === featureName && classEntry.selections?.[entry.key]);
+  const choice = choices.find(
+    (entry) =>
+      entry.label === featureName && classEntry.selections?.[entry.key],
+  );
   if (!choice) {
     return null;
   }
 
   const selectedValue = classEntry.selections[choice.key];
-  const option = (choice.options || []).find((entry) => entry.value === selectedValue);
+  const option = (choice.options || []).find(
+    (entry) => entry.value === selectedValue,
+  );
   if (!option) {
     return null;
   }
@@ -3359,9 +3926,7 @@ function formatToHit(value) {
     return "1d20";
   }
 
-  return value > 0
-    ? `1d20 + ${value}`
-    : `1d20 - ${Math.abs(value)}`;
+  return value > 0 ? `1d20 + ${value}` : `1d20 - ${Math.abs(value)}`;
 }
 
 function abbreviateAbility(key) {
@@ -3378,11 +3943,13 @@ function queueSave() {
 }
 
 function persistActiveCharacterState() {
-  const recordIndex = characterLibrary.findIndex((entry) => entry.id === activeCharacterId);
+  const recordIndex = characterLibrary.findIndex(
+    (entry) => entry.id === activeCharacterId,
+  );
   const nextRecord = {
     id: activeCharacterId,
     state: mergeState(defaultState, state),
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   };
 
   if (recordIndex === -1) {
@@ -3391,14 +3958,21 @@ function persistActiveCharacterState() {
     characterLibrary[recordIndex] = nextRecord;
   }
 
-  localStorage.setItem(CHARACTER_LIBRARY_KEY, JSON.stringify({
-    activeId: activeCharacterId,
-    characters: characterLibrary
-  }));
+  localStorage.setItem(
+    CHARACTER_LIBRARY_KEY,
+    JSON.stringify({
+      activeId: activeCharacterId,
+      characters: characterLibrary,
+    }),
+  );
   renderCharacterLibraryControls();
 }
 
 function addExperience() {
+  if (state.levelMethod === "milestone") {
+    return;
+  }
+
   const gain = Number(xpGainInput.value || 0);
   if (gain <= 0) {
     xpGainInput.focus();
@@ -3424,7 +3998,9 @@ function getCharacterDisplayName(characterState, index) {
     return explicitName;
   }
 
-  const classSummary = buildClassSummary((characterState.classes || []).map(normalizeClassEntry));
+  const classSummary = buildClassSummary(
+    (characterState.classes || []).map(normalizeClassEntry),
+  );
   if (classSummary) {
     return classSummary;
   }
@@ -3473,6 +4049,9 @@ function closeCreateCharacterModal() {
 }
 
 function resetCreateCharacterForm() {
+  if (createCharacterLevelMethod) {
+    createCharacterLevelMethod.value = "xp";
+  }
   createCharacterSelections = {};
   createCharacterName.value = "";
   createCharacterClass.value = "";
@@ -3490,13 +4069,19 @@ function updateCreateCharacterPreview() {
   const classRule = getClassRule(className);
   const classEntry = normalizeClassEntry({
     name: classRule?.label || className,
-    level: 1
+    level: 1,
   });
 
   createCharacterClassPreview.textContent = className
     ? preview.summary
     : "Choose a class to preview level 1 features.";
-  renderClassSelectionFields(createCharacterChoiceFields, classEntry, classRule, 1, createCharacterSelections);
+  renderClassSelectionFields(
+    createCharacterChoiceFields,
+    classEntry,
+    classRule,
+    1,
+    createCharacterSelections,
+  );
 }
 
 function createCharacterFromModal() {
@@ -3510,10 +4095,15 @@ function createCharacterFromModal() {
   const classRule = getClassRule(className);
   const classEntry = normalizeClassEntry({
     name: classRule?.label || className,
-    level: 1
+    level: 1,
   });
 
-  const selections = collectClassSelectionValues(createCharacterChoiceFields, classEntry, classRule, 1);
+  const selections = collectClassSelectionValues(
+    createCharacterChoiceFields,
+    classEntry,
+    classRule,
+    1,
+  );
   if (!selections) {
     return;
   }
@@ -3526,7 +4116,12 @@ function createCharacterFromModal() {
     species: createCharacterSpecies.value.trim(),
     subrace: createCharacterSubrace.value,
     alignment: createCharacterAlignment.value.trim(),
-    speed: getDefaultSpeedForSpecies(createCharacterSpecies.value, createCharacterSubrace.value) || "",
+    levelMethod: createCharacterLevelMethod?.value || "xp",
+    speed:
+      getDefaultSpeedForSpecies(
+        createCharacterSpecies.value,
+        createCharacterSubrace.value,
+      ) || "",
     classes: [classEntry],
     attacks: [],
     spells: [],
@@ -3535,17 +4130,29 @@ function createCharacterFromModal() {
     trackingResources: [],
     activeConditions: [],
     statuses: [],
-    equipmentItems: []
+    equipmentItems: [],
   });
 
   state = nextState;
   applyClassLevelAutomation(state.classes[0], 1);
-  addCachedReferenceFeatureCards(state.species, ruleReferenceData.species, "Species Trait");
-  addCachedReferenceFeatureCards(state.subrace, ruleReferenceData.subraces, "Species Trait");
-  addCachedReferenceFeatureCards(state.background, ruleReferenceData.backgrounds, "Background Feature");
+  addCachedReferenceFeatureCards(
+    state.species,
+    ruleReferenceData.species,
+    "Species Trait",
+  );
+  addCachedReferenceFeatureCards(
+    state.subrace,
+    ruleReferenceData.subraces,
+    "Species Trait",
+  );
+  addCachedReferenceFeatureCards(
+    state.background,
+    ruleReferenceData.backgrounds,
+    "Background Feature",
+  );
 
   const newRecord = normalizeCharacterRecord({
-    state
+    state,
   });
   characterLibrary.push(newRecord);
   activeCharacterId = newRecord.id;
@@ -3566,20 +4173,23 @@ function addCachedReferenceFeatureCards(value, records, category) {
 
   record.features.forEach((feature) => {
     const source = `${record.name}${record.source ? ` (${record.source})` : ""}`;
-    const exists = state.features.some((existingFeature) =>
-      existingFeature.category === category &&
-      existingFeature.name === feature.name &&
-      existingFeature.source === source
+    const exists = state.features.some(
+      (existingFeature) =>
+        existingFeature.category === category &&
+        existingFeature.name === feature.name &&
+        existingFeature.source === source,
     );
 
     if (!exists) {
-      state.features.push(normalizeFeature({
-        name: feature.name,
-        category,
-        source,
-        notes: feature.notes,
-        collapsed: true
-      }));
+      state.features.push(
+        normalizeFeature({
+          name: feature.name,
+          category,
+          source,
+          notes: feature.notes,
+          collapsed: true,
+        }),
+      );
     }
   });
 }
@@ -3607,14 +4217,18 @@ function findCachedReferenceRecord(value, records) {
 }
 
 function getDefaultSpeedForSpecies(speciesName, subraceName = "") {
-  const subraceRecord = getSubraceOptionsForSpecies(speciesName)
-    .find((record) => classRuleKey(record.name) === classRuleKey(subraceName)) ||
-    findCachedReferenceRecord(subraceName, ruleReferenceData.subraces);
+  const subraceRecord =
+    getSubraceOptionsForSpecies(speciesName).find(
+      (record) => classRuleKey(record.name) === classRuleKey(subraceName),
+    ) || findCachedReferenceRecord(subraceName, ruleReferenceData.subraces);
   if (subraceRecord?.speed) {
     return subraceRecord.speed;
   }
 
-  const speciesRecord = findCachedReferenceRecord(speciesName, ruleReferenceData.species);
+  const speciesRecord = findCachedReferenceRecord(
+    speciesName,
+    ruleReferenceData.species,
+  );
   return speciesRecord?.speed || "";
 }
 
@@ -3623,15 +4237,23 @@ function deleteActiveCharacter() {
     return;
   }
 
-  const currentName = getCharacterDisplayName(state, characterLibrary.findIndex((entry) => entry.id === activeCharacterId));
+  const currentName = getCharacterDisplayName(
+    state,
+    characterLibrary.findIndex((entry) => entry.id === activeCharacterId),
+  );
   const confirmed = window.confirm(`Delete ${currentName} from this device?`);
   if (!confirmed) {
     return;
   }
 
-  const currentIndex = characterLibrary.findIndex((entry) => entry.id === activeCharacterId);
-  characterLibrary = characterLibrary.filter((entry) => entry.id !== activeCharacterId);
-  const fallbackRecord = characterLibrary[Math.max(0, currentIndex - 1)] || characterLibrary[0];
+  const currentIndex = characterLibrary.findIndex(
+    (entry) => entry.id === activeCharacterId,
+  );
+  characterLibrary = characterLibrary.filter(
+    (entry) => entry.id !== activeCharacterId,
+  );
+  const fallbackRecord =
+    characterLibrary[Math.max(0, currentIndex - 1)] || characterLibrary[0];
   activeCharacterId = fallbackRecord.id;
   state = mergeState(defaultState, fallbackRecord.state);
   syncFieldsFromState();
@@ -3658,9 +4280,8 @@ function adjustHitPoints(mode) {
     nextTempHp = Math.max(0, tempHp - amount);
     nextHp = Math.max(0, currentHp - remainingDamage);
   } else {
-    nextHp = maxHp > 0
-      ? Math.min(maxHp, currentHp + amount)
-      : currentHp + amount;
+    nextHp =
+      maxHp > 0 ? Math.min(maxHp, currentHp + amount) : currentHp + amount;
   }
 
   state.currentHp = nextHp;
@@ -3691,9 +4312,12 @@ function addSpellEntry() {
 }
 
 function addFeatureEntry() {
-  state.features.push(normalizeFeature({
-    category: activeFeatureFilter === "all" ? "Class Feature" : activeFeatureFilter
-  }));
+  state.features.push(
+    normalizeFeature({
+      category:
+        activeFeatureFilter === "all" ? "Class Feature" : activeFeatureFilter,
+    }),
+  );
   renderFeatures();
   queueSave();
 }
@@ -3712,7 +4336,9 @@ function addStatusEntry() {
 
 function toggleCondition(condition) {
   if (state.activeConditions.includes(condition)) {
-    state.activeConditions = state.activeConditions.filter((entry) => entry !== condition);
+    state.activeConditions = state.activeConditions.filter(
+      (entry) => entry !== condition,
+    );
   } else {
     state.activeConditions = [...state.activeConditions, condition];
   }
@@ -3750,39 +4376,58 @@ function refreshAttackCards() {
     const attack = normalizeAttack(state.attacks[index]);
     const attackAbilityMod = getAttackAbilityModifier(attack.ability);
     const damageAbilityMod = getAttackAbilityModifier(attack.ability);
-    const proficiencyValue = attack.proficient ? Number(state.proficiencyBonus || 0) : 0;
-    const toHit = attackAbilityMod + proficiencyValue + evaluateModifierExpression(attack.attackBonus);
-    const damageBonus = damageAbilityMod + evaluateModifierExpression(attack.damageBonus);
-    const damage = formatDamage(attack.damageDice, damageBonus, attack.damageType);
+    const proficiencyValue = attack.proficient
+      ? Number(state.proficiencyBonus || 0)
+      : 0;
+    const toHit =
+      attackAbilityMod +
+      proficiencyValue +
+      evaluateModifierExpression(attack.attackBonus);
+    const damageBonus =
+      damageAbilityMod + evaluateModifierExpression(attack.damageBonus);
+    const damage = formatDamage(
+      attack.damageDice,
+      damageBonus,
+      attack.damageType,
+    );
     const versatileDamage = attack.versatile
-      ? formatDamage(attack.versatileDice || attack.damageDice, damageBonus, attack.damageType)
+      ? formatDamage(
+          attack.versatileDice || attack.damageDice,
+          damageBonus,
+          attack.damageType,
+        )
       : "";
     const summary = attack.versatile
       ? `${attack.name || "Attack"} ${formatModifier(toHit)} to hit, ${damage} (1H) or ${versatileDamage} (2H)`
       : `${attack.name || "Attack"} ${formatModifier(toHit)} to hit, ${damage}`;
 
     state.attacks[index] = attack;
-    card.querySelector(".attack-title").textContent = attack.name || `Attack ${index + 1}`;
-    card.querySelector(".attack-summary").textContent = attack.range || "Weapon, spell, or action";
+    card.querySelector(".attack-title").textContent =
+      attack.name || `Attack ${index + 1}`;
+    card.querySelector(".attack-summary").textContent =
+      attack.range || "Weapon, spell, or action";
     const toHitText = formatToHit(toHit);
     const damageText = attack.versatile
       ? `${damage} (1H) / ${versatileDamage} (2H)`
       : damage;
     card.querySelector('[data-attack-output="toHit"]').textContent = toHitText;
-    card.querySelector('[data-attack-output="damage"]').textContent = damageText;
-    card.querySelector('[data-roll-type="toHit"]').dataset.rollFormula = JSON.stringify([
-      { label: "To Hit", formula: toHitText }
-    ]);
-    card.querySelector('[data-roll-type="damage"]').dataset.rollFormula = JSON.stringify(
-      attack.versatile
-        ? [
-          { label: "1H", formula: damage },
-          { label: "2H", formula: versatileDamage }
-        ]
-        : [{ label: "Damage", formula: damage }]
-    );
-    card.querySelector('[data-attack-roll-result="toHit"]').textContent = "Tap to roll";
-    card.querySelector('[data-attack-roll-result="damage"]').textContent = "Tap to roll";
+    card.querySelector('[data-attack-output="damage"]').textContent =
+      damageText;
+    card.querySelector('[data-roll-type="toHit"]').dataset.rollFormula =
+      JSON.stringify([{ label: "To Hit", formula: toHitText }]);
+    card.querySelector('[data-roll-type="damage"]').dataset.rollFormula =
+      JSON.stringify(
+        attack.versatile
+          ? [
+              { label: "1H", formula: damage },
+              { label: "2H", formula: versatileDamage },
+            ]
+          : [{ label: "Damage", formula: damage }],
+      );
+    card.querySelector('[data-attack-roll-result="toHit"]').textContent =
+      "Tap to roll";
+    card.querySelector('[data-attack-roll-result="damage"]').textContent =
+      "Tap to roll";
   });
 }
 
@@ -3796,19 +4441,21 @@ function refreshSpellCards() {
 
     state.spells[index] = spell;
     card.dataset.castType = spell.castType;
-    card.querySelector(".spell-title").textContent = spell.name || `Spell ${index + 1}`;
+    card.querySelector(".spell-title").textContent =
+      spell.name || `Spell ${index + 1}`;
     card.querySelector(".spell-summary").textContent = buildSpellSummary(spell);
     card.querySelector('[data-spell-output="attack"]').textContent =
       spell.castType === "utility" ? "N/A" : formatModifier(spellAttack);
     card.querySelector('[data-spell-output="save"]').textContent =
       spell.castType === "attack" ? "N/A" : String(saveDc);
-    card.querySelector('[data-spell-output="effect"]').textContent = spell.effect || "N/A";
-    card.querySelector('[data-spell-roll-type="attack"]').dataset.rollFormula = JSON.stringify([
-      { label: "Spell Attack", formula: formatToHit(spellAttack) }
-    ]);
-    card.querySelector('[data-spell-roll-type="effect"]').dataset.rollFormula = JSON.stringify([
-      { label: "Effect", formula: spell.effect || "" }
-    ]);
+    card.querySelector('[data-spell-output="effect"]').textContent =
+      spell.effect || "N/A";
+    card.querySelector('[data-spell-roll-type="attack"]').dataset.rollFormula =
+      JSON.stringify([
+        { label: "Spell Attack", formula: formatToHit(spellAttack) },
+      ]);
+    card.querySelector('[data-spell-roll-type="effect"]').dataset.rollFormula =
+      JSON.stringify([{ label: "Effect", formula: spell.effect || "" }]);
     card.querySelector('[data-spell-roll-result="attack"]').textContent =
       spell.castType === "utility" ? "No roll" : "Tap to roll";
     card.querySelector('[data-spell-roll-result="effect"]').textContent =
@@ -3818,7 +4465,8 @@ function refreshSpellCards() {
 
 function formatDamage(dice, bonus, damageType) {
   const trimmedDice = resolveFormulaTokens((dice || "1d6").trim()) || "1d6";
-  const bonusPart = bonus === 0 ? "" : bonus > 0 ? ` + ${bonus}` : ` - ${Math.abs(bonus)}`;
+  const bonusPart =
+    bonus === 0 ? "" : bonus > 0 ? ` + ${bonus}` : ` - ${Math.abs(bonus)}`;
   const typePart = damageType ? ` ${damageType}` : "";
   return `${trimmedDice}${bonusPart}${typePart}`.trim();
 }
@@ -3827,7 +4475,11 @@ function normalizeAttack(attack = {}) {
   return {
     name: attack.name || "",
     range: attack.range || "",
-    ability: attack.ability || attack.attackAbility || attack.damageAbility || "strength",
+    ability:
+      attack.ability ||
+      attack.attackAbility ||
+      attack.damageAbility ||
+      "strength",
     damageDice: attack.damageDice || "",
     damageType: String(attack.damageType || "bludgeoning").toLowerCase(),
     versatileDice: attack.versatileDice || "",
@@ -3836,7 +4488,7 @@ function normalizeAttack(attack = {}) {
     proficient: Boolean(attack.proficient),
     versatile: Boolean(attack.versatile),
     collapsed: Boolean(attack.collapsed),
-    notes: attack.notes || ""
+    notes: attack.notes || "",
   };
 }
 
@@ -3857,7 +4509,7 @@ function normalizeSpell(spell = {}) {
     concentration: Boolean(spell.concentration),
     ritual: Boolean(spell.ritual),
     collapsed: Boolean(spell.collapsed),
-    notes: spell.notes || ""
+    notes: spell.notes || "",
   };
 }
 
@@ -3867,7 +4519,7 @@ function normalizeFeature(feature = {}) {
     category: feature.category || "Class Feature",
     source: feature.source || "",
     notes: feature.notes || "",
-    collapsed: Boolean(feature.collapsed)
+    collapsed: Boolean(feature.collapsed),
   };
 }
 
@@ -3879,7 +4531,7 @@ function normalizeTrackingResource(resource = {}) {
     totalValue: Math.max(0, Number(resource.totalValue ?? resource.total ?? 1)),
     value: Math.max(0, Number(resource.value ?? 1)),
     restoreOn: resource.restoreOn || "longRest",
-    collapsed: resource.collapsed !== false
+    collapsed: resource.collapsed !== false,
   };
 
   const maxValue = getTrackingResourceMax(normalized);
@@ -3892,7 +4544,7 @@ function normalizeStatus(status = {}) {
     id: status.id || generateId(),
     name: status.name || "",
     duration: status.duration || "",
-    notes: status.notes || ""
+    notes: status.notes || "",
   };
 }
 
@@ -3913,7 +4565,7 @@ function normalizeEquipmentItem(item = {}) {
     armorBase: Number(item.armorBase || 10),
     shieldBonus: Number(item.shieldBonus || 2),
     notes: item.notes || "",
-    collapsed: Boolean(item.collapsed)
+    collapsed: Boolean(item.collapsed),
   };
 }
 
@@ -3930,7 +4582,7 @@ function normalizeAdvancementChoice(choice = {}) {
     asiAbilityTwo: choice.asiAbilityTwo || "dexterity",
     featName: choice.featName || "",
     featSource: choice.featSource || "",
-    featNotes: choice.featNotes || ""
+    featNotes: choice.featNotes || "",
   };
 }
 
@@ -3940,31 +4592,40 @@ function parseLegacyFeatures(value) {
   }
 
   if (typeof value === "string" && value.trim()) {
-    return [normalizeFeature({
-      name: "Features & Traits",
-      category: "Other",
-      notes: value.trim()
-    })];
+    return [
+      normalizeFeature({
+        name: "Features & Traits",
+        category: "Other",
+        notes: value.trim(),
+      }),
+    ];
   }
 
   return [];
 }
 
 function syncAdvancementChoices() {
-  const existingChoices = state.advancementChoices.map(normalizeAdvancementChoice);
+  const existingChoices = state.advancementChoices.map(
+    normalizeAdvancementChoice,
+  );
   const validKeys = new Set();
 
   state.classes.forEach((classEntry) => {
     getAsiEligibleLevels(classEntry).forEach((level) => {
       const key = `${classEntry.id}:${level}`;
       validKeys.add(key);
-      const exists = existingChoices.some((choice) => choice.classId === classEntry.id && choice.classLevel === level);
+      const exists = existingChoices.some(
+        (choice) =>
+          choice.classId === classEntry.id && choice.classLevel === level,
+      );
       if (!exists) {
-        existingChoices.push(normalizeAdvancementChoice({
-          classId: classEntry.id,
-          className: classEntry.name || "Class",
-          classLevel: level
-        }));
+        existingChoices.push(
+          normalizeAdvancementChoice({
+            classId: classEntry.id,
+            className: classEntry.name || "Class",
+            classLevel: level,
+          }),
+        );
       }
     });
   });
@@ -3976,13 +4637,17 @@ function syncAdvancementChoices() {
     }
   });
 
-  state.advancementChoices = existingChoices.filter((choice) => validKeys.has(`${choice.classId}:${choice.classLevel}`));
+  state.advancementChoices = existingChoices.filter((choice) =>
+    validKeys.has(`${choice.classId}:${choice.classLevel}`),
+  );
 }
 
 function getAsiEligibleLevels(classEntry) {
   const classRule = getClassRule(classEntry.name);
   const asiLevels = classRule?.asiLevels || standardAsiLevels;
-  const eligible = new Set(asiLevels.filter((level) => level <= Number(classEntry.level || 0)));
+  const eligible = new Set(
+    asiLevels.filter((level) => level <= Number(classEntry.level || 0)),
+  );
   return [...eligible].sort((a, b) => a - b);
 }
 
@@ -3995,13 +4660,20 @@ function resolveAsiChoice(choice) {
   }
 
   if (choice.asiMode === "split") {
-    if (!secondAbility || secondAbility === "none" || secondAbility === firstAbility) {
+    if (
+      !secondAbility ||
+      secondAbility === "none" ||
+      secondAbility === firstAbility
+    ) {
       return;
     }
-    state.abilities[firstAbility] = Number(state.abilities[firstAbility] || 0) + 1;
-    state.abilities[secondAbility] = Number(state.abilities[secondAbility] || 0) + 1;
+    state.abilities[firstAbility] =
+      Number(state.abilities[firstAbility] || 0) + 1;
+    state.abilities[secondAbility] =
+      Number(state.abilities[secondAbility] || 0) + 1;
   } else {
-    state.abilities[firstAbility] = Number(state.abilities[firstAbility] || 0) + 2;
+    state.abilities[firstAbility] =
+      Number(state.abilities[firstAbility] || 0) + 2;
   }
 
   choice.status = "resolved";
@@ -4015,13 +4687,17 @@ function resolveFeatChoice(choice) {
     return;
   }
 
-  state.features.push(normalizeFeature({
-    name: choice.featName.trim(),
-    category: "Feat",
-    source: choice.featSource || `${choice.className || "Class"} Level ${choice.classLevel}`,
-    notes: choice.featNotes || "",
-    collapsed: true
-  }));
+  state.features.push(
+    normalizeFeature({
+      name: choice.featName.trim(),
+      category: "Feat",
+      source:
+        choice.featSource ||
+        `${choice.className || "Class"} Level ${choice.classLevel}`,
+      notes: choice.featNotes || "",
+      collapsed: true,
+    }),
+  );
   choice.status = "resolved";
   choice.type = "feat";
   renderFeatures();
@@ -4036,16 +4712,19 @@ function revertAdvancementChoice(choice) {
 
   if (choice.asiMode === "split") {
     if (choice.asiAbilityOne && choice.asiAbilityOne !== "none") {
-      state.abilities[choice.asiAbilityOne] = Number(state.abilities[choice.asiAbilityOne] || 0) - 1;
+      state.abilities[choice.asiAbilityOne] =
+        Number(state.abilities[choice.asiAbilityOne] || 0) - 1;
     }
     if (choice.asiAbilityTwo && choice.asiAbilityTwo !== "none") {
-      state.abilities[choice.asiAbilityTwo] = Number(state.abilities[choice.asiAbilityTwo] || 0) - 1;
+      state.abilities[choice.asiAbilityTwo] =
+        Number(state.abilities[choice.asiAbilityTwo] || 0) - 1;
     }
     return;
   }
 
   if (choice.asiAbilityOne && choice.asiAbilityOne !== "none") {
-    state.abilities[choice.asiAbilityOne] = Number(state.abilities[choice.asiAbilityOne] || 0) - 2;
+    state.abilities[choice.asiAbilityOne] =
+      Number(state.abilities[choice.asiAbilityOne] || 0) - 2;
   }
 }
 
@@ -4071,7 +4750,9 @@ function describeAdvancementChoice(choice) {
 }
 
 function labelForAbility(abilityKey) {
-  return abilities.find((ability) => ability.key === abilityKey)?.label || abilityKey;
+  return (
+    abilities.find((ability) => ability.key === abilityKey)?.label || abilityKey
+  );
 }
 
 function openAbilityModal() {
@@ -4113,16 +4794,24 @@ function openLongRestModal() {
   clearRollFeedback(longRestResult);
   const currentPools = parseHitDicePools(state.hitDice);
   const maxPools = getMaxHitDicePoolsFromClasses();
-  const totalLevel = state.classes.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0);
+  const totalLevel = state.classes.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
   const spentHitDice = maxPools.reduce((sum, maxPool) => {
-    const current = currentPools.find((pool) => pool.sides === maxPool.sides)?.count || 0;
+    const current =
+      currentPools.find((pool) => pool.sides === maxPool.sides)?.count || 0;
     return sum + Math.max(0, maxPool.count - current);
   }, 0);
   const regainedHitDice = maxPools.length
-    ? Math.max(0, Math.min(Math.max(1, Math.floor(totalLevel / 2)), spentHitDice))
+    ? Math.max(
+        0,
+        Math.min(Math.max(1, Math.floor(totalLevel / 2)), spentHitDice),
+      )
     : 0;
   longRestSummaryTotal.textContent = "Ready";
-  longRestSummaryText.textContent = "Restore hit points, recover hit dice, and refresh matching resources.";
+  longRestSummaryText.textContent =
+    "Restore hit points, recover hit dice, and refresh matching resources.";
   longRestDetail.textContent = maxPools.length
     ? `You will regain up to ${regainedHitDice} hit dice based on total level.`
     : "Use known classes in the level-up assistant to automate hit-die recovery.";
@@ -4197,30 +4886,41 @@ function populateItemImportSelect() {
 }
 
 function updateSpellImportPreview() {
-  const spell = findRuleRecordById(ruleReferenceData.spells, spellImportSelect.value);
+  const spell = findRuleRecordById(
+    ruleReferenceData.spells,
+    spellImportSelect.value,
+  );
   spellImportPreview.textContent = spell
     ? `${spell.level} ${spell.school}. ${spell.castingTime || "Cast time varies"}. ${spell.range || "Range varies"}.`
     : "Import 5etools rules first to use cached spell data.";
 }
 
 function updateItemImportPreview() {
-  const item = findRuleRecordById(ruleReferenceData.items, itemImportSelect.value);
+  const item = findRuleRecordById(
+    ruleReferenceData.items,
+    itemImportSelect.value,
+  );
   itemImportPreview.textContent = item
     ? `${item.type.charAt(0).toUpperCase() + item.type.slice(1)}${item.damageDice ? `, ${item.damageDice} ${item.damageType}` : ""}${item.armorBase && item.type === "armor" ? `, AC ${item.armorBase}` : ""}.`
     : "Import 5etools rules first to use cached item data.";
 }
 
 function importSelectedSpell() {
-  const spell = findRuleRecordById(ruleReferenceData.spells, spellImportSelect.value);
+  const spell = findRuleRecordById(
+    ruleReferenceData.spells,
+    spellImportSelect.value,
+  );
   if (!spell) {
     return;
   }
 
-  state.spells.push(normalizeSpell({
-    ...spell,
-    ability: getDefaultSpellcastingAbility(),
-    collapsed: true
-  }));
+  state.spells.push(
+    normalizeSpell({
+      ...spell,
+      ability: getDefaultSpellcastingAbility(),
+      collapsed: true,
+    }),
+  );
   closeSpellImportModal();
   renderSpells();
   refreshDerivedValues();
@@ -4228,15 +4928,20 @@ function importSelectedSpell() {
 }
 
 function importSelectedItem() {
-  const item = findRuleRecordById(ruleReferenceData.items, itemImportSelect.value);
+  const item = findRuleRecordById(
+    ruleReferenceData.items,
+    itemImportSelect.value,
+  );
   if (!item) {
     return;
   }
 
-  state.equipmentItems.push(normalizeEquipmentItem({
-    ...item,
-    collapsed: true
-  }));
+  state.equipmentItems.push(
+    normalizeEquipmentItem({
+      ...item,
+      collapsed: true,
+    }),
+  );
   closeItemImportModal();
   renderEquipmentItems();
   refreshDerivedValues();
@@ -4257,15 +4962,18 @@ function getDefaultSpellcastingAbility() {
     sorcerer: "charisma",
     warlock: "charisma",
     wizard: "intelligence",
-    artificer: "intelligence"
+    artificer: "intelligence",
   };
 
-  const classEntry = state.classes.find((entry) => classAbilityMap[classRuleKey(entry.name)]);
+  const classEntry = state.classes.find(
+    (entry) => classAbilityMap[classRuleKey(entry.name)],
+  );
   return classEntry ? classAbilityMap[classRuleKey(classEntry.name)] : "none";
 }
 
 function saveAbilityModal() {
-  const source = abilityModalMode === "pointbuy" ? pointBuyDraft : abilityModalDraft;
+  const source =
+    abilityModalMode === "pointbuy" ? pointBuyDraft : abilityModalDraft;
   abilities.forEach((ability) => {
     state.abilities[ability.key] = Number(source[ability.key] || 0);
   });
@@ -4277,11 +4985,17 @@ function saveAbilityModal() {
 
 function initializeAbilityModalDrafts() {
   abilityModalDraft = Object.fromEntries(
-    abilities.map((ability) => [ability.key, Number(state.abilities[ability.key] || 0)])
+    abilities.map((ability) => [
+      ability.key,
+      Number(state.abilities[ability.key] || 0),
+    ]),
   );
 
   pointBuyDraft = Object.fromEntries(
-    abilities.map((ability) => [ability.key, clampPointBuyValue(Number(state.abilities[ability.key] || 8))])
+    abilities.map((ability) => [
+      ability.key,
+      clampPointBuyValue(Number(state.abilities[ability.key] || 8)),
+    ]),
   );
 }
 
@@ -4291,8 +5005,14 @@ function setAbilityModalMode(mode) {
 }
 
 function syncAbilityModalModeUi() {
-  abilityModeManualButton.classList.toggle("is-active", abilityModalMode === "manual");
-  abilityModePointBuyButton.classList.toggle("is-active", abilityModalMode === "pointbuy");
+  abilityModeManualButton.classList.toggle(
+    "is-active",
+    abilityModalMode === "manual",
+  );
+  abilityModePointBuyButton.classList.toggle(
+    "is-active",
+    abilityModalMode === "pointbuy",
+  );
   pointBuySummary.hidden = abilityModalMode !== "pointbuy";
 }
 
@@ -4320,8 +5040,12 @@ function renderPointBuyModal() {
     const label = fragment.querySelector(".point-buy-label");
     const value = fragment.querySelector(".point-buy-value");
     const cost = fragment.querySelector(".point-buy-cost");
-    const decreaseButton = fragment.querySelector('[data-point-buy-action="decrease"]');
-    const increaseButton = fragment.querySelector('[data-point-buy-action="increase"]');
+    const decreaseButton = fragment.querySelector(
+      '[data-point-buy-action="decrease"]',
+    );
+    const increaseButton = fragment.querySelector(
+      '[data-point-buy-action="increase"]',
+    );
 
     label.textContent = ability.label;
     value.textContent = pointBuyDraft[ability.key];
@@ -4360,7 +5084,11 @@ function clampPointBuyValue(value) {
 }
 
 function totalPointBuyCost(draft) {
-  return abilities.reduce((sum, ability) => sum + Number(pointBuyCosts[clampPointBuyValue(draft[ability.key])] || 0), 0);
+  return abilities.reduce(
+    (sum, ability) =>
+      sum + Number(pointBuyCosts[clampPointBuyValue(draft[ability.key])] || 0),
+    0,
+  );
 }
 
 function updatePointBuySummary() {
@@ -4371,7 +5099,9 @@ function updatePointBuySummary() {
 }
 
 function summarizeFeatureNotes(notes) {
-  const text = String(notes || "").trim().replace(/\s+/g, " ");
+  const text = String(notes || "")
+    .trim()
+    .replace(/\s+/g, " ");
   if (!text) {
     return "Class feature, feat benefit, or trait details";
   }
@@ -4407,7 +5137,13 @@ function getTrackingResourceMax(resource) {
   }
 
   if (totalSource === "characterLevel") {
-    return Math.max(0, state.classes.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0));
+    return Math.max(
+      0,
+      state.classes.reduce(
+        (sum, classEntry) => sum + Number(classEntry.level || 0),
+        0,
+      ),
+    );
   }
 
   if (totalSource === "initiative") {
@@ -4416,7 +5152,10 @@ function getTrackingResourceMax(resource) {
 
   const abilityMatch = totalSource.match(/^([a-z]+)Modifier$/);
   if (abilityMatch) {
-    return Math.max(0, abilityModifier(Number(state.abilities[abilityMatch[1]] || 0)));
+    return Math.max(
+      0,
+      abilityModifier(Number(state.abilities[abilityMatch[1]] || 0)),
+    );
   }
 
   return Math.max(0, Number(resource.totalValue || 0));
@@ -4428,11 +5167,17 @@ function formatTrackingValueDisplay(resource) {
 }
 
 function labelForTrackingTotalSource(totalSource) {
-  return trackingTotalOptions.find((option) => option.value === totalSource)?.label || "Number";
+  return (
+    trackingTotalOptions.find((option) => option.value === totalSource)
+      ?.label || "Number"
+  );
 }
 
 function labelForTrackingRestore(restoreOn) {
-  return trackingRestoreOptions.find((option) => option.value === restoreOn)?.label || "Manual";
+  return (
+    trackingRestoreOptions.find((option) => option.value === restoreOn)
+      ?.label || "Manual"
+  );
 }
 
 function parseHitDicePool(value) {
@@ -4450,7 +5195,7 @@ function parseHitDicePools(value) {
 
       return {
         count: Number(match[1]),
-        sides: Number(match[2])
+        sides: Number(match[2]),
       };
     })
     .filter(Boolean);
@@ -4462,7 +5207,9 @@ function formatHitDicePool(count, sides) {
 
 function formatHitDicePools(pools) {
   return pools
-    .filter((pool) => Number(pool.count || 0) > 0 && Number(pool.sides || 0) > 0)
+    .filter(
+      (pool) => Number(pool.count || 0) > 0 && Number(pool.sides || 0) > 0,
+    )
     .sort((a, b) => b.sides - a.sides)
     .map((pool) => formatHitDicePool(pool.count, pool.sides))
     .join(" + ");
@@ -4490,10 +5237,12 @@ function addHitDieToState(sides) {
 }
 
 function chooseSpendableHitDicePool(pools) {
-  return pools
-    .map((pool, index) => ({ ...pool, index }))
-    .filter((pool) => pool.count > 0)
-    .sort((a, b) => b.sides - a.sides)[0] || null;
+  return (
+    pools
+      .map((pool, index) => ({ ...pool, index }))
+      .filter((pool) => pool.count > 0)
+      .sort((a, b) => b.sides - a.sides)[0] || null
+  );
 }
 
 function getMaxHitDicePoolsFromClasses() {
@@ -4512,7 +5261,9 @@ function getMaxHitDicePoolsFromClasses() {
 }
 
 function restoreHitDicePools(currentPools, maxPools, regainCount) {
-  const currentMap = new Map(currentPools.map((pool) => [pool.sides, pool.count]));
+  const currentMap = new Map(
+    currentPools.map((pool) => [pool.sides, pool.count]),
+  );
   let remaining = Math.max(0, Number(regainCount || 0));
 
   maxPools
@@ -4532,16 +5283,21 @@ function restoreHitDicePools(currentPools, maxPools, regainCount) {
 
   return maxPools.map((maxPool) => ({
     sides: maxPool.sides,
-    count: Math.min(maxPool.count, Math.max(0, Number(currentMap.get(maxPool.sides) || 0)))
+    count: Math.min(
+      maxPool.count,
+      Math.max(0, Number(currentMap.get(maxPool.sides) || 0)),
+    ),
   }));
 }
 
 function restoreTrackingResources(restType) {
   state.trackingResources = state.trackingResources.map((resource) => {
     const normalized = normalizeTrackingResource(resource);
-    const shouldRestore = restType === "longRest"
-      ? normalized.restoreOn === "shortRest" || normalized.restoreOn === "longRest"
-      : normalized.restoreOn === "shortRest";
+    const shouldRestore =
+      restType === "longRest"
+        ? normalized.restoreOn === "shortRest" ||
+          normalized.restoreOn === "longRest"
+        : normalized.restoreOn === "shortRest";
 
     if (!shouldRestore) {
       return normalized;
@@ -4549,7 +5305,7 @@ function restoreTrackingResources(restType) {
 
     return {
       ...normalized,
-      value: getTrackingResourceMax(normalized)
+      value: getTrackingResourceMax(normalized),
     };
   });
 }
@@ -4557,7 +5313,9 @@ function restoreTrackingResources(restType) {
 function refreshShortRestModal() {
   const hitDicePools = parseHitDicePools(state.hitDice);
   const hitDicePool = chooseSpendableHitDicePool(hitDicePools);
-  const conModifier = abilityModifier(Number(state.abilities.constitution || 0));
+  const conModifier = abilityModifier(
+    Number(state.abilities.constitution || 0),
+  );
   clearRollFeedback(shortRestResult);
 
   shortRestHitDiceDisplay.textContent = hitDicePools.length
@@ -4568,13 +5326,15 @@ function refreshShortRestModal() {
   if (!hitDicePool) {
     shortRestHealTotal.textContent = "-";
     shortRestHealSummary.textContent = "Spend hit dice to heal.";
-    shortRestHealDetail.textContent = "Use a single pool like 5d10 in Hit Dice to automate short-rest healing.";
+    shortRestHealDetail.textContent =
+      "Use a single pool like 5d10 in Hit Dice to automate short-rest healing.";
     return;
   }
 
   shortRestHealTotal.textContent = "-";
   shortRestHealSummary.textContent = `Spend 1d${hitDicePool.sides} + ${formatModifier(conModifier)} to heal.`;
-  shortRestHealDetail.textContent = "When you complete the rest, short-rest resources will restore automatically.";
+  shortRestHealDetail.textContent =
+    "When you complete the rest, short-rest resources will restore automatically.";
 }
 
 function spendShortRestHitDie() {
@@ -4583,11 +5343,14 @@ function spendShortRestHitDie() {
   if (!hitDicePool || hitDicePool.count <= 0) {
     shortRestHealTotal.textContent = "0";
     shortRestHealSummary.textContent = "No hit dice available.";
-    shortRestHealDetail.textContent = "Level up with known classes or set Hit Dice manually to automate short-rest healing.";
+    shortRestHealDetail.textContent =
+      "Level up with known classes or set Hit Dice manually to automate short-rest healing.";
     return;
   }
 
-  const conModifier = abilityModifier(Number(state.abilities.constitution || 0));
+  const conModifier = abilityModifier(
+    Number(state.abilities.constitution || 0),
+  );
   const rolled = rollDiceExpression(`1d${hitDicePool.sides}`);
   if (!rolled) {
     return;
@@ -4596,9 +5359,10 @@ function spendShortRestHitDie() {
   const healAmount = Math.max(0, rolled.total + conModifier);
   const currentHp = Number(state.currentHp || 0);
   const maxHp = Number(state.maxHp || 0);
-  const nextHp = maxHp > 0
-    ? Math.min(maxHp, currentHp + healAmount)
-    : currentHp + healAmount;
+  const nextHp =
+    maxHp > 0
+      ? Math.min(maxHp, currentHp + healAmount)
+      : currentHp + healAmount;
 
   hitDicePools[hitDicePool.index].count -= 1;
   state.hitDice = formatHitDicePools(hitDicePools);
@@ -4624,7 +5388,10 @@ function takeLongRest() {
   const maxHp = Number(state.maxHp || 0);
   const currentPools = parseHitDicePools(state.hitDice);
   const maxPools = getMaxHitDicePoolsFromClasses();
-  const totalLevel = state.classes.reduce((sum, classEntry) => sum + Number(classEntry.level || 0), 0);
+  const totalLevel = state.classes.reduce(
+    (sum, classEntry) => sum + Number(classEntry.level || 0),
+    0,
+  );
 
   if (maxHp > 0) {
     state.currentHp = maxHp;
@@ -4635,11 +5402,14 @@ function takeLongRest() {
   if (maxPools.length) {
     const regainCap = Math.max(1, Math.floor(totalLevel / 2));
     const spentDice = maxPools.reduce((sum, maxPool) => {
-      const current = currentPools.find((pool) => pool.sides === maxPool.sides)?.count || 0;
+      const current =
+        currentPools.find((pool) => pool.sides === maxPool.sides)?.count || 0;
       return sum + Math.max(0, maxPool.count - current);
     }, 0);
     const regained = Math.min(regainCap, spentDice);
-    state.hitDice = formatHitDicePools(restoreHitDicePools(currentPools, maxPools, regained));
+    state.hitDice = formatHitDicePools(
+      restoreHitDicePools(currentPools, maxPools, regained),
+    );
   }
 
   restoreTrackingResources("longRest");
@@ -4648,9 +5418,8 @@ function takeLongRest() {
   queueSave();
 
   longRestSummaryTotal.textContent = "Done";
-  longRestSummaryText.textContent = maxHp > 0
-    ? `Hit points restored to ${maxHp}.`
-    : "Long rest applied.";
+  longRestSummaryText.textContent =
+    maxHp > 0 ? `Hit points restored to ${maxHp}.` : "Long rest applied.";
   longRestDetail.textContent = maxPools.length
     ? `Hit dice are now ${state.hitDice}. Matching resources were restored.`
     : "Matching resources were restored.";
@@ -4662,9 +5431,10 @@ function takeLongRest() {
 
 function summarizeTrackingResource(resource) {
   const maxValue = getTrackingResourceMax(resource);
-  const sourceLabel = resource.totalSource === "number"
-    ? `${maxValue} total`
-    : `${sourceLabelForSummary(resource.totalSource, maxValue)}`;
+  const sourceLabel =
+    resource.totalSource === "number"
+      ? `${maxValue} total`
+      : `${sourceLabelForSummary(resource.totalSource, maxValue)}`;
   return `${sourceLabel} • Restores on ${labelForTrackingRestore(resource.restoreOn)}`;
 }
 
@@ -4792,7 +5562,10 @@ function syncTrackingEditorHeight(card) {
 function adjustTrackingResourceValue(index, delta) {
   const resource = normalizeTrackingResource(state.trackingResources[index]);
   const maxValue = getTrackingResourceMax(resource);
-  resource.value = Math.max(0, Math.min(maxValue, Number(resource.value || 0) + delta));
+  resource.value = Math.max(
+    0,
+    Math.min(maxValue, Number(resource.value || 0) + delta),
+  );
   state.trackingResources[index] = resource;
   renderTrackingResources();
   queueSave();
@@ -4803,17 +5576,19 @@ function createAttackFromEquipmentItem(item) {
     return;
   }
 
-  state.attacks.push(normalizeAttack({
-    name: item.name,
-    range: item.range,
-    ability: item.ability,
-    damageType: item.damageType,
-    damageDice: item.damageDice,
-    versatile: item.versatile,
-    versatileDice: item.versatileDice,
-    proficient: item.proficient,
-    notes: item.notes
-  }));
+  state.attacks.push(
+    normalizeAttack({
+      name: item.name,
+      range: item.range,
+      ability: item.ability,
+      damageType: item.damageType,
+      damageDice: item.damageDice,
+      versatile: item.versatile,
+      versatileDice: item.versatileDice,
+      proficient: item.proficient,
+      notes: item.notes,
+    }),
+  );
   renderAttacks();
   refreshDerivedValues();
   queueSave();
@@ -4823,7 +5598,10 @@ function deriveArmorClass() {
   const dexMod = abilityModifier(Number(state.abilities.dexterity || 0));
   const equippedArmor = state.equipmentItems
     .filter((item) => item.type === "armor" && item.equipped)
-    .sort((left, right) => Number(right.armorBase || 0) - Number(left.armorBase || 0))[0];
+    .sort(
+      (left, right) =>
+        Number(right.armorBase || 0) - Number(left.armorBase || 0),
+    )[0];
   const equippedShieldBonus = state.equipmentItems
     .filter((item) => item.type === "shield" && item.equipped)
     .reduce((sum, item) => sum + Number(item.shieldBonus || 0), 0);
@@ -4850,7 +5628,9 @@ function deriveArmorClass() {
 }
 
 function deriveSpeed() {
-  const baseSpeed = Number(state.speed || getDefaultSpeedForSpecies(state.species, state.subrace) || 0);
+  const baseSpeed = Number(
+    state.speed || getDefaultSpeedForSpecies(state.species, state.subrace) || 0,
+  );
   if (!baseSpeed) {
     return "";
   }
@@ -4859,11 +5639,13 @@ function deriveSpeed() {
 }
 
 function getSpeedBonus() {
-  const wearingArmorOrShield = state.equipmentItems.some((item) =>
-    item.equipped && (item.type === "armor" || item.type === "shield")
+  const wearingArmorOrShield = state.equipmentItems.some(
+    (item) =>
+      item.equipped && (item.type === "armor" || item.type === "shield"),
   );
-  const wearingHeavyArmor = state.equipmentItems.some((item) =>
-    item.equipped && item.type === "armor" && item.armorCategory === "heavy"
+  const wearingHeavyArmor = state.equipmentItems.some(
+    (item) =>
+      item.equipped && item.type === "armor" && item.armorCategory === "heavy",
   );
   let bonus = 0;
 
@@ -4904,7 +5686,9 @@ function getAttackAbilityModifier(abilityKey) {
 function resolveFormulaTokens(formula) {
   return String(formula || "")
     .replace(/\[([A-Z]+)\]/gi, (_, rawToken) => tokenValue(rawToken))
-    .replace(/\b(STR|DEX|CON|INT|WIS|CHA|PROF|PB)\b/gi, (_, rawToken) => tokenValue(rawToken))
+    .replace(/\b(STR|DEX|CON|INT|WIS|CHA|PROF|PB)\b/gi, (_, rawToken) =>
+      tokenValue(rawToken),
+    )
     .replace(/\s+/g, " ")
     .replace(/\s*([+-])\s*/g, " $1 ")
     .trim();
@@ -4968,7 +5752,7 @@ function rollAttackFormula(card, rollType) {
 
     if (rollType === "toHit") {
       const d20Roll = rolled.diceRolls?.find(
-        (die) => die.sides === 20 && die.sign === 1
+        (die) => die.sides === 20 && die.sign === 1,
       );
 
       if (d20Roll?.value === 20) {
@@ -5035,7 +5819,7 @@ function openAbilityRollModal(label, modifier) {
 
   clearRollFeedback(rollModalResult);
   const d20Roll = rolled.diceRolls?.find(
-    (die) => die.sides === 20 && die.sign === 1
+    (die) => die.sides === 20 && die.sign === 1,
   );
 
   rollModalTitle.textContent = label || "Roll Result";
@@ -5059,8 +5843,11 @@ function openAbilityRollModal(label, modifier) {
 
 function openConcentrationCheckModal(damage) {
   const dc = Math.max(10, Math.floor(Number(damage || 0) / 2));
-  const modifier = abilityModifier(Number(state.abilities.constitution || 0)) +
-    (state.proficiencies.savingThrows.constitution ? Number(state.proficiencyBonus || 0) : 0);
+  const modifier =
+    abilityModifier(Number(state.abilities.constitution || 0)) +
+    (state.proficiencies.savingThrows.constitution
+      ? Number(state.proficiencyBonus || 0)
+      : 0);
   const rolled = rollDiceExpression(formatToHit(modifier));
   if (!rolled) {
     return;
@@ -5068,7 +5855,7 @@ function openConcentrationCheckModal(damage) {
 
   clearRollFeedback(rollModalResult);
   const d20Roll = rolled.diceRolls?.find(
-    (die) => die.sides === 20 && die.sign === 1
+    (die) => die.sides === 20 && die.sign === 1,
   );
   const passed = rolled.total >= dc;
 
@@ -5099,7 +5886,8 @@ function rollCustomDiceFormula() {
   if (!formula) {
     diceModalTotal.textContent = "-";
     diceModalSummary.textContent = "Enter a formula to roll.";
-    diceModalDetail.textContent = "Supports tokens like [STR], [DEX], and [PROF].";
+    diceModalDetail.textContent =
+      "Supports tokens like [STR], [DEX], and [PROF].";
     clearRollFeedback(diceModalResult);
     return;
   }
@@ -5117,7 +5905,7 @@ function rollCustomDiceFormula() {
   clearRollFeedback(diceModalResult);
 
   const positiveD20Rolls = rolled.diceRolls.filter(
-    (die) => die.sides === 20 && die.sign === 1
+    (die) => die.sides === 20 && die.sign === 1,
   );
 
   diceModalTotal.textContent = String(rolled.total);
@@ -5164,7 +5952,10 @@ function rollDiceExpression(expression) {
   const cleaned = resolveFormulaTokens(expression)
     .toLowerCase()
     .replace(/\([^)]*\)/g, " ")
-    .replace(/\b(acid|bludgeoning|cold|fire|force|lightning|necrotic|piercing|poison|psychic|radiant|slashing|thunder)\b/g, " ")
+    .replace(
+      /\b(acid|bludgeoning|cold|fire|force|lightning|necrotic|piercing|poison|psychic|radiant|slashing|thunder)\b/g,
+      " ",
+    )
     .replace(/\s+/g, "")
     .trim();
 
@@ -5219,8 +6010,8 @@ function normalizeClassEntry(classEntry = {}) {
     subclass: classEntry.subclass || "",
     level: Math.max(1, Number(classEntry.level || 1)),
     selections: {
-      ...(classEntry.selections || {})
-    }
+      ...(classEntry.selections || {}),
+    },
   };
 }
 
@@ -5243,7 +6034,7 @@ function parseLegacyClassLevel(value) {
 
   return {
     name: match[1].trim(),
-    level: Number(match[2])
+    level: Number(match[2]),
   };
 }
 
@@ -5262,7 +6053,7 @@ function getLevelProgressState(totalLevel, experience) {
     experience: safeXp,
     xpLevel,
     levelsAvailable: Math.max(0, xpLevel - safeLevel),
-    canLevelUp: xpLevel > safeLevel && safeLevel < 20
+    canLevelUp: xpLevel > safeLevel && safeLevel < 20,
   };
 }
 
@@ -5280,32 +6071,70 @@ function levelFromExperience(experience) {
 }
 
 function updateLevelStatus(totalLevel, experience) {
+  const safeLevel = Math.max(1, Number(totalLevel || 1));
+
+  if (state.levelMethod === "milestone") {
+    if (safeLevel >= 20) {
+      levelStatusCard.dataset.status = "max";
+      levelStatusTitle.textContent = "Max Level";
+      levelStatusText.textContent =
+        "Level 20 reached. No further level-ups apply.";
+      levelStatusCard.disabled = true;
+      return;
+    }
+
+    levelStatusCard.dataset.status = "milestone";
+    levelStatusTitle.textContent = "Milestone Leveling";
+    levelStatusText.textContent = "Tap when your DM grants a level up.";
+    levelStatusCard.disabled = false;
+    return;
+  }
+
   const {
-    totalLevel: safeLevel,
+    totalLevel: safeXpLevel,
     experience: safeXp,
-    xpLevel,
-    canLevelUp
+    canLevelUp,
   } = getLevelProgressState(totalLevel, experience);
 
-  if (safeLevel >= 20) {
+  if (safeXpLevel >= 20) {
     levelStatusCard.dataset.status = "max";
     levelStatusTitle.textContent = "Max Level";
-    levelStatusText.textContent = "Level 20 reached. No further level-ups apply.";
+    levelStatusText.textContent =
+      "Level 20 reached. No further level-ups apply.";
+    levelStatusCard.disabled = true;
     return;
   }
 
   if (canLevelUp) {
     levelStatusCard.dataset.status = "available";
     levelStatusTitle.textContent = "Level Up Available";
-    levelStatusText.textContent = "";
+    levelStatusText.textContent = "Tap to level up.";
+    levelStatusCard.disabled = false;
     return;
   }
 
-  const nextThreshold = xpThresholds[Math.min(19, safeLevel)];
+  const nextThreshold = xpThresholds[Math.min(19, safeXpLevel)];
   const xpRemaining = Math.max(0, nextThreshold - safeXp);
+
   levelStatusCard.dataset.status = "next";
-  levelStatusTitle.textContent = `${xpRemaining.toLocaleString()} XP until level ${Math.min(20, safeLevel + 1)}`;
-  levelStatusText.textContent = `${xpRemaining.toLocaleString()} XP until level ${Math.min(20, safeLevel + 1)} at ${nextThreshold.toLocaleString()} XP.`;
+  levelStatusTitle.textContent = `${xpRemaining.toLocaleString()} XP until level ${Math.min(20, safeXpLevel + 1)}`;
+  levelStatusText.textContent = `${xpRemaining.toLocaleString()} XP until level ${Math.min(20, safeXpLevel + 1)} at ${nextThreshold.toLocaleString()} XP.`;
+  levelStatusCard.disabled = true;
+}
+
+function updateLevelMethodDisplay() {
+  const levelMethod = state.levelMethod || "xp";
+  const isMilestone = levelMethod === "milestone";
+
+  xpCards.forEach((card) => {
+    card.hidden = isMilestone;
+  });
+
+  if (levelMethodSelect) {
+    levelMethodSelect.value = levelMethod;
+  }
+
+  document.body.dataset.levelMethod = levelMethod;
 }
 
 function applySampleCharacter() {
@@ -5319,8 +6148,8 @@ function applySampleCharacter() {
       {
         name: "Ranger",
         subclass: "Hunter",
-        level: 5
-      }
+        level: 5,
+      },
     ],
     armorClass: 15,
     initiative: 4,
@@ -5346,7 +6175,7 @@ function applySampleCharacter() {
         damageBonus: "",
         proficient: true,
         versatile: false,
-        notes: "Favored foe or hunter's mark can add extra damage."
+        notes: "Favored foe or hunter's mark can add extra damage.",
       },
       {
         name: "Shortsword",
@@ -5359,8 +6188,8 @@ function applySampleCharacter() {
         damageBonus: "",
         proficient: true,
         versatile: false,
-        notes: "Reliable melee option when the longbow is not ideal."
-      }
+        notes: "Reliable melee option when the longbow is not ideal.",
+      },
     ],
     equipmentItems: [
       {
@@ -5370,7 +6199,7 @@ function applySampleCharacter() {
         equipped: true,
         armorCategory: "light",
         armorBase: 12,
-        notes: "Worn as primary armor."
+        notes: "Worn as primary armor.",
       },
       {
         name: "Longbow",
@@ -5381,7 +6210,7 @@ function applySampleCharacter() {
         damageType: "piercing",
         damageDice: "1d8",
         range: "Ranged Weapon Attack 150/600 ft.",
-        proficient: true
+        proficient: true,
       },
       {
         name: "Shortsword",
@@ -5392,8 +6221,8 @@ function applySampleCharacter() {
         damageType: "piercing",
         damageDice: "1d6",
         range: "Melee Weapon Attack 5 ft.",
-        proficient: true
-      }
+        proficient: true,
+      },
     ],
     spells: [
       {
@@ -5412,28 +6241,31 @@ function applySampleCharacter() {
         concentration: true,
         ritual: false,
         collapsed: false,
-        notes: "Choose a target; extra damage applies on weapon hits."
-      }
+        notes: "Choose a target; extra damage applies on weapon hits.",
+      },
     ],
     features: [
       {
         name: "Favored Enemy",
         category: "Class Feature",
         source: "Ranger 1",
-        notes: "Undead. Advantage on Survival to track them and on Intelligence checks to recall information about them."
+        notes:
+          "Undead. Advantage on Survival to track them and on Intelligence checks to recall information about them.",
       },
       {
         name: "Natural Explorer",
         category: "Class Feature",
         source: "Ranger 1",
-        notes: "Forest. The party moves more efficiently and avoids becoming lost in favored terrain."
+        notes:
+          "Forest. The party moves more efficiently and avoids becoming lost in favored terrain.",
       },
       {
         name: "Primeval Awareness",
         category: "Class Feature",
         source: "Ranger 3",
-        notes: "Spend a spell slot to sense certain creature types within range."
-      }
+        notes:
+          "Spend a spell slot to sense certain creature types within range.",
+      },
     ],
     trackingResources: [
       {
@@ -5441,7 +6273,7 @@ function applySampleCharacter() {
         totalSource: "proficiencyBonus",
         value: 2,
         restoreOn: "longRest",
-        collapsed: true
+        collapsed: true,
       },
       {
         name: "Torches",
@@ -5449,23 +6281,25 @@ function applySampleCharacter() {
         totalValue: 5,
         value: 3,
         restoreOn: "manual",
-        collapsed: true
-      }
+        collapsed: true,
+      },
     ],
-    equipment: "Studded leather, longbow, 40 arrows, two shortswords, explorer's pack",
-    notes: "The party owes a favor to the ferryman at Mossbridge.\nTrack the black antler cult's movements.",
+    equipment:
+      "Studded leather, longbow, 40 arrows, two shortswords, explorer's pack",
+    notes:
+      "The party owes a favor to the ferryman at Mossbridge.\nTrack the black antler cult's movements.",
     abilities: {
       strength: 10,
       dexterity: 18,
       constitution: 14,
       intelligence: 12,
       wisdom: 16,
-      charisma: 11
+      charisma: 11,
     },
     proficiencies: {
       savingThrows: {
         strength: true,
-        dexterity: true
+        dexterity: true,
       },
       skills: {
         animalHandling: true,
@@ -5473,9 +6307,9 @@ function applySampleCharacter() {
         insight: true,
         perception: true,
         stealth: true,
-        survival: true
-      }
-    }
+        survival: true,
+      },
+    },
   });
 
   syncFieldsFromState();
@@ -5501,7 +6335,9 @@ function syncFieldsFromState() {
 }
 
 function resetSheet() {
-  const confirmed = window.confirm("Clear the saved character sheet on this device?");
+  const confirmed = window.confirm(
+    "Clear the saved character sheet on this device?",
+  );
   if (!confirmed) {
     return;
   }

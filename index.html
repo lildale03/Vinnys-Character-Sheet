@@ -84,16 +84,15 @@
               <div>
                 <h2>Character Progress</h2>
               </div>
-              <button id="levelUpButton" class="secondary-button compact-button" type="button">Level Up</button>
             </div>
 
-            <div class="level-status-card" id="levelStatusCard">
+            <button class="level-status-card" id="levelStatusCard" type="button">
               <div>
                 <span>Level Progress</span>
                 <strong id="levelStatusTitle">Next Level</strong>
                 <p id="levelStatusText">Enter experience to track level milestones.</p>
               </div>
-            </div>
+            </button>
 
             <div class="progress-grid">
               <div class="progress-card summary-card">
@@ -101,22 +100,31 @@
                 <strong id="totalLevelDisplay">1</strong>
                 <p id="classSummaryDisplay">Single class</p>
               </div>
-              <label class="progress-card">
-                <span>Experience</span>
-                <input data-field="experience" type="number" min="0" placeholder="6500">
-              </label>
+              <label class="progress-card xp-card">
+  <span>Experience</span>
+  <input data-field="experience" type="number" min="0" placeholder="6500">
+</label>
+<div class="progress-card xp-helper-card xp-card">
               <div class="progress-card xp-helper-card">
                 <label>
                   <span>Add XP</span>
                   <input id="xpGainInput" type="number" min="0" placeholder="250">
                 </label>
-                <button id="addXpButton" class="secondary-button compact-button" type="button">Add XP</button>
+                <button id="addXpButton" class="secondary-button compact-button" type="button">+</button>
               </div>
               <div class="progress-card summary-card">
                 <span>Proficiency Bonus</span>
                 <strong id="proficiencyBonusDisplay">+2</strong>
                 <p>Based on total level</p>
               </div>
+
+            <label class="progress-card level-method-card">
+              <span>Level Method</span>
+                <select data-field="levelMethod" id="levelMethodSelect">
+                  <option value="xp">XP</option>
+                  <option value="milestone">Milestone</option>
+                </select>
+              </label>
             </div>
 
             <div id="classList" class="class-list"></div>
@@ -583,6 +591,13 @@
           <label>
             <span>Alignment</span>
             <input id="createCharacterAlignment" type="text" placeholder="Neutral Good">
+          </label>
+          <label>
+            <span>Level Method</span>
+            <select id="createCharacterLevelMethod">
+              <option value="xp">XP</option>
+              <option value="milestone">Milestone</option>
+            </select>
           </label>
         </div>
 
