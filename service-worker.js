@@ -1,4 +1,4 @@
-const CACHE_NAME = "adventurer-sheet-v9.1";
+const CACHE_NAME = "adventurer-sheet-v9";
 
 const APP_SHELL = [
   "./",

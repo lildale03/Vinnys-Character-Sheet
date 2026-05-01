@@ -15,14 +15,24 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@12.3.3/dist/gridstack.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+  <div id="appLoadingScreen" class="app-loading-screen" role="status" aria-live="polite">
+    <div class="app-loading-card">
+      <div class="app-loading-mark" aria-hidden="true"></div>
+      <h1>Adventurer Sheet</h1>
+      <p>Preparing your character sheet...</p>
+    </div>
+  </div>
+
   <div class="page-shell">
     <main class="dashboard-shell">
-      <aside class="dashboard-left">
-        <section class="panel profile-panel">
+      <aside class="dashboard-left" data-dashboard-column="left">
+        <section class="panel profile-panel" data-dashboard-widget="profile" data-widget-title="Character Identity"
+          data-widget-column="left" data-widget-area="sidebar">
           <div class="panel-heading">
             <div>
               <h2>Character Identity</h2>
@@ -64,7 +74,8 @@
           </div>
         </section>
 
-        <section class="panel skills-panel">
+        <section class="panel skills-panel" data-dashboard-widget="abilities" data-widget-title="Ability Scores"
+          data-widget-column="left" data-widget-area="sidebar">
           <div class="panel-heading">
             <div>
               <h2>Ability Scores</h2>
@@ -77,9 +88,10 @@
         </section>
       </aside>
 
-      <section class="dashboard-center">
+      <section class="dashboard-center" data-dashboard-column="center">
         <div class="dashboard-overview">
-          <section class="panel progress-panel">
+          <section class="panel progress-panel" data-dashboard-widget="progress" data-widget-title="Character Progress"
+            data-widget-column="center" data-widget-area="overview">
             <div class="panel-heading">
               <div>
                 <h2>Character Progress</h2>
@@ -122,7 +134,8 @@
             <div id="advancementChoicesList" class="advancement-choices-list"></div>
           </section>
 
-          <section class="panel vitals-panel">
+          <section class="panel vitals-panel" data-dashboard-widget="vitals" data-widget-title="Vitals"
+            data-widget-column="center" data-widget-area="overview">
             <div class="panel-heading">
               <div>
                 <h2>Vitals</h2>
@@ -186,7 +199,8 @@
           </section>
         </div>
 
-        <section class="panel center-tabs-panel">
+        <section class="panel center-tabs-panel" data-dashboard-widget="tabbed-panel" data-widget-title="Tabbed Sections"
+          data-widget-column="center" data-widget-area="main">
           <div class="dashboard-tabs" role="tablist" aria-label="Character sections">
             <button class="dashboard-tab is-active" type="button" role="tab" aria-selected="true"
               data-center-tab="actions">Actions</button>
@@ -199,24 +213,35 @@
             <button class="dashboard-tab" type="button" role="tab" aria-selected="false"
               data-center-tab="notes">Notes</button>
           </div>
-        </section>
 
+          <div class="tabbed-dashboard-content">
         <section class="panel attacks-panel">
           <div class="panel-heading">
             <div>
               <h2 id="attacksPanelTitle">Actions</h2>
             </div>
             <div class="combat-actions">
-              <button id="importSpellButton" class="secondary-button compact-button" type="button">Import Spell</button>
-              <button id="addSpellButton" class="secondary-button compact-button" type="button">Add Spell</button>
               <button id="addAttackButton" class="secondary-button compact-button" type="button">Add Attack</button>
             </div>
           </div>
 
           <div class="attack-section">
             <div id="attacksList" class="attacks-list"></div>
-            <div id="spellsList" class="spells-list"></div>
           </div>
+        </section>
+
+        <section class="panel spells-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Spells</h2>
+            </div>
+            <div class="combat-actions">
+              <button id="importSpellButton" class="secondary-button compact-button" type="button">Import Spell</button>
+              <button id="addSpellButton" class="secondary-button compact-button" type="button">Add Spell</button>
+            </div>
+          </div>
+
+          <div id="spellsList" class="spells-list"></div>
         </section>
 
         <section class="panel features-panel">
@@ -278,10 +303,13 @@
             <textarea data-field="notes" rows="8" placeholder="Clues, NPC names, treasure, quests..."></textarea>
           </label>
         </section>
+          </div>
+        </section>
       </section>
 
-      <aside class="dashboard-right">
-        <section class="panel proficiencies-panel">
+      <aside class="dashboard-right" data-dashboard-column="right">
+        <section class="panel proficiencies-panel" data-dashboard-widget="proficiencies" data-widget-title="Proficiencies"
+          data-widget-column="right" data-widget-area="sidebar">
           <div class="panel-heading">
             <div>
               <h2>Proficiencies</h2>
@@ -311,7 +339,8 @@
           </div>
         </section>
 
-        <section class="panel tracking-panel">
+        <section class="panel tracking-panel" data-dashboard-widget="tracking" data-widget-title="Tracking"
+          data-widget-column="right" data-widget-area="sidebar">
           <div class="panel-heading">
             <div>
               <h2>Tracking</h2>
@@ -322,7 +351,8 @@
           <div id="trackingList" class="tracking-list"></div>
         </section>
 
-        <section class="panel conditions-panel">
+        <section class="panel conditions-panel" data-dashboard-widget="conditions" data-widget-title="Conditions & Status"
+          data-widget-column="right" data-widget-area="sidebar">
           <div class="panel-heading">
             <div>
               <h2>Conditions &amp; Status</h2>
@@ -732,6 +762,8 @@
         aria-label="Open dice roller">Dice</button>
       <button id="floatingImportRulesButton" class="floating-import-rules-button" type="button">
         Load 5eTools</button>
+      <button id="customizeDashboardButton" class="ghost-button compact-button" type="button">Customize Dashboard</button>
+      <button id="resetDashboardLayoutButton" class="ghost-button compact-button" type="button">Reset Layout</button>
       <button id="open-feedback-btn" type="button">
         Report Bug / Request Feature</button>
     </div>
@@ -742,6 +774,12 @@
   <datalist id="speciesOptions"></datalist>
   <datalist id="subraceOptions"></datalist>
   <datalist id="backgroundOptions"></datalist>
+
+  <div class="dashboard-add-widget" id="dashboardAddWidget" hidden>
+    <button id="dashboardAddWidgetButton" class="dashboard-add-widget-button" type="button" aria-expanded="false"
+      aria-label="Restore hidden dashboard widgets">+</button>
+    <div id="dashboardAddWidgetMenu" class="dashboard-add-widget-menu" hidden></div>
+  </div>
 
   <template id="abilityGroupTemplate">
     <article class="ability-group-card">
@@ -1266,6 +1304,7 @@
         <option value="">Choose one</option>
         <option value="Bug Report">Bug Report</option>
         <option value="Feature Request">Feature Request</option>
+        <option value="Name">Name</option>
       </select>
 
       <input name="title" placeholder="Short title" required />
@@ -1281,6 +1320,7 @@
   </div>
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@12.3.3/dist/gridstack-all.js"></script>
   <script src="class-rules.js"></script>
   <script src="app.js"></script>
   <script data-goatcounter="https://vinnyboii.goatcounter.com/count"

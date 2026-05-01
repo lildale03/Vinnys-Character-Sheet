@@ -2,6 +2,31 @@ const STORAGE_KEY = "adventurer-sheet-v1";
 const CHARACTER_LIBRARY_KEY = "adventurer-sheet-library-v1";
 const THEME_KEY = "adventurer-sheet-theme";
 const RULES_CACHE_KEY = "adventurer-sheet-rules-cache-v2";
+const DASHBOARD_LAYOUT_KEY = "adventurer-sheet-dashboard-layout-v1";
+const TABBED_WIDGET_ID = "tabbed-panel";
+const DEFAULT_DASHBOARD_LAYOUT = [
+  ["profile", "Character Identity", 0, 0, 5, 5, 2, 3],
+  ["abilities", "Ability Scores", 0, 5, 5, 10, 2, 4],
+  ["progress", "Character Progress", 5, 0, 7, 7, 2, 4],
+  ["vitals", "Vitals", 12, 0, 7, 7, 2, 4],
+  [TABBED_WIDGET_ID, "Character Sections", 5, 7, 14, 14, 2, 5],
+  ["proficiencies", "Proficiencies", 19, 0, 5, 7, 2, 4],
+  ["tracking", "Tracking", 19, 7, 5, 6, 2, 3],
+  ["conditions", "Conditions & Status", 19, 13, 5, 6, 2, 3],
+].map(([id, title, x, y, w, h, minW, minH], order) => ({
+  id,
+  title,
+  visible: true,
+  column: "grid",
+  x,
+  y,
+  w,
+  h,
+  minW,
+  minH,
+  order,
+  settings: {},
+}));
 const FIVEETOOLS_DATA_BASE_URL =
   "https://raw.githubusercontent.com/5etools-mirror-3/5etools-src/main/data/";
 const standardConditions = [
@@ -514,14 +539,23 @@ let openCreateCharacterAfterRulesPrompt = false;
 let state = initializeCharacterState();
 let classRuleMemory = loadClassRuleMemory();
 let ruleReferenceData = loadRuleReferenceData();
+let dashboardLayout;
+let dashboardGrid;
+let dashboardEditMode = false;
 let saveTimeout;
 let abilityModalMode = "manual";
 let abilityModalDraft = {};
 let pointBuyDraft = {};
 
 const saveStatus = document.getElementById("saveStatus");
+const appLoadingScreen = document.getElementById("appLoadingScreen");
 const floatingActions = document.querySelector(".floating-actions");
 const floatingActionsToggle = document.getElementById("floatingActionsToggle");
+const dashboardShell = document.querySelector(".dashboard-shell");
+const dashboardWidgets = Array.from(
+  document.querySelectorAll("[data-dashboard-widget]"),
+);
+dashboardLayout = loadDashboardLayout();
 const characterSelect = document.getElementById("characterSelect");
 const newCharacterButton = document.getElementById("newCharacterButton");
 const deleteCharacterButton = document.getElementById("deleteCharacterButton");
@@ -543,6 +577,17 @@ const subraceOptions = document.getElementById("subraceOptions");
 const backgroundOptions = document.getElementById("backgroundOptions");
 const abilityGroupsList = document.getElementById("abilityGroupsList");
 const themeButton = document.getElementById("themeButton");
+const customizeDashboardButton = document.getElementById(
+  "customizeDashboardButton",
+);
+const resetDashboardLayoutButton = document.getElementById(
+  "resetDashboardLayoutButton",
+);
+const dashboardAddWidget = document.getElementById("dashboardAddWidget");
+const dashboardAddWidgetButton = document.getElementById(
+  "dashboardAddWidgetButton",
+);
+const dashboardAddWidgetMenu = document.getElementById("dashboardAddWidgetMenu");
 const modifyAbilityButton = document.getElementById("modifyAbilityButton");
 const abilityModal = document.getElementById("abilityModal");
 const abilityModalGrid = document.getElementById("abilityModalGrid");
@@ -858,6 +903,8 @@ const xpThresholds = [
 ];
 
 applyStoredTheme();
+applyDashboardLayout();
+initializeDashboardGrid();
 renderAbilityGroups();
 renderClasses();
 renderAttacks();
@@ -879,6 +926,20 @@ setCenterTab(activeCenterTab);
 themeButton.addEventListener("click", () => {
   toggleTheme();
   setFloatingActionsMenu(false);
+});
+resetDashboardLayoutButton.addEventListener("click", () => {
+  resetDashboardLayout();
+  setFloatingActionsMenu(false);
+});
+customizeDashboardButton.addEventListener("click", () => {
+  setDashboardEditMode(!dashboardEditMode);
+  setFloatingActionsMenu(false);
+});
+dashboardAddWidgetButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  renderDashboardAddWidgetMenu();
+  setDashboardAddWidgetMenu(dashboardAddWidgetMenu.hidden);
 });
 floatingActionsToggle.addEventListener("click", toggleFloatingActionsMenu);
 modifyAbilityButton.addEventListener("click", openAbilityModal);
@@ -1124,6 +1185,7 @@ confirmAddMulticlassButton.addEventListener(
   addMulticlassLevelFromModal,
 );
 document.addEventListener("click", handleFloatingActionsOutsideClick);
+document.addEventListener("click", handleDashboardAddWidgetOutsideClick);
 document.addEventListener("keydown", handleFloatingActionsEscape);
 
 closeRulesImportPromptButton.addEventListener("click", closeRulesImportPrompt);
@@ -1150,6 +1212,7 @@ rulesImportPromptModal.addEventListener("click", (event) => {
 });
 
 showInitialModal();
+hideAppLoadingScreen();
 
 function showInitialModal() {
   if (shouldOpenCreateCharacterOnStartup) {
@@ -1164,6 +1227,25 @@ function showInitialModal() {
   }
 
   showRulesImportPromptOnce();
+}
+
+function hideAppLoadingScreen() {
+  if (!appLoadingScreen) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      appLoadingScreen.classList.add("is-hidden");
+      appLoadingScreen.addEventListener(
+        "transitionend",
+        () => {
+          appLoadingScreen.remove();
+        },
+        { once: true },
+      );
+    });
+  });
 }
 
 function showRulesImportPromptOnce() {
@@ -1299,6 +1381,545 @@ function loadCharacterLibrary() {
   }
 
   return { characters: [], activeId: "" };
+}
+
+function loadDashboardLayout() {
+  try {
+    const rawLayout = localStorage.getItem(DASHBOARD_LAYOUT_KEY);
+    if (!rawLayout) {
+      return getDefaultDashboardLayout();
+    }
+
+    const parsedLayout = JSON.parse(rawLayout);
+    const savedWidgets = Array.isArray(parsedLayout)
+      ? parsedLayout
+      : parsedLayout.widgets;
+
+    return normalizeDashboardLayout(savedWidgets);
+  } catch {
+    return getDefaultDashboardLayout();
+  }
+}
+
+function getDefaultDashboardLayout() {
+  return normalizeDashboardLayoutOrders(
+    DEFAULT_DASHBOARD_LAYOUT.map((widget) => ({
+      ...widget,
+      locked: false,
+      settings: { ...widget.settings },
+    })),
+  );
+}
+
+function normalizeDashboardLayout(savedWidgets = []) {
+  const migratedWidgets = savedWidgets.map((savedWidget) =>
+    savedWidget?.id === "center-tabs"
+      ? { ...savedWidget, id: TABBED_WIDGET_ID }
+      : savedWidget,
+  );
+  const savedById = new Map(
+    migratedWidgets
+      .filter((widget) => widget && typeof widget.id === "string")
+      .map((widget) => [widget.id, widget]),
+  );
+  const defaultById = new Map(
+    DEFAULT_DASHBOARD_LAYOUT.map((widget) => [widget.id, widget]),
+  );
+  const normalized = [];
+  const usedIds = new Set();
+
+  migratedWidgets
+    .slice()
+    .sort((firstWidget, secondWidget) => {
+      const firstIndex = getDashboardLayoutSortIndex(firstWidget);
+      const secondIndex = getDashboardLayoutSortIndex(secondWidget);
+      return firstIndex - secondIndex;
+    })
+    .forEach((savedWidget) => {
+      const defaultWidget = defaultById.get(savedWidget?.id);
+      if (!defaultWidget || usedIds.has(defaultWidget.id)) {
+        return;
+      }
+
+      normalized.push(normalizeDashboardWidget(defaultWidget, savedWidget));
+      usedIds.add(defaultWidget.id);
+    });
+
+  DEFAULT_DASHBOARD_LAYOUT.forEach((defaultWidget) => {
+    if (!savedById.has(defaultWidget.id) || !usedIds.has(defaultWidget.id)) {
+      normalized.push({
+        ...defaultWidget,
+        locked: false,
+        settings: { ...defaultWidget.settings },
+      });
+    }
+  });
+
+  return normalizeDashboardLayoutOrders(normalized);
+}
+
+function normalizeDashboardWidget(defaultWidget, savedWidget = {}) {
+  const savedSettings =
+    savedWidget.settings && typeof savedWidget.settings === "object"
+      ? savedWidget.settings
+      : {};
+
+  return {
+    id: defaultWidget.id,
+    title:
+      typeof savedWidget.title === "string"
+        ? savedWidget.title
+        : defaultWidget.title,
+    visible:
+      typeof savedWidget.visible === "boolean"
+        ? savedWidget.visible
+        : defaultWidget.visible,
+    locked:
+      typeof savedWidget.locked === "boolean"
+        ? savedWidget.locked
+        : Boolean(defaultWidget.locked),
+    column: "grid",
+    x: getFiniteLayoutNumber(savedWidget.x, savedSettings.x, defaultWidget.x),
+    y: getFiniteLayoutNumber(savedWidget.y, savedSettings.y, defaultWidget.y),
+    w: getFiniteLayoutNumber(savedWidget.w, savedSettings.w, defaultWidget.w),
+    h: getFiniteLayoutNumber(savedWidget.h, savedSettings.h, defaultWidget.h),
+    minW: getFiniteLayoutNumber(
+      savedWidget.minW,
+      savedSettings.minW,
+      defaultWidget.minW,
+    ),
+    minH: getFiniteLayoutNumber(
+      savedWidget.minH,
+      savedSettings.minH,
+      defaultWidget.minH,
+    ),
+    order: getFiniteLayoutNumber(savedWidget.order, defaultWidget.order),
+    settings: { ...defaultWidget.settings, ...savedSettings },
+  };
+}
+
+function applyDashboardLayout() {
+  wrapDashboardWidgets();
+
+  dashboardLayout.forEach((layoutWidget) => {
+    const widget = getDashboardWidgetElement(layoutWidget.id);
+    if (!widget) {
+      return;
+    }
+
+    widget.dataset.widgetTitle = layoutWidget.title;
+    widget.dataset.widgetColumn = "grid";
+
+    const wrapper = getDashboardWidgetWrapper(layoutWidget.id);
+    if (!wrapper) {
+      return;
+    }
+
+    wrapper.dataset.dashboardWidgetItem = layoutWidget.id;
+    wrapper.hidden = dashboardGrid
+      ? !layoutWidget.visible
+      : !isDashboardWidgetRenderable(layoutWidget.id);
+    setGridStackAttributes(wrapper, layoutWidget);
+    dashboardShell.append(wrapper);
+  });
+
+  setCenterTab(activeCenterTab);
+  syncDashboardGridFromLayout();
+  persistDashboardLayout();
+}
+
+function wrapDashboardWidgets() {
+  dashboardShell.classList.add("grid-stack");
+
+  dashboardWidgets.forEach((widget) => {
+    widget.classList.add("grid-stack-item-content");
+
+    if (widget.parentElement?.classList.contains("grid-stack-item")) {
+      ensureDashboardWidgetControls(widget.parentElement);
+      dashboardShell.append(widget.parentElement);
+      return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "grid-stack-item";
+    wrapper.dataset.dashboardWidgetItem = widget.dataset.dashboardWidget;
+    widget.before(wrapper);
+    wrapper.append(widget);
+    ensureDashboardWidgetControls(wrapper);
+    dashboardShell.append(wrapper);
+  });
+
+  document
+    .querySelectorAll("[data-dashboard-column]")
+    .forEach((column) => column.remove());
+}
+
+function ensureDashboardWidgetControls(wrapper) {
+  if (wrapper.querySelector(".dashboard-widget-controls")) {
+    return;
+  }
+
+  const controls = document.createElement("div");
+  controls.className = "dashboard-widget-controls";
+
+  const hideButton = document.createElement("button");
+  hideButton.className = "dashboard-widget-control";
+  hideButton.type = "button";
+  hideButton.dataset.dashboardWidgetAction = "hide";
+
+  const lockButton = document.createElement("button");
+  lockButton.className = "dashboard-widget-control";
+  lockButton.type = "button";
+  lockButton.dataset.dashboardWidgetAction = "toggle-lock";
+
+  controls.append(hideButton, lockButton);
+  wrapper.append(controls);
+}
+
+function initializeDashboardGrid() {
+  if (!window.GridStack || !dashboardShell) {
+    return;
+  }
+
+  // GridStack owns widget movement/resizing; panel internals stay untouched.
+  dashboardGrid = window.GridStack.init(
+    {
+      column: 24,
+      columnOpts: {
+        breakpointForWindow: true,
+        breakpoints: [
+          { w: 760, c: 1, layout: "list" },
+          { w: 1200, c: 12, layout: "moveScale" },
+        ],
+      },
+      float: true,
+      margin: 10,
+      cellHeight: 80,
+      handle: ".grid-stack-item-content",
+      draggable: {
+        cancel: "input, textarea, select, button, a, [contenteditable='true']",
+      },
+      resizable: {
+        handles: "all",
+      },
+    },
+    dashboardShell,
+  );
+
+  dashboardGrid.on("dragstop", persistDashboardGridLayout);
+  dashboardGrid.on("resizestop", persistDashboardGridLayout);
+  dashboardGrid.on("change", persistDashboardGridLayout);
+  dashboardGrid.enableMove(dashboardEditMode);
+  dashboardGrid.enableResize(dashboardEditMode);
+  syncDashboardGridFromLayout();
+}
+
+function persistDashboardGridLayout() {
+  if (!dashboardGrid) {
+    return;
+  }
+
+  // Persist only GridStack geometry and widget metadata; character data is separate.
+  const byId = new Map(dashboardLayout.map((widget) => [widget.id, widget]));
+  const usedIds = new Set();
+
+  const nextLayout = dashboardGrid
+    .getGridItems()
+    .map((gridItem) => {
+      const widget = gridItem.querySelector("[data-dashboard-widget]");
+      const id = widget?.dataset.dashboardWidget;
+      const existingWidget = byId.get(id);
+      if (!id || !existingWidget || usedIds.has(id)) {
+        return null;
+      }
+
+      usedIds.add(id);
+      return mergeGridStackNode(existingWidget, gridItem.gridstackNode);
+    })
+    .filter(Boolean);
+
+  DEFAULT_DASHBOARD_LAYOUT.forEach((defaultWidget) => {
+    const existingWidget = byId.get(defaultWidget.id) || defaultWidget;
+    if (!usedIds.has(defaultWidget.id)) {
+      nextLayout.push(existingWidget);
+    }
+  });
+
+  dashboardLayout = normalizeDashboardLayout(nextLayout);
+  persistDashboardLayout();
+}
+
+function mergeGridStackNode(widget, node = {}) {
+  const nextWidget = {
+    ...widget,
+    column: "grid",
+    x: getFiniteLayoutNumber(node.x, widget.x),
+    y: getFiniteLayoutNumber(node.y, widget.y),
+    w: getFiniteLayoutNumber(node.w, widget.w),
+    h: getFiniteLayoutNumber(node.h, widget.h),
+    locked: Boolean(widget.locked),
+  };
+
+  return {
+    ...nextWidget,
+    settings: {
+      ...nextWidget.settings,
+      x: nextWidget.x,
+      y: nextWidget.y,
+      w: nextWidget.w,
+      h: nextWidget.h,
+      minW: nextWidget.minW,
+      minH: nextWidget.minH,
+    },
+  };
+}
+
+function getDashboardLayoutSortIndex(widget) {
+  const y = Number.isFinite(widget?.y) ? widget.y : 0;
+  const x = Number.isFinite(widget?.x) ? widget.x : 0;
+  return y * 24 + x;
+}
+
+function normalizeDashboardLayoutOrders(layout) {
+  return layout.map((widget, order) => ({ ...widget, order }));
+}
+
+function getFiniteLayoutNumber(...values) {
+  const value = values.find((entry) => Number.isFinite(entry));
+  return value ?? 0;
+}
+
+function getDashboardWidgetElement(id) {
+  return dashboardWidgets.find((widget) => widget.dataset.dashboardWidget === id);
+}
+
+function getDashboardWidgetWrapper(id) {
+  return document.querySelector(`[data-dashboard-widget-item="${id}"]`);
+}
+
+function setGridStackAttributes(wrapper, layoutWidget) {
+  wrapper.setAttribute("gs-id", layoutWidget.id);
+  wrapper.setAttribute("gs-x", String(layoutWidget.x));
+  wrapper.setAttribute("gs-y", String(layoutWidget.y));
+  wrapper.setAttribute("gs-w", String(layoutWidget.w));
+  wrapper.setAttribute("gs-h", String(layoutWidget.h));
+  wrapper.setAttribute("gs-min-w", String(layoutWidget.minW));
+  wrapper.setAttribute("gs-min-h", String(layoutWidget.minH));
+  wrapper.setAttribute("gs-locked", String(Boolean(layoutWidget.locked)));
+  wrapper.setAttribute("gs-no-move", String(Boolean(layoutWidget.locked)));
+  wrapper.setAttribute("gs-no-resize", String(Boolean(layoutWidget.locked)));
+}
+
+function syncDashboardGridFromLayout() {
+  if (!dashboardGrid) {
+    renderDashboardEditMode();
+    return;
+  }
+
+  dashboardGrid.batchUpdate();
+  dashboardLayout.forEach((layoutWidget) => {
+    const wrapper = getDashboardWidgetWrapper(layoutWidget.id);
+    if (!wrapper) {
+      return;
+    }
+
+    setGridStackAttributes(wrapper, layoutWidget);
+    updateDashboardWidgetControls(wrapper, layoutWidget);
+    const isRenderable = isDashboardWidgetRenderable(layoutWidget.id);
+    wrapper.hidden = !isRenderable;
+
+    if (!wrapper.gridstackNode) {
+      dashboardGrid.makeWidget(wrapper);
+    }
+
+    dashboardGrid.update(wrapper, getGridStackWidgetOptions(layoutWidget));
+  });
+  dashboardGrid.batchUpdate(false);
+  renderDashboardEditMode();
+}
+
+function getGridStackWidgetOptions(layoutWidget) {
+  return {
+    x: layoutWidget.x,
+    y: layoutWidget.y,
+    w: layoutWidget.w,
+    h: layoutWidget.h,
+    minW: layoutWidget.minW,
+    minH: layoutWidget.minH,
+    locked: Boolean(layoutWidget.locked),
+    noMove: Boolean(layoutWidget.locked),
+    noResize: Boolean(layoutWidget.locked),
+  };
+}
+
+function isDashboardWidgetRenderable(id) {
+  const widget = dashboardLayout.find((layoutWidget) => layoutWidget.id === id);
+  return Boolean(widget?.visible);
+}
+
+function persistDashboardLayout() {
+  try {
+    localStorage.setItem(
+      DASHBOARD_LAYOUT_KEY,
+      JSON.stringify({
+        version: 1,
+        widgets: dashboardLayout,
+      }),
+    );
+  } catch (error) {
+    console.warn(error);
+  }
+}
+
+function resetDashboardLayout() {
+  setDashboardAddWidgetMenu(false);
+  dashboardLayout = getDefaultDashboardLayout();
+  applyDashboardLayout();
+  setCenterTab(activeCenterTab);
+  showToast("Layout reset");
+}
+
+function isDashboardWidgetVisible(id) {
+  const widget = dashboardLayout.find((layoutWidget) => layoutWidget.id === id);
+  return !widget || widget.visible !== false;
+}
+
+function setDashboardWidgetVisibility(id, visible) {
+  dashboardLayout = dashboardLayout.map((widget) =>
+    widget.id === id ? { ...widget, visible } : widget,
+  );
+  applyDashboardLayout();
+  if (visible) {
+    restoreDashboardGridWidget(id);
+  }
+}
+
+function restoreDashboardGridWidget(id) {
+  if (!dashboardGrid) {
+    return;
+  }
+
+  const layoutWidget = dashboardLayout.find((widget) => widget.id === id);
+  const wrapper = getDashboardWidgetWrapper(id);
+  if (!layoutWidget || !wrapper) {
+    return;
+  }
+
+  wrapper.hidden = false;
+  setGridStackAttributes(wrapper, layoutWidget);
+
+  if (!wrapper.gridstackNode) {
+    dashboardGrid.makeWidget(wrapper);
+  }
+
+  dashboardGrid.update(wrapper, getGridStackWidgetOptions(layoutWidget));
+  dashboardGrid.compact();
+}
+
+function setDashboardWidgetLocked(id, locked) {
+  dashboardLayout = dashboardLayout.map((widget) =>
+    widget.id === id ? { ...widget, locked } : widget,
+  );
+  applyDashboardLayout();
+}
+
+function setDashboardEditMode(isEditing) {
+  dashboardEditMode = isEditing;
+  document.body.dataset.dashboardEditMode = String(isEditing);
+  dashboardGrid?.enableMove(isEditing);
+  dashboardGrid?.enableResize(isEditing);
+  customizeDashboardButton.textContent = isEditing
+    ? "Done Customizing"
+    : "Customize Dashboard";
+  customizeDashboardButton.setAttribute("aria-pressed", String(isEditing));
+  setDashboardAddWidgetMenu(false);
+  renderDashboardEditMode();
+}
+
+function renderDashboardEditMode() {
+  dashboardAddWidget.hidden = !dashboardEditMode;
+  dashboardLayout.forEach((layoutWidget) => {
+    const wrapper = getDashboardWidgetWrapper(layoutWidget.id);
+    if (wrapper) {
+      updateDashboardWidgetControls(wrapper, layoutWidget);
+    }
+  });
+  renderDashboardAddWidgetMenu();
+}
+
+function updateDashboardWidgetControls(wrapper, layoutWidget) {
+  const controls = wrapper.querySelector(".dashboard-widget-controls");
+  if (!controls) {
+    return;
+  }
+
+  const hideButton = controls.querySelector("[data-dashboard-widget-action='hide']");
+  const lockButton = controls.querySelector(
+    "[data-dashboard-widget-action='toggle-lock']",
+  );
+
+  controls.hidden = !dashboardEditMode || !layoutWidget.visible;
+  wrapper.dataset.widgetLocked = String(Boolean(layoutWidget.locked));
+
+  if (hideButton) {
+    hideButton.textContent = "Delete";
+    hideButton.setAttribute("aria-label", `Hide ${layoutWidget.title}`);
+    hideButton.onclick = () => setDashboardWidgetVisibility(layoutWidget.id, false);
+  }
+
+  if (lockButton) {
+    lockButton.textContent = layoutWidget.locked ? "Unlock" : "Lock";
+    lockButton.setAttribute(
+      "aria-label",
+      `${layoutWidget.locked ? "Unlock" : "Lock"} ${layoutWidget.title}`,
+    );
+    lockButton.onclick = () =>
+      setDashboardWidgetLocked(layoutWidget.id, !layoutWidget.locked);
+  }
+}
+
+function renderDashboardAddWidgetMenu() {
+  const hiddenWidgets = dashboardLayout.filter((widget) => !widget.visible);
+  dashboardAddWidgetMenu.innerHTML = "";
+
+  if (!hiddenWidgets.length) {
+    const emptyState = document.createElement("p");
+    emptyState.textContent = "No hidden widgets.";
+    dashboardAddWidgetMenu.append(emptyState);
+    return;
+  }
+
+  hiddenWidgets.forEach((widget) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = widget.title;
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setDashboardWidgetVisibility(widget.id, true);
+      setDashboardAddWidgetMenu(false);
+    });
+    dashboardAddWidgetMenu.append(button);
+  });
+}
+
+function setDashboardAddWidgetMenu(isOpen) {
+  dashboardAddWidgetMenu.hidden = !isOpen;
+  dashboardAddWidgetButton.setAttribute("aria-expanded", String(isOpen));
+}
+
+function handleDashboardAddWidgetOutsideClick(event) {
+  if (
+    !dashboardEditMode ||
+    dashboardAddWidgetMenu.hidden ||
+    !(event.target instanceof Node)
+  ) {
+    return;
+  }
+
+  if (!dashboardAddWidget.contains(event.target)) {
+    setDashboardAddWidgetMenu(false);
+  }
 }
 
 function toggleFloatingActionsMenu() {
@@ -2994,23 +3615,25 @@ function setCenterTab(tab) {
 
   centerTabButtons.forEach((button) => {
     const isActive = button.dataset.centerTab === tab;
+    button.hidden = false;
     button.classList.toggle("is-active", isActive);
     button.setAttribute("aria-selected", String(isActive));
   });
 
-  attacksPanel.hidden = !(tab === "actions" || tab === "spells");
-  attacksPanel.dataset.view = tab === "spells" ? "spells" : "actions";
-  featuresPanel.hidden = tab !== "features";
+  attacksPanel.dataset.view = "actions";
+  attacksPanel.hidden = tab !== "actions";
+  spellsList.closest(".spells-panel").hidden = tab !== "spells";
   equipmentPanel.hidden = tab !== "inventory";
+  featuresPanel.hidden = tab !== "features";
   notesPanel.hidden = tab !== "notes";
 
-  attacksList.hidden = tab !== "actions";
-  spellsList.hidden = tab !== "spells";
-  addAttackButton.hidden = tab !== "actions";
-  addSpellButton.hidden = tab !== "spells";
-  importSpellButton.hidden = tab !== "spells";
+  attacksList.hidden = false;
+  spellsList.hidden = false;
+  addAttackButton.hidden = false;
+  addSpellButton.hidden = false;
+  importSpellButton.hidden = false;
 
-  attacksPanelTitle.textContent = tab === "spells" ? "Spells" : "Actions";
+  attacksPanelTitle.textContent = "Actions";
 }
 
 function renderClasses() {
